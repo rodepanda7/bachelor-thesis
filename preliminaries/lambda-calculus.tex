@@ -1,5 +1,5 @@
 \chapter{Lambda Calculus}
-This sections provides a detailed and formal description of the \lc. We first define a formal grammar of the \lc and examples of how the simple \lc works.
+This sections provides a detailed and formal description of the \lc. We define a formal grammar of the \lc and give examples of the \lc.
 Then we explain \br, after which we define call-by-name evaluation and call-by-value evaluation.
 
 % In this section, we will give a brief introduction of the lambda calculus.
@@ -7,6 +7,7 @@ Then we explain \br, after which we define call-by-name evaluation and call-by-v
 % The formalisation of those two lambda calculi will be given here and explained, since these form the basis for the rest of this research.
 % We will first explain the grammer of the lambda calculus. Then we give beta reduction rules and we will define compatible closure, which is necessary to be able to apply the reduction rules everywhere on the expression.
 
+\section{\texorpdfstring{Introduction to the \boldmath$\lambda$-calculus}{Introduction to the Lambda Calculus}}
 The simplest and most basic grammer of the lambda calculus is as follows:
 
 \vspace{10pt}
@@ -16,7 +17,7 @@ The simplest and most basic grammer of the lambda calculus is as follows:
 \end{grammar}
 
 \vspace{10pt}
-So, a term in the \lc can either be of the form $x$, $\lambda x.M$ or $M N$:
+So, terms are denoted by $M, N, P$ or $Q$ and they can either be of the form $x$, $\lambda x.M$ or $M N$:
 \begin{itemize}[noitemsep]
 	\item $x$ is a variable, which is a symbol that represents an input or a value.
 	\item $\lambda x.M$ is an abstraction. An abstraction is an anonymous function, where $x$ is the parameter and $M$ is the body of the function.
@@ -24,16 +25,16 @@ So, a term in the \lc can either be of the form $x$, $\lambda x.M$ or $M N$:
 \end{itemize}
 
 Here, we give an example of an abstraction and of a function application. $\lambda x. x$ is an abstraction. This specific abstraction is called the identity function and has one input parameter, namely $x$, and returns the input $x$.
-This function is often denoted as $\mathbf{I}$. $(\lambda x. x)y$ is a function application. The anonymous function is applied to the variable $y$ and the \lterm reduces to the variable $y$.
+This function is often denoted as $\mathbf{I}$. $(\lambda x. x) y$ is a function application. The anonymous function is applied to the variable $y$ and the \lterm reduces to the variable $y$.
 
-We now discuss bound and free variables. Let us consider the following two functions: \la$x. x$ and \la$y. y$. These functions will do the exact same.
-(\la$x. x) z$ returns the same value as (\la$y.y) z$, namely the variable $z$. Therfore the name of the variables $x$ and $y$ do not matter. These variables are called bound variables.
-A variable is considered a bound variable if it occurs in an abstraction and the variable name is a parameter. A variable is free if/iff?? it is not bound.
-In the abstraction (\la$x. xy) z$, the variable $x$ is bound, while $y$ and $z$ are free.
+We now discuss bound and free variables. Let us consider the following two functions: $\la x. x$ and $\la y. y$. These functions will do the exact same.
+($\la x. x) z$ returns the same value as ($\la y.y) z$, namely the variable $z$. Therfore the name of the variables $x$ and $y$ do not matter. These variables are called bound variables.
+A variable is considered a bound variable if it occurs in an abstraction and the variable name is a parameter in that abstraction. A variable is free if/iff?? it is not bound.
+In the abstraction ($\la x. xy) z$, the variable $x$ is bound, while $y$ and $z$ are free.
 
-With the definition of free variables, we can define substitution. Let us consider the last example (\la$x. xy) z$ again. $z$ is a free variable and all occurrences of the varaible $x$ will be substituted by the variable $z$.
-We denote this as follows: $xy \subst{x}{z}$
-% Continue explaining. With substitution you replace all free occurences of some variable
+With the definition of free variables, we can define substitution. Let us consider the last example ($\la x. xy) z$ again. $z$ is a free variable and all occurrences of the varaible $x$ in the body of the function will be substituted by the variable $z$.
+We denote this as follows: $(xy) \subst{x}{z}$. The function application $(\la x. (\la x. x x) x)y$ should reduce to $(\la x. x x) y$ and $((\la x. x x) x) \subst{x}{y} = (\la x. x x) y$.
+Therefore, the substitution of $x$ by $y$ in lambda term $M$ is defined by replacing all free occurences of $x$ by $y$.
 
 \section{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
 
