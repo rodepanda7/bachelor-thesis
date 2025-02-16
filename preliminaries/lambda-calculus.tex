@@ -1,0 +1,90 @@
+\chapter{Lambda Calculus}
+%This sections provides a detailed and formal description of the \lc. We first define a formal grammar of the \lc and examples of how the simple \lc works.
+%Then we explain \br, after which we define call-by-name evaluation and call-by-value evaluation. 
+
+In this section, we will give a brief introduction of the lambda calculus.
+There are two basic lambda calculi: call by name lambda calculus and call by value lambda calculus, both formalised by Plotkin.
+The formalisation of those two lambda calculi will be given here and explained, since these form the basis for the rest of this research.
+We will first explain the grammer of the lambda calculus. Then we give beta reduction rules and we will define compatible closure, which is necessary to be able to apply the reduction rules everywhere on the expression.
+
+The grammer of the lambda calculus is as  follows:
+
+\vspace{10pt}
+\begin{grammar}{
+		\pr{$M, N, P, Q$}{$n? \gors x \gors \lambda x.M \gors M N$}
+	}
+\end{grammar}
+
+\vspace{10pt}
+The lambda calculus consists of terms, which can be either numbers?????, variables, abstractions and function applications.
+Abstractions are anonymous functions and applications consists of a function followed by an argument.
+In the lambda calculus, there is a distinciton between terms that are values and terms that are not a value.
+Values are all terms that cannot be reduced. That is, a value is either a variable or an abstraction (function) that is in normal form.
+The following terms are values:
+
+\vspace{10pt}
+\begin{tabular}{c c c}
+	$x$ & \quad $\lambda x. x$ + 37 & \quad $\lambda x.\lambda y (x + y)$
+\end{tabular}
+
+\vspace{10pt}
+The following two terms are not values:
+
+\vspace{10pt}
+\begin{tabular}{c c}
+	$(\lambda x. x) z$ & \quad $(\lambda x.\lambda y (x + y))37$
+\end{tabular}
+
+\vspace{10pt}
+If the letter V or W is used for a term, it is assumed that that term is a value.
+Terms, indicated with the letter M, N, P or Q, can be any kind of term.
+This distinciton is important for defining beta reduction rules for cbn and cbv lambda calculus.
+Beta reduction of the cbn and cbv lamda calculus is indicated by $\beta_n$ and $\beta_v$ respectively.
+$\beta_n$ and $\beta_v$ can be defined as follows:
+
+\vspace{10pt}
+\begin{tabular}{c c}
+	$\beta_n: \quad (\lambda x.M) N \rightarrow M[x \subst N]$ &
+	$\quad \beta_v: \quad (\lambda x.M) V \rightarrow M[x \subst V]$
+\end{tabular}
+
+\vspace{10pt}
+These reductions are quite straightforward. With $\beta_n$, we replace the variable in the function by the argument without eveluating it.
+With $\beta_v$, the argument should be a value, indicated by V. Only if the argument is a value, the variable of the function will be replaced by the argument.
+We define M[$x \subst$ N] as the term M where all free occurrences of x are replaced by N.
+Explain what 'free' occurrences are???
+
+Now consider the following lambda term:
+
+\vspace{10pt}
+$(\lambda x. x + ((\lambda y.y)7)) ((\lambda x.x)30)$
+
+\vspace{10pt}
+If we do not define extra closure rules, we can only beta reduce this term with $\beta_n$, since $(\lambda x. x) 30$ is not a value.
+It would be nice if we could reduce $(\lambda x. x) 30$ or $(\lambda x. x + ((\lambda y.y)7))$ in the bigger term.
+This is made possible with the following closure rules. The rules are specified with a horizontal line.
+If we can proof that everything above the line holds, then we can conclude everything below the line.
+
+\vspace{10pt}
+\begin{tabular}{c c c}
+	\begin{prooftree}
+		\tree%
+		{M N \rightarrow M' N} % Conclusion
+		{\mu}
+		{M \rightarrow M'}
+	\end{prooftree}
+	 & \quad
+	\begin{prooftree}
+		\tree%
+		{M N \rightarrow M N'} % Conclusion
+		{\nu}
+		{N \rightarrow N'}
+	\end{prooftree}
+	 & \quad
+	\begin{prooftree}
+		\tree%
+		{\lambda x. M \rightarrow \lambda x. M'} % Conclusion
+		{\xi}
+		{M \rightarrow M'}
+	\end{prooftree}
+\end{tabular}

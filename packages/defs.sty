@@ -1,0 +1,30 @@
+\RequirePackage{packages/prooftree}
+
+% Shortcuts for trees.
+\newcommand{\tree}[4][0.08em]{%
+	{#4}
+	\thickness=#1\justifies
+	{#2}
+	\using{#3}
+}
+
+% A tree as premise:
+\newcommand{\subtree}[4][0.08em]{%
+	\[
+		{#4}
+		\thickness=#1\justifies
+		{#2}
+		\using{#3}
+	\]
+}
+
+\newcommand{\judgement}[3][0.35em]{%
+	\hspace{#1} {#2} \vdash {#3} \hspace{#1}
+}
+
+\newcommand{\subst}{
+	\mapsto
+}
+
+\newcommand{\lc}{$\lambda$-calculus}
+\newcommand{\br}{$\beta$-reduction}
