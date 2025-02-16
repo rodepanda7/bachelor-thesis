@@ -1,24 +1,44 @@
 \chapter{Lambda Calculus}
-%This sections provides a detailed and formal description of the \lc. We first define a formal grammar of the \lc and examples of how the simple \lc works.
-%Then we explain \br, after which we define call-by-name evaluation and call-by-value evaluation. 
+This sections provides a detailed and formal description of the \lc. We first define a formal grammar of the \lc and examples of how the simple \lc works.
+Then we explain \br, after which we define call-by-name evaluation and call-by-value evaluation.
 
-In this section, we will give a brief introduction of the lambda calculus.
-There are two basic lambda calculi: call by name lambda calculus and call by value lambda calculus, both formalised by Plotkin.
-The formalisation of those two lambda calculi will be given here and explained, since these form the basis for the rest of this research.
-We will first explain the grammer of the lambda calculus. Then we give beta reduction rules and we will define compatible closure, which is necessary to be able to apply the reduction rules everywhere on the expression.
+% In this section, we will give a brief introduction of the lambda calculus.
+% There are two basic lambda calculi: call by name lambda calculus and call by value lambda calculus, both formalised by Plotkin.
+% The formalisation of those two lambda calculi will be given here and explained, since these form the basis for the rest of this research.
+% We will first explain the grammer of the lambda calculus. Then we give beta reduction rules and we will define compatible closure, which is necessary to be able to apply the reduction rules everywhere on the expression.
 
-The grammer of the lambda calculus is as  follows:
+The simplest and most basic grammer of the lambda calculus is as follows:
 
 \vspace{10pt}
 \begin{grammar}{
-		\pr{$M, N, P, Q$}{$n? \gors x \gors \lambda x.M \gors M N$}
+		\pr{$M, N, P, Q$}{$x \gors \lambda x.M \gors M N$}
 	}
 \end{grammar}
 
 \vspace{10pt}
-The lambda calculus consists of terms, which can be either numbers?????, variables, abstractions and function applications.
-Abstractions are anonymous functions and applications consists of a function followed by an argument.
-In the lambda calculus, there is a distinciton between terms that are values and terms that are not a value.
+So, a term in the \lc can either be of the form $x$, $\lambda x.M$ or $M N$:
+\begin{itemize}[noitemsep]
+	\item $x$ is a variable, which is a symbol that represents an input or a value.
+	\item $\lambda x.M$ is an abstraction. An abstraction is an anonymous function, where $x$ is the parameter and $M$ is the body of the function.
+	\item $M N$ is a function application, where $M$ and $N$ are terms.
+\end{itemize}
+
+Here, we give an example of an abstraction and of a function application. $\lambda x. x$ is an abstraction. This specific abstraction is called the identity function and has one input parameter, namely $x$, and returns the input $x$.
+This function is often denoted as $\mathbf{I}$. $(\lambda x. x)y$ is a function application. The anonymous function is applied to the variable $y$ and the \lterm reduces to the variable $y$.
+
+We now discuss bound and free variables. Let us consider the following two functions: \la$x. x$ and \la$y. y$. These functions will do the exact same.
+(\la$x. x) z$ returns the same value as (\la$y.y) z$, namely the variable $z$. Therfore the name of the variables $x$ and $y$ do not matter. These variables are called bound variables.
+A variable is considered a bound variable if it occurs in an abstraction and the variable name is a parameter. A variable is free if/iff?? it is not bound.
+In the abstraction (\la$x. xy) z$, the variable $x$ is bound, while $y$ and $z$ are free.
+
+With the definition of free variables, we can define substitution. Let us consider the last example (\la$x. xy) z$ again. $z$ is a free variable and all occurrences of the varaible $x$ will be substituted by the variable $z$.
+We denote this as follows: $xy \subst{x}{z}$
+% Continue explaining. With substitution you replace all free occurences of some variable
+
+\section{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
+
+\section{Values}
+In the \lc, there is a distinction between terms that are values and terms that are not a value.
 Values are all terms that cannot be reduced. That is, a value is either a variable or an abstraction (function) that is in normal form.
 The following terms are values:
 
@@ -44,14 +64,14 @@ $\beta_n$ and $\beta_v$ can be defined as follows:
 
 \vspace{10pt}
 \begin{tabular}{c c}
-	$\beta_n: \quad (\lambda x.M) N \rightarrow M[x \subst N]$ &
-	$\quad \beta_v: \quad (\lambda x.M) V \rightarrow M[x \subst V]$
+	$\beta_n: \quad (\lambda x.M) N \rightarrow M\subst{x}{N}$ &
+	$\quad \beta_v: \quad (\lambda x.M) V \rightarrow M\subst{x}{V}$
 \end{tabular}
 
 \vspace{10pt}
 These reductions are quite straightforward. With $\beta_n$, we replace the variable in the function by the argument without eveluating it.
 With $\beta_v$, the argument should be a value, indicated by V. Only if the argument is a value, the variable of the function will be replaced by the argument.
-We define M[$x \subst$ N] as the term M where all free occurrences of x are replaced by N.
+We define $M\subst{x}{N}$ as the term M where all free occurrences of x are replaced by N.
 Explain what 'free' occurrences are???
 
 Now consider the following lambda term:
