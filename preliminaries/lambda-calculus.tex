@@ -24,18 +24,19 @@ So, terms, denoted by $M, N, P$ or $Q$, can either be of the form $x$, $\lambda 
 	\item $M N$ is a function application, where $M$ and $N$ are terms.
 \end{itemize}
 
-Here, we give an example of an abstraction and of a function application. $\lambda x. x$ is an abstraction. This specific abstraction is called the identity function and has one input parameter, namely $x$, and returns the input $x$.
-This function is often denoted as $\mathbf{I}$. $(\lambda x. x) y$ is a function application. The anonymous function is applied to the variable $y$ and the \lterm reduces to the variable $y$.
+Now, we give an example of an abstraction and of a function application. $\lambda x. x$ is an abstraction. This specific abstraction is called the identity function and has one input parameter, namely $x$, and returns the input $x$.
+This function is often abbreviated as $\mathbf{I}$. $(\lambda x. x) y$ is a function application. The anonymous function is applied to the variable $y$ and the \lterm reduces to the variable $y$.
 
 \section{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
 Before we discuss \br, we first treat bound and free variables. Let us consider the following two functions: $\la x. x$ and $\la y. y$. These functions will do the exact same.
-($\la x. x) z$ returns the same value as ($\la y.y) z$, namely the variable $z$. Therfore the name of the variables $x$ and $y$ do not matter. These variables are called bound variables.
+($\la x. x) z$ returns the same value as ($\la y.y) z$, namely the term $z$. Therfore the name of the variables $x$ and $y$ do not matter. These variables are called bound variables.
 A variable is considered a bound variable if it occurs in an abstraction and the variable name is a parameter in that abstraction. A variable is free if/iff?? it is not bound.
 In the abstraction ($\la x. xy) z$, the variable $x$ is bound, while $y$ and $z$ are free.
 
-With the definition of free variables, we can define substitution. Let us consider the last example ($\la x. xy) z$ again. $z$ is a free variable and all occurrences of the varaible $x$ in the body of the function will be substituted by the variable $z$.
-We denote this as follows: $(xy) \subst{x}{z}$. The function application $(\la x. (\la x. x x) x)y$ should reduce to $(\la x. x x) y$ and $((\la x. x x) x) \subst{x}{y} = (\la x. x x) y$.
-Therefore, the substitution of $x$ by $y$ in lambda term $M$ is defined by replacing all free occurences of $x$ by $y$.
+With the definition of free variables, we can define substitution. Let us consider the last example ($\la x. xy) z$ again. After reducing this \lterm, all occurrences of the varaible $x$ in the body of the function are be replaced by the variable $z$.
+We denote this as follows: $(xy) \subst{x}{z} = zy$. The function application $(\la x. (\la x. x x) x)y$ should reduce to $(\la x. x x) y$ and $((\la x. x x) x) \subst{x}{y} = (\la x. x x) y$. So only the free variables in the body of the function are replaced.
+
+More formally, the substitution of $x$ by $y$ in lambda term $M$ is defined by replacing all free occurences of $x$ by $y$.
 \br is the process of replacing the function's parameter with the given argument. In the previous example, we had that $(\la x. x)y$ reduces to $y$.
 An arbitrary function with body $M$ and parameter $x$, $\la x. M$, applied to argument $N$, will yield $M \subst{x}{N}$
 The rule below ($\beta$) formally defines \br.
@@ -47,39 +48,62 @@ The rule below ($\beta$) formally defines \br.
 
 \vspace{10pt}
 Any subterm of the form $(\la x. M) N$ is called a \bre. \bres are the terms that are reduced when \br is applied on that term.
+However, we do not have any rules that define that we can apply \br on subterms. We can now only apply it to the most outer term.
+To solve this, we define the rule $\rightarrow_\beta$ which is the compatible closure of $\beta$.
+We say that $\rightarrow_\beta$ is closed under $\mu$, $\nu$ and $\xi$, which are given below. That is, with $\rightarrow_\beta$, we can use $\beta$ with these rules.
+The rules below will be followed by an example.
+
+\vspace{10pt}
+\begin{center}
+	\begin{tabularx}{\textwidth}{YYY}
+		\begin{prooftree}
+			\tree%
+			{M N \rightarrow M' N} % Conclusion
+			{(\mu)}
+			{M \rightarrow M'}
+		\end{prooftree}
+		 & \quad
+		\begin{prooftree}
+			\tree%
+			{M N \rightarrow M N'} % Conclusion
+			{(\nu)}
+			{N \rightarrow N'}
+		\end{prooftree}
+		 & \quad
+		\begin{prooftree}
+			\tree%
+			{\lambda x. M \rightarrow \lambda x. M'} % Conclusion
+			{(\xi)}
+			{M \rightarrow M'}
+		\end{prooftree}
+	\end{tabularx}
+\end{center}
+
+\[
+	\begin{prooftree}
+		\tree%
+		{(\mathbf{I}(\la x. \mathbf{I}))(\mathbf{II}) \rightarrow_\beta (\la x. \mathbf{I})(\mathbf{II})} % Conclusion
+		{(\mu)}
+		{
+			\subtree%
+			{\mathbf{I}(\la x. \mathbf{I}) \rightarrow_\beta \la x. \mathbf{I}}
+			{?}
+			{A}
+		}
+	\end{prooftree}
+\]
 
 \section{Call-by-name and call-by-value}
 Before we discuss call-by-name and call-by-value, from now called cbn and cbv, we first explain the concept of values.
 In the \lc, we can make a distinction between terms that are values and terms that are not a value.
-Values are all terms that cannot be reduced. That is, a value is either a variable or an abstraction (function).
+Values are all terms that are a variable or an abstraction (function).
 $x$ and $\la x. x$ are values, while $(\la x. x)z$ and $(\la x. xx) (\la x. xx)$ are not.
 
-Consider the following \br sequences of the following term:
-\[(\la x. x)(\la x. ((\la y. y) x))\]
-\[
-	\begin{array}{c c}
-		\parbox[c]{0.5\textwidth}{\centering \textbf{Reduction 1}} & \parbox[c]{0.5\textwidth}{\centering \textbf{Reduction 2}} \\
-		\vspace{-10pt}                                                                                                          \\
-		\begin{aligned}
-			(\lambda x. x)(\lambda x. ((\lambda y. y) x)) & \rightarrow \\
-			\lambda x. ((\lambda y. y) x)                 & \rightarrow \\
-			\lambda x. x
-		\end{aligned}
-		                                                           &
-		\begin{aligned}
-			(\lambda x. x)(\lambda x. ((\lambda y. y) x)) & \rightarrow \\
-			\lambda x. ((\lambda y. y) x)                 & \rightarrow \\
-			\lambda x. x
-		\end{aligned}
-	\end{array}
-\]
-
-\vspace{10pt}
-If the letter $V$ or $W$ is used for a term, it is assumed that that term is a value.
+The letters $V$ and $W$ are used for values.
 Terms, indicated with the letter M, N, P or Q, can be any kind of term.
-This distinciton is important for defining \br rules for cbn and cbv lambda calculus.
-Beta reduction of the cbn and cbv lamda calculus is indicated by $\beta_n$ and $\beta_v$ respectively.
-$\beta_n$ and $\beta_v$ can be defined as follows:
+With this, we can define the call-by-name \lc and call-by-value \lc, $\la_n$ and $\la_v$ respectively.
+Beta reduction of $\la_n$ and $\la_v$ is indicated by $\beta_n$ and $\beta_v$ respectively.
+$\beta_n$ and $\beta_v$ are defined as follows:
 
 \vspace{10pt}
 \begin{tabular}{c c}
@@ -88,10 +112,35 @@ $\beta_n$ and $\beta_v$ can be defined as follows:
 \end{tabular}
 
 \vspace{10pt}
+Many \lterms can be reduced in multiple ways. $(\la x. x)(\la x. ((\la y. y) x))$, for example, has two reductions.
+In each \br step, we also indicate the \bre on which the \br is applied by underlining that subterm. The two reductions are as follows:
+
+\[
+	\begin{array}{c c}
+		\parbox[c]{0.5\textwidth}{\centering \textbf{Reduction 1}} & \parbox[c]{0.5\textwidth}{\centering \textbf{Reduction 2}} \\
+		\vspace{-10pt}                                                                                                          \\
+		\begin{aligned}
+			\underline{(\lambda x. x)(\lambda x. ((\lambda y. y) x))} & \rightarrow \\
+			\lambda x. \underline{((\lambda y. y) x)}                 & \rightarrow \\
+			\lambda x. x
+		\end{aligned}
+		                                                           &
+		\begin{aligned}
+			(\lambda x. x)\underline{(\lambda x. ((\lambda y. y) x))} & \rightarrow \\
+			\underline{(\lambda x. x)(\lambda x. x)}                  & \rightarrow \\
+			\lambda x. x
+		\end{aligned}
+	\end{array}
+\]
+
+\vspace{10pt}
+In reduction 1, the argument of the function is not reduced before applying the argument to the function, while the argument of the function in reduction 2 is reduced before applying the function to the argument.
+Reduction 1 is related to call-by-name evaluation.
+
+\vspace{10pt}
 These reductions are quite straightforward. With $\beta_n$, we replace the variable in the function by the argument without eveluating it.
 With $\beta_v$, the argument should be a value, indicated by V. Only if the argument is a value, the variable of the function will be replaced by the argument.
 We define $M\subst{x}{N}$ as the term M where all free occurrences of x are replaced by N.
-Explain what 'free' occurrences are???
 
 Now consider the following lambda term:
 
@@ -104,26 +153,3 @@ It would be nice if we could reduce $(\lambda x. x) 30$ or $(\lambda x. x + ((\l
 This is made possible with the following closure rules. The rules are specified with a horizontal line.
 If we can proof that everything above the line holds, then we can conclude everything below the line.
 
-\vspace{10pt}
-\begin{tabular}{c c c}
-	\begin{prooftree}
-		\tree%
-		{M N \rightarrow M' N} % Conclusion
-		{\mu}
-		{M \rightarrow M'}
-	\end{prooftree}
-	 & \quad
-	\begin{prooftree}
-		\tree%
-		{M N \rightarrow M N'} % Conclusion
-		{\nu}
-		{N \rightarrow N'}
-	\end{prooftree}
-	 & \quad
-	\begin{prooftree}
-		\tree%
-		{\lambda x. M \rightarrow \lambda x. M'} % Conclusion
-		{\xi}
-		{M \rightarrow M'}
-	\end{prooftree}
-\end{tabular}
