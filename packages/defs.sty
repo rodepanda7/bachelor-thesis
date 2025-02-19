@@ -1,22 +1,10 @@
-\RequirePackage{packages/prooftree}
-
-% Shortcuts for trees.
-\newcommand{\tree}[4][0.08em]{%
-	{#4}
-	\thickness=#1\justifies
-	{#2}
-	\using{#3}
-}
-
-% A tree as premise:
-\newcommand{\subtree}[4][0.08em]{%
-	\[
-		{#4}
-		\thickness=#1\justifies
-		{#2}
-		\using{#3}
-	\]
-}
+\newcommand{\la}{\lambda}
+\newcommand{\lc}{$\lambda$-calculus\xspace}
+\newcommand{\lterm}{$\lambda$-term\xspace}
+\newcommand{\lterms}{$\lambda$-terms\xspace}
+\newcommand{\br}{$\beta$-reduction\xspace}
+\newcommand{\bre}{$\beta$-redex\xspace}
+\newcommand{\bres}{$\beta$-redexes\xspace}
 
 \newcommand{\judgement}[3][0.35em]{%
 	\hspace{#1} {#2} \vdash {#3} \hspace{#1}
@@ -25,11 +13,3 @@
 \newcommand{\subst}[2]{
 	[{#1}\mapsto{#2}]
 }
-
-\newcommand{\la}{\lambda}
-\newcommand{\lc}{$\lambda$-calculus\xspace}
-\newcommand{\lterm}{$\lambda$-term\xspace}
-\newcommand{\lterms}{$\lambda$-terms\xspace}
-\newcommand{\br}{$\beta$-reduction\xspace}
-\newcommand{\bre}{$\beta$-redex\xspace}
-\newcommand{\bres}{$\beta$-redexes\xspace}
