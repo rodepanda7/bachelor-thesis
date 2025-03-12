@@ -1,31 +1,95 @@
-
 \section{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
-Before we discuss \br, we first treat bound and free variables. Let us consider the following two functions: $\la x. x$ and $\la y. y$. These functions do the same.
-($\la x. x) z$ returns the same value as ($\la y.y) z$, namely the term $z$. Therefore the name of the variables $x$ and $y$ do not matter. These variables are called bound variables.
-A variable is considered a bound variable if it occurs in an abstraction and the variable name is a parameter in that abstraction. A variable is free if/iff?? it is not bound.
-In the abstraction ($\la x. xy) z$, the variable $x$ is bound, while $y$ and $z$ are free.
+Before we discuss \br, we first define bound and free variables and substitution.
 
-With the definition of free variables, we can define substitution. Let us consider the last example ($\la x. xy) z$ again. After reducing this \lterm, all occurrences of the variable $x$ in the body of the function are be replaced by the variable $z$.
-We denote this as follows: $(xy) \subst{x}{z} = zy$. The function application $(\la x. (\la x. x x) x)y$ should reduce to $(\la x. x x) y$ and $((\la x. x x) x) \subst{x}{y} = (\la x. x x) y$. So only the free variables in the body of the function are replaced.
+\subsection{Variables}
+Let us first define free variables. 
+Let $P$ be any term in the \lc and $FV(P)$ be the set that contains all free variables in $P$. We define $FV$ inductively on $P$.
+Since $P$ can only be a variable, an abstraction or a function application, $P$ can only be of the form $x$, $\lamb{x}{M}$ and $M N$.
+Therefore, we define $FV$ as follows:
 
-More formally, the substitution of $x$ by $y$ in lambda term $M$ is defined by replacing all free occurences of $x$ by $y$.
-\br is the process of replacing the function's parameter with the given argument. In the previous example, we had that $(\la x. x)y$ reduces to $y$.
-%rewrite this sentence
-A function with body $M$ and parameter $x$, $\la x. M$, applied to argument $N$, will yield $M \subst{x}{N}$
-The rule below ($\beta$) formally defines. \br
+\begin{align*}
+	FV(x)           &= \{x\} \\
+	FV(\lamb{x}{M}) &= FV(M) \backslash \{x\} \\
+	FV(M N)         &= FV(M) \cup FV(N)
+\end{align*}
 
-\vspace{10pt}
-\[
-	(\la x. M)N \rightarrow M \subst{x}{N} \quad \quad (\beta)
-\]
+We see that if a variable is free if it is by itself. All free variables in an abstraction are those that are not the parameter of the abstraction.
+For example, the \lterm $\lamb{x}{yx}$ has one free variable, $y$. We can use the following reasoning:
 
-\vspace{10pt}
-Any subterm of the form $(\la x. M) N$ is called a \bre. \bres are the terms that are reduced when \br is applied on that term.
-% We also need rules to apply beta reduction on subterms. 
-However, we do not have any rules that define that we can apply \br on subterms. We can now only apply it to the most outer term.
-To solve this, we define the rule $\rightarrow_\beta$ which is the compatible closure of $\beta$.
-We say that $\rightarrow_\beta$ is closed under $\mu$, $\nu$ and $\xi$, which are given below. That is, with $\rightarrow_\beta$, we can use $\beta$ with these rules.
-The rules below will be followed by an example.
+\begin{eqnarray*}
+	FV(\lamb{x}{yx}) &=& FV(y x) \backslash \{x\} \\
+	&=& (FV(x) \cup FV(y)) \backslash \{x\} \\
+	&=& (\{x\} \cup \{y\}) \backslash \{x\} \\
+	&=& \{x, y\} \backslash \{x\} \\
+	&=& \{y\}
+\end{eqnarray*}
+
+Let us now define bound variables. Again, let $P$ be any term in the \lc and $BV(P)$ be the set of all bound variables in $P$. 
+We define $BV$ inductively on $P$ as follows:
+
+\begin{align*}
+	BV(x)           &= \emptyset \\
+	BV(\lamb{x}{M}) &= BV(M) \cup \{x\} \\
+	BV(M N)         &= BV(M) \cup BV(N)
+\end{align*}
+
+Using our previous example of the \lterm $\lamb{x}{yx}$, we can now reason that $BV(\lamb{x}{xy}) = \{x\}$. 
+
+\begin{eqnarray*}
+	BV(\lamb{x}{xy}) &=& BV(xy) \cup \{x\} \\
+	&=& (BV(x) \cup BV(y)) \cup \{x\} \\
+	&=& (\emptyset \cup \emptyset) \cup \{x\} \\
+	&=& \{x\}
+\end{eqnarray*}
+
+\subsection{Substitution}
+Keeping the definitions of free and bound variables in mind, we now define substitution. 
+In this research, substitution is often denoted as $P \subst{x}{Q}$ and defined inductively on $P$ by:
+
+\begin{align*}
+	x \subst{x}{Q}             &= Q \\
+	y \subst{x}{Q}             &= y \text{ if } (x \neq y)\\
+	(M N) \subst{x}{Q}         &= M \subst{x}{Q} N \subst{x}{Q} \\
+	(\lamb{x}{M}) \subst{x}{Q} &= \lamb{x}{M} \\
+	(\lamb{y}{M}) \subst{x}{Q} &= \lamb{z}{M \subst{y}{z}\subst{x}{Q}} \text{ if } (x \neq y) \\
+\end{align*}
+
+with $z$ a variable defined by:
+\begin{enumerate}
+	\item%1
+	If $x \notin FV(N)$ or $y \notin FV(M)$ then $z = y$
+	\item%2
+	Otherwise, $z$ can be any variable such that $z \notin FV(N)$ or $z \notin FV(M)$
+\end{enumerate}
+
+It might not be clear why need to use the variable $z$ and one can expect that the following rule is good enough:
+\begin{align*}
+	(\lamb{y}{M}) \subst{x}{Q} &= \lamb{z}{M \subst{x}{Q}} \text{ if } (x \neq y)
+\end{align*}
+
+However, the following example will illustrate why the more complicated rule is necessary.
+Consider the substitution $(\lamb{y}{xy})\subst{x}{y}$. The free variable of \lterm $\lamb{y}{xy}$ is $x$ and the bound variable is $y$.
+If we use the simple rule above, we get that $(\lamb{y}{xy})\subst{x}{y} = \lamb{y}{yy}$, the meaning of the \lterm changes. 
+However, the free variable we substituted, is not free anymore. The variable $y$ is not a free variable in the term that we substituted $y$ in.
+Therefore, we change the bound variable $y$ in $\lamb{y}{xy}$ to a new variable $z$. We can pick $z$ as $z$ is not a free variable in $xy$.
+Following the more complex rule, we get: 
+\begin{eqnarray*}
+	(\lamb{y}{xy})\subst{x}{y} &=& \lamb{z}{(xy)\subst{y}{z}\subst{x}{y}} \\
+	&=& \lamb{z}{yz}
+\end{eqnarray*}
+
+
+\subsection{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
+Now, we are ready to discuss \br. In the \lc, there is one way to simplify terms, which is \br. We can define:
+
+\begin{align*}
+	(\lamb{x}{M})N \red M \subst{x}{N} \quad \quad (\beta)
+\end{align*}
+
+So a \lterm of the form $(\lamb{x}{M})N$ can be reduced by substituting $x$ by $N$ in $M$. 
+However, without additional rules, we cannot apply \br to subterms. 
+For example, the following reduction would not be possible: $\lamb{x}{(\lamb{y}{y})x} \red \lamb{x}{x}$.
+Therefore, we can define the following rules:
 
 \vspace{-10pt}
 \begin{center}
@@ -50,13 +114,14 @@ The rules below will be followed by an example.
 	\end{tabularx}
 \end{center}
 
-\vspace{10pt}
-\begin{prooftree}
-	\AxiomC{$\mathbf{I}x \rightarrow_\beta \mathbf{I}$}
-	\RightLabel{$(\xi)$}
-	\UnaryInfC{$\la x. \mathbf{I}x \rightarrow_\beta \mathbf{I}$}
-	\RightLabel{$(\nu)$}
-	\UnaryInfC{$\mathbf{I}(\la x. \mathbf{I}x) \rightarrow_\beta \mathbf{II}$}
-	\RightLabel{$(\mu)$}
-	\UnaryInfC{$(\mathbf{I}(\la x. \mathbf{I}x))(\mathbf{II}) \rightarrow_\beta (\mathbf{II})(\mathbf{II})$}
-\end{prooftree}
+Now, we define $\redb$ as $\beta$ closed under $\mu$, $\nu$ and $\xi$. 
+So with $\redb$ we can use \br on all subterms if the subterm is of the form $(\lamb{x}{M})N$. A subterm of the form $(\lamb{x}{M})N$ is called a \bre.
+In one reduction, we may need to use multiple rules. The \bre that is reduced is underlined.
+For instance, we need to use the $\mu$ and $\xi$ rule in the last example of the following reductions: 
+
+\begin{align*}
+	(\underline{\bi \bi})(\bi \bi) 							&\redb \bi (\bi \bi) 							 & &\beta \text{ with } \mu \text{ rule } \\
+	(\bi \bi)(\underline{\bi \bi}) 							&\redb (\bi \bi) \bi 							 & &\beta \text{ with } \nu \text{ rule } \\
+	\lamb{x}{\underline{\bi x}} 								&\redb \lamb{x}{x} 								 & &\beta \text{ with } \xi \text{ rule } \\
+	(\bi(\lamb{x}{\underline{\bi x}}))(\bi \bi) &\redb (\bi(\lamb{x}{x}))(\bi \bi) & &\beta \text{ with } \mu \text{ and } \xi \text{ rule } \\
+\end{align*}

@@ -1,4 +1,6 @@
 \newcommand{\la}{\lambda}
+\newcommand{\lan}{$\la_n$\xspace}
+\newcommand{\lav}{$\la_v$\xspace}
 \newcommand{\lc}{$\lambda$-calculus\xspace}
 \newcommand{\lterm}{$\lambda$-term\xspace}
 \newcommand{\lterms}{$\lambda$-terms\xspace}
@@ -14,10 +16,15 @@
 	[{#1}\mapsto{#2}]
 }
 
-\newcommand{\red}{\rightarrow}
+% Beta-reductions
+\newcommand{\red}{\to}
 \newcommand{\redb}{\red_\beta}
 \newcommand{\redn}{\red_n}
+\newcommand{\redns}{\red_n^*}
 \newcommand{\redv}{\red_v}
+\newcommand{\redw}{\red_w}
+\newcommand{\bn}{\beta_n}
+\newcommand{\bv}{\beta_v}
 
 % Intuitionistic Logic
 \newcommand{\myor}{+}
@@ -31,6 +38,7 @@
 \newcommand{\caseofor}[5]{\text{case } {#1} \text{ of } \inl{#2} \to {#3} \text{; } \inr{#4} \to {#5}} % case of
 \newcommand{\caseofand}[3]{\text{case } {#1} \text{ of } {#2} \fa {#3}}
 \newcommand{\lamb}[2]{\la {#1}.{#2}}
+\newcommand{\bi}{\mathbf{I}}
 
 % Linear Logic
 \newcommand{\lass}[1]{\langle{#1}\rangle}

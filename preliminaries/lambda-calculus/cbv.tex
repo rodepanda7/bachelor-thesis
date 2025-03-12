@@ -1,0 +1,38 @@
+\section{Call-by-value calculus}
+Before we can define the call-by-value \lc (abbreviated as ), we first define what we mean by values. 
+Values are all \lterms that are either a variable or an abstractions. Values are usually denoted by $V$ or $W$.   
+
+\begin{align*}
+  \begin{grammar}{
+    \pr{$V$}{$x \gors \lambda x.M$}
+  }
+  \end{grammar}
+\end{align*}
+
+In the \lav, we can only reduce if the argument is a value. Therefore, the reduction rule is as follows:
+
+\begin{align*}
+  (\lamb{x}{M})V \red M \subst{x}{V} \quad \quad \bv 
+\end{align*}
+
+In order to define the $\redv$ relation, we first define the rule $\nu_<$. 
+
+\begin{prooftree}
+  \def\extraVskip{5pt}
+  \AxiomC{$N \red N'$}
+  \RightLabel{$\nu_<$}
+  \UnaryInfC{$V N \red V N'$}
+\end{prooftree}
+
+The relation $\redv$ can be defined as $\bv$, closed under $\mu$ and $\nu_<$. 
+The $\nu_<$ forces evaluation from left to right and $\bv$ makes sure that the argument needs to be a value. 
+In the following example, we give the call-by-value evaluation of the \lterm $(\bi(\lamb{x}{\bi x}))(\bi \bi)$.
+The \bre that is reduced is underlined.
+Note that $\redv$ is deterministic, so there is only one way to apply $\redv$ on a \lterm.
+
+\begin{eqnarray*}
+	(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
+	&\redv& \underline{(\lamb{x}{\bi x}) \bi} \\
+	&\redv& \underline{\bi \bi} \\
+	&\redv& \bi 
+\end{eqnarray*}

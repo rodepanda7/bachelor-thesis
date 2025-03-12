@@ -22,7 +22,7 @@ Then we explain \br, after which we define call-by-name evaluation and call-by-v
 % We will first explain the grammer of the lambda calculus. Then we give beta reduction rules and we will define compatible closure, which is necessary to be able to apply the reduction rules everywhere on the expression.
 
 \section{\texorpdfstring{Introduction to the \boldmath$\lambda$-calculus}{Introduction to the Lambda Calculus}}
-The simplest and most basic grammar of the lambda calculus is as follows:
+The grammar of the lambda calculus is as follows:
 
 \vspace{10pt}
 \begin{grammar}{
@@ -31,12 +31,13 @@ The simplest and most basic grammar of the lambda calculus is as follows:
 \end{grammar}
 
 \vspace{10pt}
-So, terms, denoted by $M, N, P$ or $Q$, can either be of the form $x$, $\lambda x.M$ or $M N$:
+Terms are denoted by $M, N, P$ or $Q$ and can either be of the form $x$, $\lambda x.M$ or $M N$:
 \begin{itemize}[noitemsep]
 	\item $x$ is a variable, which is a symbol that represents an input or a value.
 	\item $\lambda x.M$ is an abstraction. An abstraction is an anonymous function, where $x$ is the parameter and $M$ is the body of the function.
 	\item $M N$ is a function application, where $M$ and $N$ are terms.
 \end{itemize}
 
-Now, we give an example of an abstraction and of a function application. $\lambda x. x$ is an abstraction. This specific abstraction is called the identity function and has one input parameter, namely $x$, and returns the input $x$.
-This function is often abbreviated as $\mathbf{I}$. $(\lambda x. x) y$ is a function application. The anonymous function is applied to the variable $y$ and the \lterm reduces to the variable $y$.
+The \lterm $\lambda x. x$ is an abstraction. This specific abstraction is called the identity function and has one input parameter, namely $x$, and returns the input $x$.
+The body of the function is also $x$ in this case and the function is often abbreviated as $\mathbf{I}$. 
+The \lterm $(\lambda x. x) y$ is a function application. So the identity function is applied to the variable $y$ and the \lterm reduces to the variable $y$.
