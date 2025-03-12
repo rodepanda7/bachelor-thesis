@@ -1,0 +1,199 @@
+\section{Rules Intuitionistic Logic}
+
+\begin{figure}[h!]
+	\begin{multicols}{2}
+		%ID
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\phantom{A}$} % we need a character to make both rules vertically aligned
+			\RightLabel{Id}
+			\UnaryInfC{$\judgement{A}{A}$} % Conclusion
+		\end{prooftree}
+		\columnbreak
+		%EXCHANGE
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma, \Delta}{A}$} 
+			\RightLabel{Exchange}
+			\UnaryInfC{$\judgement{\Delta, \Gamma}{A}$} % Conclusion
+		\end{prooftree}
+	\end{multicols}
+	\begin{multicols}{2}
+		%CONTRACTION
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma, A, A}{B}$}
+			\RightLabel{Contraction}
+			\UnaryInfC{$\judgement{\Gamma, A}{B}$} % Conclusion
+		\end{prooftree}
+		\columnbreak
+		%WEAKENING
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{B}$}
+			\RightLabel{Weakening}
+			\UnaryInfC{$\judgement{\Gamma, A}{B}$} % Conclusion
+		\end{prooftree}
+	\end{multicols}
+	\begin{multicols}{2}
+		%->I
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma, A}{B}$}
+			\RightLabel{$\myimplies$-I}
+			\UnaryInfC{$\judgement{\Gamma}{A \myimplies B}$} % Conclusion
+		\end{prooftree}
+		\columnbreak
+		%->E
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{A \myimplies B}$}
+			\AxiomC{$\judgement{\Delta}{A}$}
+			\RightLabel{$\myimplies$-E}
+			\BinaryInfC{$\judgement{\Gamma, \Delta}{B}$} % Conclusion
+		\end{prooftree}
+	\end{multicols}
+	\begin{multicols}{2}
+		%x-I
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{A}$}
+			\AxiomC{$\judgement{\Delta}{B}$}
+			\RightLabel{$\myand$-I}
+			\BinaryInfC{$\judgement{\Gamma, \Delta}{A \myand B}$} % Conclusion
+		\end{prooftree}
+		\columnbreak
+		%x-E
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{A \myand B}$}
+			\AxiomC{$\judgement{\Delta, A, B}{C}$}
+			\RightLabel{$\myand$-E}
+			\BinaryInfC{$\judgement{\Gamma, \Delta}{C}$} % Conclusion
+		\end{prooftree}
+	\end{multicols}
+	\begin{multicols}{2}
+		%+-I1
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{A}$}
+			\RightLabel{$\myor$-I\textsubscript{1}}
+			\UnaryInfC{$\judgement{\Gamma}{A \myor B}$} % Conclusion
+		\end{prooftree}
+		\columnbreak
+		%+-I2
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{B}$}
+			\RightLabel{$\myor$-I\textsubscript{2}}
+			\UnaryInfC{$\judgement{\Gamma}{A \myor B}$} % Conclusion
+		\end{prooftree}
+		\columnbreak
+	\end{multicols}
+		%+-E
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma, A}{C}$}
+			\AxiomC{$\judgement{\Delta, A}{C}$}
+			\AxiomC{$\judgement{\Delta, B}{C}$}
+			\RightLabel{$\myor$-E}
+			\TrinaryInfC{$\judgement{\Gamma, \Delta}{C}$} % Conclusion
+		\end{prooftree}
+	\caption{Multiple Proof Rules in Columns}
+\end{figure}
+
+\newpage
+\section{Rules Intuitionistic Logic with Types}
+
+\begin{figure}[h!]
+	\begin{multicols}{2}
+		%ID
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\phantom{A}$} % we need a character to make both rules vertically aligned
+			\RightLabel{Id}
+			\UnaryInfC{$\judgement{x : A}{x : A}$} % Conclusion
+		\end{prooftree}
+		\columnbreak
+		%EXCHANGE
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma, \Delta}{t : A}$} 
+			\RightLabel{Exchange}
+			\UnaryInfC{$\judgement{\Delta, \Gamma}{t : A}$} % Conclusion
+		\end{prooftree}
+	\end{multicols}
+		%CONTRACTION
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma, y : A, z : A}{u : B}$}
+			\RightLabel{Contraction}
+			\UnaryInfC{$\judgement{\Gamma, x : A}{u \subst{y}{x}\subst{z}{x} : B}$} % Conclusion
+		\end{prooftree}
+		%WEAKENING
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{u : B}$}
+			\RightLabel{Weakening}
+			\UnaryInfC{$\judgement{\Gamma, x : A}{u : B}$} % Conclusion
+		\end{prooftree}
+		%->I
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma, x : A}{t : B}$}
+			\RightLabel{$\myimplies$-I}
+			\UnaryInfC{$\judgement{\Gamma}{\lamb{x}{t}} : A \fa B$} % Conclusion
+		\end{prooftree}
+		%->E
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{s : A \fa B}$}
+			\AxiomC{$\judgement{\Delta}{t : A}$}
+			\RightLabel{$\myimplies$-E}
+			\BinaryInfC{$\judgement{\Gamma, \Delta}{s(t) : B}$} % Conclusion
+		\end{prooftree}
+		%x-I
+	\begin{prooftree}
+		\def\extraVskip{5pt}
+		\AxiomC{$\judgement{\Gamma}{t : A}$}
+		\AxiomC{$\judgement{\Delta}{u : B}$}
+		\RightLabel{$\myand$-I}
+		\BinaryInfC{$\judgement{\Gamma, \Delta}{\pair{t}{u} : A \myand B}$} % Conclusion
+	\end{prooftree}
+		%x-E
+	\begin{prooftree}
+		\def\extraVskip{5pt}
+		\AxiomC{$\judgement{\Gamma}{s : A \myand B}$}
+		\AxiomC{$\judgement{\Delta, x : A, y : B}{v : C}$}
+		\RightLabel{$\myand$-E}
+		\BinaryInfC{$\judgement{\Gamma, \Delta}{\caseofand{s}{\pair{x}{y}}{v}} : C$} % Conclusion
+	\end{prooftree}
+	\begin{multicols}{2}
+		%+-I1
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{t : A}$}
+			\RightLabel{$\myor$-I\textsubscript{1}}
+			\UnaryInfC{$\judgement{\Gamma}{\inl{t} : A \myor B}$} % Conclusion
+		\end{prooftree}
+		\columnbreak
+		%+-I2
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{u : B}$}
+			\RightLabel{$\myor$-I\textsubscript{2}}
+			\UnaryInfC{$\judgement{\Gamma}{\inr{u} : A \myor B}$} % Conclusion
+		\end{prooftree}
+		\columnbreak
+	\end{multicols}
+		%+-E
+		\begin{prooftree}
+			\def\extraVskip{5pt}
+			\AxiomC{$\judgement{\Gamma}{s : A \myor B}$}
+			\AxiomC{$\judgement{\Delta, x : A}{v : C}$}
+			\AxiomC{$\judgement{\Delta, y : B}{w : C}$}
+			\RightLabel{$\myor$-E}
+			\TrinaryInfC{$\judgement{\Gamma, \Delta}{\caseofor{s}{x}{v}{y}{w} : C}$} % Conclusion
+		\end{prooftree}
+	\caption{Multiple Proof Rules in Columns}
+\end{figure}

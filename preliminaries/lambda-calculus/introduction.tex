@@ -1,0 +1,42 @@
+% SOME REMARKS:
+% NEVER START A SENTENCE WITH MATH. THE TERM .... DOES THIS
+% MAKE BOUND VARIABLES MORE FORMAL AND PRECISE
+% IN HET BEGIN OOK UITLEGGEN FREE VARIABLES
+
+% FIRST DEFINE SUBSTITUTION FORMALLY AND FREE AND BOUND VARIABLES.
+% GIVEN TERM M, WE WRITE M \SUBST X N. 
+% EXPLAIN IN EXAMPLE
+% DO NOT SUBSTITUTE X BY Y, BUT A TERM BY ANOTHER TERM
+
+%ALTIJD EEN DING PER ZIN SCHRIJVEN
+% DBLP VOOR PAPERS GEBRUIKEN
+% use more definitions and theorem environments latex
+% benoem nog een duidelijk voorbeeld voor value
+
+This section provides a detailed and formal description of the \lc. We define a formal grammar of the \lc and give examples of some terms in the \lc.
+Then we explain \br, after which we define call-by-name evaluation and call-by-value evaluation.
+
+% In this section, we will give a brief introduction of the lambda calculus.
+% There are two basic lambda calculi: call by name lambda calculus and call by value lambda calculus, both formalised by Plotkin.
+% The formalisation of those two lambda calculi will be given here and explained, since these form the basis for the rest of this research.
+% We will first explain the grammer of the lambda calculus. Then we give beta reduction rules and we will define compatible closure, which is necessary to be able to apply the reduction rules everywhere on the expression.
+
+\section{\texorpdfstring{Introduction to the \boldmath$\lambda$-calculus}{Introduction to the Lambda Calculus}}
+The simplest and most basic grammar of the lambda calculus is as follows:
+
+\vspace{10pt}
+\begin{grammar}{
+		\pr{$M, N, P, Q$}{$x \gors \lambda x.M \gors M N$}
+	}
+\end{grammar}
+
+\vspace{10pt}
+So, terms, denoted by $M, N, P$ or $Q$, can either be of the form $x$, $\lambda x.M$ or $M N$:
+\begin{itemize}[noitemsep]
+	\item $x$ is a variable, which is a symbol that represents an input or a value.
+	\item $\lambda x.M$ is an abstraction. An abstraction is an anonymous function, where $x$ is the parameter and $M$ is the body of the function.
+	\item $M N$ is a function application, where $M$ and $N$ are terms.
+\end{itemize}
+
+Now, we give an example of an abstraction and of a function application. $\lambda x. x$ is an abstraction. This specific abstraction is called the identity function and has one input parameter, namely $x$, and returns the input $x$.
+This function is often abbreviated as $\mathbf{I}$. $(\lambda x. x) y$ is a function application. The anonymous function is applied to the variable $y$ and the \lterm reduces to the variable $y$.

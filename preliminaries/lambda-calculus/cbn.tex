@@ -1,0 +1,62 @@
+
+\section{Call-by-name and call-by-value}
+Before we discuss call-by-name and call-by-value, from now called cbn and cbv, we first explain the concept of values.
+In the \lc, we can distinguish between terms that are values and terms that are not a value.
+Values are all terms that are a variable or an abstraction (function).
+$x$ and $\la x. x$ are values, while $(\la x. x)z$ and $(\la x. xx) (\la x. xx)$ are not.
+
+The letters $V$ and $W$ are used for values.
+Terms, indicated with the letter $M$, $N$, $P$ or $Q$, can be any kind of term.
+With this, we can define the call-by-name \lc and call-by-value \lc, $\la_n$ and $\la_v$ respectively.
+Beta reduction of $\la_n$ and $\la_v$ is indicated by $\beta_n$ and $\beta_v$ respectively.
+$\beta_n$ and $\beta_v$ are defined as follows:
+
+\vspace{10pt}
+\begin{tabular}{c c}
+	$\beta_n: \quad (\lambda x.M) N \rightarrow M\subst{x}{N}$ &
+	$\quad \beta_v: \quad (\lambda x.M) V \rightarrow M\subst{x}{V}$
+\end{tabular}
+%add description
+
+These reductions are quite straightforward. With $\beta_n$, we replace the variable in the function by the argument without necessarily evaluating it.
+With $\beta_v$, the argument should be a value, indicated by $V$. Only if the argument is a value, the variable of the function will be replaced by the argument.
+We define $M\subst{x}{N}$ as the term M where all free occurrences of x are replaced by $N$.
+\vspace{10pt}
+Many \lterms can be reduced in multiple ways. $(\la x. x)(\la x. ((\la y. y) x))$, for example, has two reductions.
+In each \br step, we also indicate the \bre on which the \br is applied by underlining that subterm. The two reductions are as follows:
+
+\[
+	\begin{array}{c c}
+		\parbox[c]{0.5\textwidth}{\centering \textbf{Reduction 1}} & \parbox[c]{0.5\textwidth}{\centering \textbf{Reduction 2}} \\
+		\vspace{-10pt}                                                                                                          \\
+		\begin{aligned}
+			\underline{(\lambda x. x)(\lambda x. ((\lambda y. y) x))} & \rightarrow \\
+			\lambda x. \underline{((\lambda y. y) x)}                 & \rightarrow \\
+			\lambda x. x
+		\end{aligned}
+		                                                           &
+		\begin{aligned}
+			(\lambda x. x)\underline{(\lambda x. ((\lambda y. y) x))} & \rightarrow \\
+			\underline{(\lambda x. x)(\lambda x. x)}                  & \rightarrow \\
+			\lambda x. x
+		\end{aligned}
+	\end{array}
+\]
+
+\vspace{10pt}
+In reduction 1, the argument of the function is not reduced before applying the argument to the function, while the argument of the function in reduction 2 is reduced before applying the function to the argument.
+Reduction 1 is related to call-by-name evaluation.
+
+\vspace{10pt}
+
+Now consider the following lambda term:
+
+\vspace{10pt}
+$(\lambda x. x + ((\lambda y.y)7)) ((\lambda x.x)30)$
+
+\vspace{10pt}
+If we do not define extra closure rules, we can only beta reduce this term with $\beta_n$, since $(\lambda x. x) 30$ is not a value.
+It would be nice if we could reduce $(\lambda x. x) 30$ or $(\lambda x. x + ((\lambda y.y)7))$ in the bigger term.
+This is made possible with the following closure rules. The rules are specified with a horizontal line.
+If we can proof that everything above the line holds, then we can conclude everything below the line.
+

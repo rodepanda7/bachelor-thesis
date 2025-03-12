@@ -1,0 +1,62 @@
+
+\section{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
+Before we discuss \br, we first treat bound and free variables. Let us consider the following two functions: $\la x. x$ and $\la y. y$. These functions do the same.
+($\la x. x) z$ returns the same value as ($\la y.y) z$, namely the term $z$. Therefore the name of the variables $x$ and $y$ do not matter. These variables are called bound variables.
+A variable is considered a bound variable if it occurs in an abstraction and the variable name is a parameter in that abstraction. A variable is free if/iff?? it is not bound.
+In the abstraction ($\la x. xy) z$, the variable $x$ is bound, while $y$ and $z$ are free.
+
+With the definition of free variables, we can define substitution. Let us consider the last example ($\la x. xy) z$ again. After reducing this \lterm, all occurrences of the variable $x$ in the body of the function are be replaced by the variable $z$.
+We denote this as follows: $(xy) \subst{x}{z} = zy$. The function application $(\la x. (\la x. x x) x)y$ should reduce to $(\la x. x x) y$ and $((\la x. x x) x) \subst{x}{y} = (\la x. x x) y$. So only the free variables in the body of the function are replaced.
+
+More formally, the substitution of $x$ by $y$ in lambda term $M$ is defined by replacing all free occurences of $x$ by $y$.
+\br is the process of replacing the function's parameter with the given argument. In the previous example, we had that $(\la x. x)y$ reduces to $y$.
+%rewrite this sentence
+A function with body $M$ and parameter $x$, $\la x. M$, applied to argument $N$, will yield $M \subst{x}{N}$
+The rule below ($\beta$) formally defines. \br
+
+\vspace{10pt}
+\[
+	(\la x. M)N \rightarrow M \subst{x}{N} \quad \quad (\beta)
+\]
+
+\vspace{10pt}
+Any subterm of the form $(\la x. M) N$ is called a \bre. \bres are the terms that are reduced when \br is applied on that term.
+% We also need rules to apply beta reduction on subterms. 
+However, we do not have any rules that define that we can apply \br on subterms. We can now only apply it to the most outer term.
+To solve this, we define the rule $\rightarrow_\beta$ which is the compatible closure of $\beta$.
+We say that $\rightarrow_\beta$ is closed under $\mu$, $\nu$ and $\xi$, which are given below. That is, with $\rightarrow_\beta$, we can use $\beta$ with these rules.
+The rules below will be followed by an example.
+
+\vspace{-10pt}
+\begin{center}
+	\begin{tabularx}{\textwidth}{YYY}
+		\begin{prooftree}
+			\AxiomC{$M N \rightarrow M' N$} % Conclusion
+			\RightLabel{$(\mu)$}
+			\UnaryInfC{$M \rightarrow M'$}
+		\end{prooftree}
+		 & \quad
+		\begin{prooftree}
+			\AxiomC{$M N \rightarrow M N'$} % Conclusion
+			\RightLabel{$(\nu)$}
+			\UnaryInfC{$N \rightarrow N'$}
+		\end{prooftree}
+		 & \quad
+		\begin{prooftree}
+			\AxiomC{$\lambda x. M \rightarrow \lambda x. M'$} % Conclusion
+			\RightLabel{$(\xi)$}
+			\UnaryInfC{$M \rightarrow M'$}
+		\end{prooftree}
+	\end{tabularx}
+\end{center}
+
+\vspace{10pt}
+\begin{prooftree}
+	\AxiomC{$\mathbf{I}x \rightarrow_\beta \mathbf{I}$}
+	\RightLabel{$(\xi)$}
+	\UnaryInfC{$\la x. \mathbf{I}x \rightarrow_\beta \mathbf{I}$}
+	\RightLabel{$(\nu)$}
+	\UnaryInfC{$\mathbf{I}(\la x. \mathbf{I}x) \rightarrow_\beta \mathbf{II}$}
+	\RightLabel{$(\mu)$}
+	\UnaryInfC{$(\mathbf{I}(\la x. \mathbf{I}x))(\mathbf{II}) \rightarrow_\beta (\mathbf{II})(\mathbf{II})$}
+\end{prooftree}
