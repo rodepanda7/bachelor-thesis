@@ -2,28 +2,35 @@
 
 % Research more about Girard's tranlation
 
-Let $\Lambda_{CBN}$ be the set containing all \lterms in the \lan
+For the embedding of the \lav into the \lab, we make use of the abbreviation "raise" defined by:
+
+\begin{flalign*}
+  \hspace{20pt} \raiseemb{M} := \lamb{z}{\boxe{z}M} &&
+\end{flalign*}
+
+Let $\Lambda_{CBV}$ be the set containing all \lterms in the \lav
 and let $\Lambda_{CBB}$ be the set containing all \lterms in the \lab. 
-The set $\T_{CBN}$ contains all types of the \lan and $\T_{CBB}$ contains all types of the \lab. 
-Now we define functions from $\Lambda_{CBN}$ to $\Lambda_{CBB}$ for term translation and from $\T_{CBN}$ to $\T_{CBB}$ for type translation. 
-These functions represent an embedding of the \lan into the \lab. 
+The set $\T_{CBV}$ contains all types of the \lav and $\T_{CBB}$ contains all types of the \lab. 
+Now we define functions from $\Lambda_{CBV}$ to $\Lambda_{CBB}$ for term translation and from $\T_{CBV}$ to $\T_{CBB}$ for type translation. 
 
 \[
 \begin{aligned}
-  & \TTcbn          & & : \T_{CBN} \fa \T_{CBB}           & & \quad & & \Tcbn              & &: \Lambda_{CBN} \fa \Lambda_{CBB} \\
-  & \TTcbn(X)       & & = X                               & & \quad & & \Tcbn(x)           & &= \boxe{x} \\
-  & \TTcbn(A \fa B) & & = \boxt{\TTcbn(A)} \fa \TTcbn(B)  & & \quad & & \Tcbn(\lamb{x}{M}) & &= \lamb{x}{\Tcbn(M)} \\
-  &                 & &                                   & & \quad & & \Tcbn(M N)         & &= \Tcbn(M) \boxi{\Tcbn(N)}
+  & \TTcbv          & & : \T_{CBV} \fa \T_{CBB}           & & \quad & & \Tcbv              & &: \Lambda_{CBN} \fa \Lambda_{CBB} \\
+  & \TTcbv(X)       & & = X                               & & \quad & & \Tcbv(x)           & &= \boxi{\boxe{x}} \\
+  & \TTcbv(A \fa B) & & = \boxt{\TTcbv(A)} \fa \TTcbn(B)  & & \quad & & \Tcbv(\lamb{x}{M}) & &= \boxi{\lamb{x}{\Tcbv(M)}} \\
+  &                 & &                                   & & \quad & & \Tcbv(M N)         & &= \raiseemb{\Tcbv(N)}\Tcbv(M)
 \end{aligned}
 \]
 
-To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbox$. 
-It is clear that the result obtained after $\redbox$ is equal to the embedding of the result of applying $\redn$ on $\bi x$ in the \lan, which is $\Tcbn(x) = \boxe{x}$.  
+To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbv$ twice. 
+It is clear that the result obtained after $\redbv$ is equal to the embedding of the result of applying $\redv$ on $\bi x$ in the \lav, which is $\Tcbn(x) = \boxi{\boxe{x}}$.  
 
 \begin{eqnarray*}
-  \Tcbn(\bi x) &=& (\Tcbn(\lamb{x}{x})) \boxi{\Tcbn(x)} \\
-  &=& (\lamb{x}{\Tcbn(x)}) \boxi{\Tcbn(x)} \\
-  &=& (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}} \\
-  &\redbox& (\lamb{x}{\boxe{x}}) \subst{\boxe{x}}{\boxe{x}} \\
-  &=& \boxe{x}
+  \Tcbv(\bi x) &=& \raiseemb{\Tcbv(x)}T(\bi) \\
+  &=& \raiseemb{\Tcbv(x)}T(\lamb{x}{x}) \\
+  &=& \raiseemb{\boxi{\boxe{x}}}\boxi{\lamb{x}{\Tcbv(x)}} \\
+  &=& \raiseemb{\boxi{\boxe{x}}}\boxi{\lamb{x}{\boxi{\boxe{x}}}} \\
+  &=& (\lamb{z}{\boxe{z}\boxi{\boxe{x}}})\boxi{\lamb{x}{\boxi{\boxe{x}}}} \\
+  &\redbv& (\lamb{x}{\boxi{\boxe{x}}})\boxi{\boxe{x}} \\
+  &\redbv& \boxi{\boxe{x}}
 \end{eqnarray*}

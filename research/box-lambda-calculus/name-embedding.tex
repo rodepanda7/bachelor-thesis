@@ -17,14 +17,14 @@ These functions represent an embedding of the \lan into the \lab.
 \end{aligned}
 \]
 
-To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbox$. 
-It is clear that the result obtained after $\redbox$ is equal to the embedding of the result of applying $\redn$ on $\bi x$ in the \lan, which is $\Tcbn(x) = \boxe{x}$.  
+To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbn$. 
+It is clear that the result obtained after $\redbn$ is equal to the embedding of the result of applying $\redbn$ on $\bi x$ in the \lan, which is $\Tcbn(x) = \boxe{x}$.  
 
 \begin{eqnarray*}
   \Tcbn(\bi x) &=& (\Tcbn(\lamb{x}{x})) \boxi{\Tcbn(x)} \\
   &=& (\lamb{x}{\Tcbn(x)}) \boxi{\Tcbn(x)} \\
   &=& (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}} \\
-  &\redbox& (\lamb{x}{\boxe{x}}) \subst{\boxe{x}}{\boxe{x}} \\
+  &\redbn& (\lamb{x}{\boxe{x}}) \subst{\boxe{x}}{\boxe{x}} \\
   &=& \boxe{x}
 \end{eqnarray*}
 
