@@ -7,11 +7,13 @@ Let $P$ be any term in the \lc and $FV(P)$ be the set that contains all free var
 Since $P$ can only be a variable, an abstraction or a function application, $P$ can only be of the form $x$, $\lamb{x}{M}$ and $M N$.
 Therefore, we define $FV$ as follows:
 
-\begin{align*}
-	FV(x)           &= \{x\} \\
-	FV(\lamb{x}{M}) &= FV(M) \backslash \{x\} \\
-	FV(M N)         &= FV(M) \cup FV(N)
-\end{align*}
+\[
+\begin{aligned}
+	& FV(x)           & &= \{x\} \\
+	& FV(\lamb{x}{M}) & &= FV(M) \backslash \{x\} \\
+	& FV(M N)         & &= FV(M) \cup FV(N)
+\end{aligned}
+\]
 
 We see that if a variable is free if it is by itself. All free variables in an abstraction are those that are not the parameter of the abstraction.
 For example, the \lterm $\lamb{x}{yx}$ has one free variable, $y$. We can use the following reasoning:
@@ -27,11 +29,13 @@ For example, the \lterm $\lamb{x}{yx}$ has one free variable, $y$. We can use th
 Let us now define bound variables. Again, let $P$ be any term in the \lc and $BV(P)$ be the set of all bound variables in $P$. 
 We define $BV$ inductively on $P$ as follows:
 
-\begin{align*}
-	BV(x)           &= \emptyset \\
-	BV(\lamb{x}{M}) &= BV(M) \cup \{x\} \\
-	BV(M N)         &= BV(M) \cup BV(N)
-\end{align*}
+\[
+\begin{aligned}
+	& BV(x)           & &= \emptyset \\
+	& BV(\lamb{x}{M}) & &= BV(M) \cup \{x\} \\
+	& BV(M N)         & &= BV(M) \cup BV(N)
+\end{aligned}
+\]
 
 Using our previous example of the \lterm $\lamb{x}{yx}$, we can now reason that $BV(\lamb{x}{xy}) = \{x\}$. 
 
@@ -46,13 +50,15 @@ Using our previous example of the \lterm $\lamb{x}{yx}$, we can now reason that 
 Keeping the definitions of free and bound variables in mind, we now define substitution. 
 In this research, substitution is often denoted as $P \subst{x}{Q}$ and defined inductively on $P$ by:
 
-\begin{align*}
-	x \subst{x}{Q}             &= Q \\
-	y \subst{x}{Q}             &= y \text{ if } (x \neq y)\\
-	(M N) \subst{x}{Q}         &= M \subst{x}{Q} N \subst{x}{Q} \\
-	(\lamb{x}{M}) \subst{x}{Q} &= \lamb{x}{M} \\
-	(\lamb{y}{M}) \subst{x}{Q} &= \lamb{z}{M \subst{y}{z}\subst{x}{Q}} \text{ if } (x \neq y) \\
-\end{align*}
+\[
+\begin{aligned}
+	& x \subst{x}{Q}             & &= Q \\
+	& y \subst{x}{Q}             & &= y \text{ if } (x \neq y)\\
+	& (M N) \subst{x}{Q}         & &= M \subst{x}{Q} N \subst{x}{Q} \\
+	& (\lamb{x}{M}) \subst{x}{Q} & &= \lamb{x}{M} \\
+	& (\lamb{y}{M}) \subst{x}{Q} & &= \lamb{z}{M \subst{y}{z}\subst{x}{Q}} \text{ if } (x \neq y) \\
+\end{aligned}
+\]
 
 with $z$ a variable defined by:
 \begin{enumerate}

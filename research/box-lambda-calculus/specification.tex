@@ -1,0 +1,119 @@
+\section{\texorpdfstring{Speficitation of \boldmath${\la_b}$}{Specification of the call-by-box lambda calculus}}
+
+The terms of \lab are given by:
+
+\begin{grammar}{
+  \pr{$M, N, P, Q$}{$\boxe{x} \gors \lambda x.M \gors M N \gors \boxi{N}$}
+}
+\end{grammar}
+
+\noindent Types are given by:
+
+\begin{grammar}{
+  \pr{$A, B$}{$X \gors A \fa B \gors \square A$}
+}
+\end{grammar}
+
+\noindent The typing rules of \lab are give by:
+
+\begin{prooftree}
+  \def\extraVskip{5pt}
+  \AxiomC{\phantom{A}}
+  \RightLabel{Id$_\square$}
+  \UnaryInfC{$\judgement{\Gamma, x : \boxt{A}}{\boxe{x} : A}$} % Conclusion
+\end{prooftree}
+
+\begin{prooftree}
+  \def\extraVskip{5pt}
+  \AxiomC{$\judgement{\Gamma, x : A}{M : B}$}
+  \RightLabel{\impliesi}
+  \UnaryInfC{$\judgement{\Gamma}{\lamb{x}{M} : A \fa B}$} % Conclusion
+\end{prooftree}
+
+\begin{prooftree}
+  \def\extraVskip{5pt}
+  \AxiomC{$\judgement{\Gamma}{M : A \fa B}$}
+  \AxiomC{$\judgement{\Delta}{N : A}$}
+  \RightLabel{\impliese}
+  \BinaryInfC{$\judgement{\Gamma, \Delta}{M N : B}$} % Conclusion
+\end{prooftree}
+
+\begin{prooftree}
+  \def\extraVskip{5pt}
+  \AxiomC{$\judgement{\Gamma}{M : A}$}
+  \RightLabel{$\square$-I}
+  \UnaryInfC{$\judgement{\Gamma}{\boxi{M} : \boxt{A}}$} % Conclusion
+\end{prooftree}
+
+Since varaibles always occur inside $\varepsilon$, we need to redefine free and bound variables and substitution.
+For \lab, we have: 
+
+\begin{align*}
+	& FV_b(\boxe{x})    & &= \{\boxe{x}\}                   & & BV(\boxe{x})    & &= \emptyset \\
+	& FV_b(\lamb{x}{M}) & &= FV(M) \backslash \{\boxe{x}\}  & & BV(\lamb{x}{M}) & &= BV(M) \cup \{\boxe{x}\} \\
+	& FV_b(M N)         & &= FV(M) \cup FV(N)               & & BV(M N)         & &= BV(M) \cup BV(N)
+\end{align*}
+
+Thus, for substitution, we get:
+
+\[
+\begin{aligned}
+	& \boxe{x} \subst{\boxe{x}}{Q}            & &= Q \\
+	& \boxe{y}  \subst{\boxe{x}}{Q}           & &= \boxe{y} \text{ if } (x \neq y)\\
+	& (M N) \subst{\boxe{x}}{Q}               & &= M \subst{x}{Q} N \subst{x}{Q} \\
+	& (\lamb{x}{M}) \subst{\boxe{x}}{Q}       & &= \lamb{x}{M} \\
+	& (\lamb{y}{M}) \subst{\boxe{x}}{Q}       & &= \lamb{z}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q}} \text{ if } (x \neq y) \\
+\end{aligned}
+\]
+
+with $z$ a variable defined by:
+\begin{enumerate}
+	\item%1
+	If $\boxe{x} \notin FV_b(N)$ or $\boxe{y} \notin FV_b(M)$ then $z = y$
+	\item%2
+	Otherwise, $z$ can be any variable such that $\boxe{z} \notin FV(N)$ or $\boxe{z} \notin FV(M)$
+\end{enumerate}
+
+The reduction rule we can use for this \lc is:
+
+\begin{align*}
+  (\lamb{x}{M})\boxi{N} \red M \subst{\boxe{x}}{N} \quad \quad (\bb)
+\end{align*}
+
+We define two relations: $\redbn$ and $\redbv$. The relation $\redbn$ will be used for cbn evaluation for embeddings of \lan in \lab.
+The relation $\redbv$ will be used for cbn evalluation for embeddings of \lav in \lab. 
+
+% \begin{center}
+% 	\begin{tabularx}{\textwidth}{YY}
+% 		\begin{prooftree}
+% 			\AxiomC{$M \rightarrow M'$} % Conclusion
+% 			\RightLabel{$(\mu)$}
+% 			\UnaryInfC{$M N \rightarrow M' N$}
+% 		\end{prooftree}
+%     & \quad 
+%     \begin{prooftree}
+% 			\AxiomC{$M \rightarrow M'$} % Conclusion
+% 			\RightLabel{$(\mu_>)$}
+% 			\UnaryInfC{$M B \rightarrow M' B$}
+% 		\end{prooftree}
+% 	\end{tabularx}
+%   \begin{tabularx}{\textwidth}{YYY}
+% 		\begin{prooftree}
+% 			\AxiomC{$N \rightarrow N'$} % Conclusion
+% 			\RightLabel{$(\nu)$}
+% 			\UnaryInfC{$M N \rightarrow M N'$}
+% 		\end{prooftree}
+%     & \quad 
+% 		\begin{prooftree}
+% 			\AxiomC{$N \rightarrow N'$} % Conclusion
+% 			\RightLabel{$(\nu_<)$}
+% 			\UnaryInfC{$V N \rightarrow V N'$}
+% 		\end{prooftree}
+%     & \quad 
+%     \begin{prooftree}
+% 			\AxiomC{$M \rightarrow M'$} % Conclusion
+% 			\RightLabel{$(\xi)$}
+% 			\UnaryInfC{$\lamb{x}{M} \rightarrow \lamb{x}M'$}
+% 		\end{prooftree}
+% 	\end{tabularx}
+% \end{center}

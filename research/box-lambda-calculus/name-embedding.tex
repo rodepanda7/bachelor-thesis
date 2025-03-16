@@ -1,0 +1,30 @@
+\section{\texorpdfstring{Embedding of \boldmath${\la_n}$ into \boldmath${\la_b}$}{Embedding of call-by-name lambda calculus into the call-by-box lambda calculus}}
+
+% Research more about Girard's tranlation
+
+Let $\Lambda_{CBN}$ be the set containing all \lterms in the \lan
+and let $\Lambda_{CBB}$ be the set containing all \lterms in the \lab. 
+The set $\T_{CBN}$ contains all types of the \lan and $\T_{CBB}$ contains all types of the \lab. 
+Now we define functions from $\Lambda_{CBN}$ to $\Lambda_{CBB}$ for term translation and from $\T_{CBN}$ to $\T_{CBB}$ for type translation. 
+These functions represent an embedding of the \lan into the \lab. 
+
+\[
+\begin{aligned}
+  & \TTcbn          & & : \T_{CBN} \fa \T_{CBB}           & & \quad & & \Tcbn              & &: \Lambda_{CBN} \fa \Lambda_{CBB} \\
+  & \TTcbn(X)       & & = X                               & & \quad & & \Tcbn(x)           & &= \boxe{x} \\
+  & \TTcbn(A \fa B) & & = \boxt{\TTcbn(A)} \fa \TTcbn(B)  & & \quad & & \Tcbn(\lamb{x}{M}) & &= \lamb{x}{\Tcbn(M)} \\
+  &                 & &                                   & & \quad & & \Tcbn(M N)         & &= \Tcbn(M) \boxi{\Tcbn(N)}
+\end{aligned}
+\]
+
+To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbox$. 
+It is clear that the result obtained after $\redbox$ is equal to the embedding of the result of applying $\redn$ on $\bi x$ in the \lan, which is $\Tcbn(x) = \boxe{x}$.  
+
+\begin{eqnarray*}
+  \Tcbn(\bi x) &=& (\Tcbn(\lamb{x}{x})) \boxi{\Tcbn(x)} \\
+  &=& (\lamb{x}{\Tcbn(x)}) \boxi{\Tcbn(x)} \\
+  &=& (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}} \\
+  &\redbox& (\lamb{x}{\boxe{x}}) \subst{\boxe{x}}{\boxe{x}} \\
+  &=& \boxe{x}
+\end{eqnarray*}
+

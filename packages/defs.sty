@@ -1,6 +1,7 @@
 \newcommand{\la}{\lambda}
 \newcommand{\lan}{$\la_n$\xspace}
 \newcommand{\lav}{$\la_v$\xspace}
+\newcommand{\lab}{$\la_b$\xspace}
 \newcommand{\lc}{$\lambda$-calculus\xspace}
 \newcommand{\lterm}{$\lambda$-term\xspace}
 \newcommand{\lterms}{$\lambda$-terms\xspace}
@@ -23,8 +24,12 @@
 \newcommand{\redns}{\red_n^*}
 \newcommand{\redv}{\red_v}
 \newcommand{\redw}{\red_w}
+\newcommand{\redbox}{\red_b}
+\newcommand{\redbn}{\red_{b_n}}
+\newcommand{\redbv}{\red_{b_v}}
 \newcommand{\bn}{\beta_n}
 \newcommand{\bv}{\beta_v}
+\newcommand{\bb}{\beta_b}
 
 % Intuitionistic Logic
 \newcommand{\myor}{+}
@@ -40,6 +45,13 @@
 \newcommand{\lamb}[2]{\la {#1}.{#2}}
 \newcommand{\bi}{\mathbf{I}}
 
+% Types Boxed lambda calculus
+\newcommand{\boxt}[1]{\square{#1}}
+
+% Term language Boxed lambda calculus
+\newcommand{\boxe}[1]{\varepsilon(#1)}
+\newcommand{\boxi}[1]{\text{box}({#1})}
+
 % Linear Logic
 \newcommand{\lass}[1]{\langle{#1}\rangle}
 \newcommand{\iass}[1]{[ {#1} ]}
@@ -48,6 +60,10 @@
 \newcommand{\ltensor}{\otimes}
 \newcommand{\lwith}{\with}
 \newcommand{\leither}{\oplus}
+
+% Rules Intuitionistic Logic
+\newcommand{\impliesi}{$\myimplies$-I}
+\newcommand{\impliese}{$\myimplies$-E}
 
 % Rules Linear Logic
 \newcommand{\lid}{$\langle \text{Id} \rangle$}
@@ -79,3 +95,9 @@
 \newcommand{\lfst}[1]{\text{fst} \langle {#1} \rangle}
 \newcommand{\lsnd}[1]{\text{snd} \langle {#1} \rangle}
 
+
+
+% Translation function
+\newcommand{\Tcbn}{T}
+\newcommand{\TTcbn}{T_t}
+\newcommand{\T}{\mathcal{T}}
