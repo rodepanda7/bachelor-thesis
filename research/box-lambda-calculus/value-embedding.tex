@@ -15,10 +15,10 @@ Now we define functions from $\Lambda_{CBV}$ to $\Lambda_{CBB}$ for term transla
 
 \[
 \begin{aligned}
-  & \TTcbv          & & : \T_{CBV} \fa \T_{CBB}           & & \quad & & \Tcbv              & &: \Lambda_{CBN} \fa \Lambda_{CBB} \\
-  & \TTcbv(X)       & & = X                               & & \quad & & \Tcbv(x)           & &= \boxi{\boxe{x}} \\
-  & \TTcbv(A \fa B) & & = \boxt{\TTcbv(A)} \fa \TTcbn(B)  & & \quad & & \Tcbv(\lamb{x}{M}) & &= \boxi{\lamb{x}{\Tcbv(M)}} \\
-  &                 & &                                   & & \quad & & \Tcbv(M N)         & &= \raiseemb{\Tcbv(N)}\Tcbv(M)
+  & \TTcbv          & & : \T_{CBV} \fa \T_{CBB}                            & & \Tcbv              & &: \Lambda_{CBN} \fa \Lambda_{CBB} \\
+  & \TTcbv(X)       & & = \boxt{X}                                         & & \Tcbv(x)           & &= \boxi{\boxe{x}} \\
+  & \TTcbv(A \fa B) & & = \boxt({\boxt{\TTcbv(A)}} \fa \boxt{\TTcbn(B)})   & & \Tcbv(\lamb{x}{M}) & &= \boxi{\lamb{x}{\Tcbv(M)}} \\
+  &                 & &                                                    & & \Tcbv(M N)         & &= \raiseemb{\Tcbv(N)}\Tcbv(M)
 \end{aligned}
 \]
 
