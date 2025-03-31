@@ -15,7 +15,7 @@ Therefore, we define $FV$ as follows:
 \end{aligned}
 \]
 
-We see that if a variable is free if it is by itself. All free variables in an abstraction are those that are not the parameter of the abstraction.
+The variable in a \lterm that solely consists of a variable is free. All free variables in an abstraction are those that are not the parameter of the abstraction.
 For example, the \lterm $\lamb{x}{yx}$ has one free variable, $y$. We can use the following reasoning:
 
 \begin{eqnarray*}
@@ -37,7 +37,7 @@ We define $BV$ inductively on $P$ as follows:
 \end{aligned}
 \]
 
-Using our previous example of the \lterm $\lamb{x}{yx}$, we can now reason that $BV(\lamb{x}{xy}) = \{x\}$. 
+We say that the abstraction $\lamb{x}{M}$ binds the variable $x$. Using our previous example of the \lterm $\lamb{x}{yx}$, we can now reason that $BV(\lamb{x}{xy}) = \{x\}$. 
 
 \begin{eqnarray*}
 	BV(\lamb{x}{xy}) &=& BV(xy) \cup \{x\} \\
@@ -45,6 +45,12 @@ Using our previous example of the \lterm $\lamb{x}{yx}$, we can now reason that 
 	&=& (\emptyset \cup \emptyset) \cup \{x\} \\
 	&=& \{x\}
 \end{eqnarray*}
+
+Let us consider a more tricky example: $\lamb{x}{(\lamb{x}{x})x}$. Using the definitions of $FV$ and $BV$, we can reason that $FV(\lamb{x}{(\lamb{x}{x})x}) = \{\emptyset\}$ and $BV(\lamb{x}{(\lamb{x}{x})x}) = \{x\}$. 
+However, $FV(\lamb{x}{x}x) = \{x\}$ and $BV(\lamb{x}{x}x) = \{x\}$, which means that the variable $x$ is both free and bound.
+This may not be very intuitive, so we would prefer to write \lterm as $\lamb{y}{(\lamb{x}{x})y}$ instead, where $y$ is a new variable.
+These \lterms are equivalent by the notion of \emph{alpha equivalence}, which states that \lterms that differ only by the names of bound variables are considered the same.
+We will discuss this in more detail after we define substitution.
 
 \subsection{Substitution}
 Keeping the definitions of free and bound variables in mind, we now define substitution. 
@@ -68,6 +74,7 @@ with $z$ a variable defined by:
 	Otherwise, $z$ can be any variable such that $z \notin FV(N)$ or $z \notin FV(M)$
 \end{enumerate}
 
+The variable '$z$' always exists. Choosing a fresh variable for $z$ will always satisfy condition two.
 It might not be clear why need to use the variable $z$ and one can expect that the following rule is good enough:
 \begin{align*}
 	(\lamb{y}{M}) \subst{x}{Q} &= \lamb{z}{M \subst{x}{Q}} \text{ if } (x \neq y)
@@ -83,6 +90,29 @@ Following the more complex rule, we get:
 	(\lamb{y}{xy})\subst{x}{y} &=& \lamb{z}{(xy)\subst{y}{z}\subst{x}{y}} \\
 	&=& \lamb{z}{yz}
 \end{eqnarray*}
+
+\subsection{\texorpdfstring{\boldmath${\alpha}$ equivalence}{Alpha equivalence}}
+Here, we define \aeq. The idea is that renaming bound variables does not change the meaning of a \lterm.
+For example, the \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ are equivalent ($\lamb{x}{x} \aeqr \lamb{y}{y}$), since renaming all bound variables can result in identical \lterms.
+The \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ represent the same idea.
+We can define the relation $P \aeqr P'$ inductively on $P$ and $P'$ as follows:
+
+\[
+\begin{aligned}
+	& x \aeqr y                      & &  \text{ if } x = y \\
+	& MN \aeqr M'N'                  & & \text{ if } M \aeqr M' \text{ and } N \aeqr N' \\
+	& \lamb{x}{M} \aeqr \lamb{y}{M'} & & \text{ if } M \aeqr M'\subst{y}{x} \text{ with } x = y \text{ or } x \notin FV(M') \\
+\end{aligned}
+\]
+
+\noindent The last rule states that abstractions $\lamb{x}{M}$ and $\lamb{y}{M'}$ are equivalent if $M$ and $M'$ are equivalent after substituting $y$ for $x$ in $M'$.
+However, $x$ should be equal to $y$ or $x$ should not be a free variable in $M'$. 
+\begin{itemize}
+	\item 
+	$\lamb{x}{zx}$ is equivalent to $\lamb{y}{zy}$, since $zy\subst{y}{x} = zx \aeqr zx$ and $x$ is not a free variable in $zy$.
+	\item
+	$\lamb{z}{zx}$ is not to $\lamb{y}{zy}$, since $z$ is a free variable in $zy$ and $x$ is not equal to $y$.
+\end{itemize}
 
 
 \subsection{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
