@@ -83,6 +83,33 @@ The reduction rule we can use for this \lc is:
 We define two relations: $\redbn$ and $\redbv$. The relation $\redbn$ will be used for cbn evaluation for embeddings of \lan in \lab.
 The relation $\redbv$ will be used for cbn evalluation for embeddings of \lav in \lab. 
 
+\begin{table}
+	\centering
+	\begin{tabularx}{\linewidth}{|X|XXXXXX|}
+		\hline
+		\multicolumn{7}{|c|}{\textbf{Closure Rules}}\\
+		\hline
+		       & {$\beta$} & $\mu$        & $\mu_>$     & $\nu$        & $\nu_<$      & $\xi$ \\
+		\hline
+		$\rednb$   & $\bn$ & $\checkmark$ & -           & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+		\hline
+		$\redn$    & $\bn$ & $\checkmark$ & -           & 						 &              & \\
+		\hline
+		$\redw$    & $\bn$ & $\checkmark$ & -           & $\checkmark$ &              & \\
+		\hline
+    $\redvb$   & $\bv$ & $\checkmark$ & -           & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+    \hline
+    $\redv$    & $\bv$ & $\checkmark$ & -           & 						 & $\checkmark$ & \\
+    \hline
+    $\redbbox$ & $\bb$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+    \hline
+    $\redwe$   & $\bb$ & $\checkmark$ & $\checkmark$ & $\checkmark$ &              & \\
+    \hline
+    $\redwes$  & $\bb$ &              & $\checkmark$ & $\checkmark$ &              & \\
+    \hline
+	\end{tabularx}
+	\end{table}
+
 % \begin{center}
 % 	\begin{tabularx}{\textwidth}{YY}
 % 		\begin{prooftree}

@@ -36,3 +36,24 @@ Note that $\redv$ is deterministic, so there is only one way to apply $\redv$ on
 	&\redv& \underline{\bi \bi} \\
 	&\redv& \bi 
 \end{eqnarray*}
+
+\begin{table}
+	\centering
+	\begin{tabularx}{\linewidth}{|X|XXXXX|}
+		\hline
+		\multicolumn{6}{|c|}{\textbf{Closure Rules}}\\
+		\hline
+		& {$\beta$} & $\mu$ & $\nu$ & $\nu_<$ & $\xi$ \\
+		\hline
+		$\rednb$ & $\bn$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+		\hline
+		$\redn$  & $\bn$ & $\checkmark$ & 						 &  & \\
+		\hline
+		$\redw$  & $\bn$ & $\checkmark$ & $\checkmark$ & & \\
+		\hline
+    $\redvb$ & $\bv$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+    \hline
+    $\redv$  & $\bv$ & $\checkmark$ & 						 & $\checkmark$ & \\
+    \hline
+	\end{tabularx}
+	\end{table}
