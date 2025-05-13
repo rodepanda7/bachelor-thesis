@@ -1,6 +1,6 @@
 \section{Call-by-value calculus}
 Before we can define the call-by-value \lc (abbreviated as ), we first define what we mean by values. 
-Values are all \lterms that are either a variable or an abstractions. Values are usually denoted by $V$ or $W$.   
+Values are all \lterms that are either a variable or an abstraction. Values are usually denoted by $V$ or $W$.   
 
 \begin{align*}
   \begin{grammar}{
@@ -30,6 +30,7 @@ In the following example, we give the call-by-value evaluation of the \lterm $(\
 The \bre that is reduced is underlined.
 Note that $\redv$ is deterministic, so there is only one way to apply $\redv$ on a \lterm.
 
+% EXPLAIN THIS REDUCTION MORE. MAKE SURE THAT THE READER UNDERSTANDS THIS EXAMPLE.
 \begin{eqnarray*}
 	(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
 	&\redv& \underline{(\lamb{x}{\bi x}) \bi} \\

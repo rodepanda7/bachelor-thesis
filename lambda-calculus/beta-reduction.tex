@@ -46,13 +46,18 @@ We say that the abstraction $\lamb{x}{M}$ binds the variable $x$. Using our prev
 	&=& \{x\}
 \end{eqnarray*}
 
-Let us consider a more tricky example: $\lamb{x}{(\lamb{x}{x})x}$. Using the definitions of $FV$ and $BV$, we can reason that $FV(\lamb{x}{(\lamb{x}{x})x}) = \{\emptyset\}$ and $BV(\lamb{x}{(\lamb{x}{x})x}) = \{x\}$. 
-However, $FV(\lamb{x}{x}x) = \{x\}$ and $BV(\lamb{x}{x}x) = \{x\}$, which means that the variable $x$ is both free and bound.
-This may not be very intuitive, so we would prefer to write \lterm as $\lamb{y}{(\lamb{x}{x})y}$ instead, where $y$ is a new variable.
+% MAYBE KEEP $\lamb{x}{(\lamb{x}{x})x}$ EXAMPLE
+
+The following example will demonstrate that using two different variables with the same name in a \lterm is quite tricky: $(\lamb{x}{x})x$.
+By the definitions of $FV$ and $BV$, we can reason that $FV((\lamb{x}{x})x) = \{x\}$ and $BV((\lamb{x}{x})x) = \{x\}$.
+This is quite confusing and we prefer to write $(\lamb{y}{y})x$ instead, where $y$ is a new variable with a different name.
+We now have $FV((\lamb{y}{y})x) = \{x\}$ and $BV((\lamb{y}{y})x) = \{y\}$.
 These \lterms are equivalent by the notion of \emph{alpha equivalence}, which states that \lterms that differ only by the names of bound variables are considered the same.
 We will discuss this in more detail after we define substitution.
 
 \subsection{Substitution}
+% EMPHASIZE THAT SUBSITUTING IS REPLACING FREE VARIABLES BY ANY LAMBDA TERM. OTHERWISE, RULE 3 IS CONFUSING.
+% MAYBE ADD EXAMPLE OF SUBSTITUTION
 Keeping the definitions of free and bound variables in mind, we now define substitution. 
 In this research, substitution is often denoted as $P \subst{x}{Q}$ and defined inductively on $P$ by:
 
@@ -131,21 +136,21 @@ Therefore, we can define the following rules:
 \begin{center}
 	\begin{tabularx}{\textwidth}{YYY}
 		\begin{prooftree}
-			\AxiomC{$M N \rightarrow M' N$} % Conclusion
+			\AxiomC{$M \rightarrow M'$} % Conclusion
 			\RightLabel{$(\mu)$}
-			\UnaryInfC{$M \rightarrow M'$}
+			\UnaryInfC{$M N \rightarrow M' N$}
 		\end{prooftree}
 		 & \quad
 		\begin{prooftree}
-			\AxiomC{$M N \rightarrow M N'$} % Conclusion
+			\AxiomC{$N \rightarrow N'$} % Conclusion
 			\RightLabel{$(\nu)$}
-			\UnaryInfC{$N \rightarrow N'$}
+			\UnaryInfC{$M N \rightarrow M N'$}
 		\end{prooftree}
 		 & \quad
 		\begin{prooftree}
-			\AxiomC{$\lambda x. M \rightarrow \lambda x. M'$} % Conclusion
+			\AxiomC{$M \rightarrow M'$} % Conclusion
 			\RightLabel{$(\xi)$}
-			\UnaryInfC{$M \rightarrow M'$}
+			\UnaryInfC{$\lambda x. M \rightarrow \lambda x. M'$}
 		\end{prooftree}
 	\end{tabularx}
 \end{center}

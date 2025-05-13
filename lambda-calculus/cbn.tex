@@ -8,6 +8,9 @@ However, we name the rule $\bn$ to make it clear that it is the reduction rule o
 	(\lamb{x}{M})N \red M \subst{x}{N} \quad \quad \bn
 \end{align*}
 
+% DO WE NEED WEAK REDUCTION? IF NOT, REMOVE IT.
+% EXPLAIN THE IDEA OF THE NAME REDUCTION
+
 We can define weak reduction, $\redw$, as $\bn$ closed under $\mu$ and $\nu$. So $\redw$ has the only restiction that it cannot reduce under $\la$'s.
 The relation $\redn$ is defined as $\bn$ closed under $\mu$. So using name evaluation, we can not evaluate the argument of a function. 
 Call-by-name evaluation is defined as $\redns$. In the following example, we give the call-by-name evaluation of the \lterm $(\bi(\lamb{x}{\bi x}))(\bi \bi)$.
@@ -21,19 +24,7 @@ Note that $\redn$ is deterministic, so there is only one way to apply $\redn$ on
 	&\redn& \bi 
 \end{eqnarray*}
 
-\begin{table}
-	\centering
-	\begin{tabular}{|p{1.2cm}|p{1.2cm}p{1.2cm}p{1.2cm}p{1.2cm}p{1.2cm}|}
-		\multicolumn{2}{c}{$\beta$} & $\mu$ & $\nu$ & $\nu_<$ & $\xi$ \\
-		\cline{2-6}
-		$\redw$ & $\bn$ & $\checkmark$ & $\checkmark$ & & \\
-		\cline{2-6}
-		$\redn$ & $\bn$ & $\checkmark$ & 						 &  & \\
-		\cline{2-6}
-	\end{tabular}
-\end{table}
-
-\begin{table}
+\begin{table}[htbp]
 \centering
 \begin{tabularx}{\linewidth}{|X|XXXX|}
 	\hline
