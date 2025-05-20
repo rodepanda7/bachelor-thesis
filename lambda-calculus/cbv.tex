@@ -2,27 +2,39 @@
 Before we can define the call-by-value \lc (abbreviated as ), we first define what we mean by values. 
 Values are all \lterms that are either a variable or an abstraction. Values are usually denoted by $V$ or $W$.   
 
-\begin{align*}
-  \begin{grammar}{
-    \pr{$V$}{$x \gors \lambda x.M$}
-  }
-  \end{grammar}
-\end{align*}
+\begin{definition}[Values]
+	\label{def:values}
+	Values $V$ are defined as follows:	
+	\begin{align*}
+		\begin{grammar}{
+			\pr{$V$}{$x \gors \lambda x.M$}
+		}
+		\end{grammar}
+	\end{align*}
+\end{definition}
 
 In the \lav, we can only reduce if the argument is a value. Therefore, the reduction rule is as follows:
 
-\begin{align*}
-  (\lamb{x}{M})V \red M \subst{x}{V} \quad \quad \bv 
-\end{align*}
+\begin{definition}[Call-by-value reduction]
+	Let $M$ and $V$ be terms in the \lc with $V$ a value. The relation $\redv$ is defined as follows:
+	\begin{align*}
+		(\lamb{x}{M})V \red M \subst{x}{V} \quad \quad \bv 
+	\end{align*}
+\end{definition}
 
 In order to define the $\redv$ relation, we first define the rule $\nu_<$. 
 
-\begin{prooftree}
-  \def\extraVskip{5pt}
-  \AxiomC{$N \red N'$}
-  \RightLabel{$\nu_<$}
-  \UnaryInfC{$V N \red V N'$}
-\end{prooftree}
+\begin{definition}[$\nu_<$]
+	\label{def:nu-less}
+	Let $M$ and $V$ be terms in the \lc with $V$ a value. The relation $\nu_<$ is defined as follows:
+	
+	\begin{prooftree}
+		\def\extraVskip{5pt}
+		\AxiomC{$N \red N'$}
+		\RightLabel{$\nu_<$}
+		\UnaryInfC{$V N \red V N'$}
+	\end{prooftree}
+\end{definition}
 
 The relation $\redv$ can be defined as $\bv$, closed under $\mu$ and $\nu_<$. 
 The $\nu_<$ forces evaluation from left to right and $\bv$ makes sure that the argument needs to be a value. 
@@ -31,20 +43,22 @@ The \bre that is reduced is underlined.
 Note that $\redv$ is deterministic, so there is only one way to apply $\redv$ on a \lterm.
 
 % EXPLAIN THIS REDUCTION MORE. MAKE SURE THAT THE READER UNDERSTANDS THIS EXAMPLE.
-\begin{eqnarray*}
-	(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
-	&\redv& \underline{(\lamb{x}{\bi x}) \bi} \\
-	&\redv& \underline{\bi \bi} \\
-	&\redv& \bi 
-\end{eqnarray*}
+\begin{example}
+	This is an example of call-by-value evaluation in \lan.
+	\label{ex:call-by-value}
+	\begin{eqnarray*}
+		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
+		&\redv& \underline{(\lamb{x}{\bi x}) \bi} \\
+		&\redv& \underline{\bi \bi} \\
+		&\redv& \bi 
+	\end{eqnarray*}
+\end{example}
 
-\begin{table}
-	\centering
-	\begin{tabularx}{\linewidth}{|X|XXXXX|}
-		\hline
-		\multicolumn{6}{|c|}{\textbf{Closure Rules}}\\
-		\hline
-		& {$\beta$} & $\mu$ & $\nu$ & $\nu_<$ & $\xi$ \\
+\begin{table}[htbp]
+\centering
+\begin{tabularx}{\linewidth}{|X|XXXXX|}
+	\hline
+	\textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ \\
 		\hline
 		$\rednb$ & $\bn$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
 		\hline
@@ -56,5 +70,7 @@ Note that $\redv$ is deterministic, so there is only one way to apply $\redv$ on
     \hline
     $\redv$  & $\bv$ & $\checkmark$ & 						 & $\checkmark$ & \\
     \hline
-	\end{tabularx}
-	\end{table}
+\end{tabularx}
+\caption{Closure Rules for Different Reduction Relations}
+\label{tab2:closure-rules}
+\end{table}

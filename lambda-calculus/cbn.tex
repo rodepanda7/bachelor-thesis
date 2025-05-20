@@ -4,9 +4,14 @@ In this section, we discuss the call-by-name \lc.
 The reduction rule that is used in this calculus is the same as the $\beta$ reduction rule.
 However, we name the rule $\bn$ to make it clear that it is the reduction rule of the call-by-name \lc.
 
-\begin{align*}
-	(\lamb{x}{M})N \red M \subst{x}{N} \quad \quad \bn
-\end{align*}
+\begin{definition}[Call-by-name reduction]
+	\label{def:call-by-name-reduction}
+	Let $M$ and $N$ be terms in the \lc. The relation $\redn$ is defined as follows:
+	
+	\begin{align*}
+		(\lamb{x}{M})N \red M \subst{x}{N} \quad \quad \bn
+	\end{align*}
+\end{definition}
 
 % DO WE NEED WEAK REDUCTION? IF NOT, REMOVE IT.
 % EXPLAIN THE IDEA OF THE NAME REDUCTION
@@ -17,20 +22,23 @@ Call-by-name evaluation is defined as $\redns$. In the following example, we giv
 The \bre that is reduced is underlined.
 Note that $\redn$ is deterministic, so there is only one way to apply $\redn$ on a \lterm.
 
-\begin{eqnarray*}
-	(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redn& \underline{(\lamb{x}{\bi x}) (\bi \bi)} \\
-	&\redn& \underline{\bi (\bi \bi)} \\
-	&\redn& \underline{\bi \bi} \\
-	&\redn& \bi 
-\end{eqnarray*}
+\begin{example}
+	This is an example of call-by-name evaluation in \lan.
+	\label{ex:call-by-name}
+	\begin{eqnarray*}
+		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redn& \underline{(\lamb{x}{\bi x}) (\bi \bi)} \\
+		&\redn& \underline{\bi (\bi \bi)} \\
+		&\redn& \underline{\bi \bi} \\
+		&\redn& \bi 
+	\end{eqnarray*}
+\end{example}
+
 
 \begin{table}[htbp]
 \centering
 \begin{tabularx}{\linewidth}{|X|XXXX|}
-	\hline
-	\multicolumn{5}{|c|}{\textbf{Closure Rules}}\\
-	\hline
-  & {$\beta$} & $\mu$ & $\nu$ & $\xi$ \\
+  \hline
+  \textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\xi}$ \\
 	\hline
 	$\rednb$ & $\bn$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
 	\hline
@@ -39,4 +47,6 @@ Note that $\redn$ is deterministic, so there is only one way to apply $\redn$ on
 	$\redw$  & $\bn$ & $\checkmark$ & $\checkmark$ &  \\
 	\hline
 \end{tabularx}
+\caption{Closure Rules for Different Reduction Relations}
+\label{tab1:closure-rules}
 \end{table}

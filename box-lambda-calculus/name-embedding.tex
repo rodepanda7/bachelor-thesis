@@ -17,6 +17,22 @@ These functions represent an embedding of the \lan into the \lab.
 \end{aligned}
 \]
 
+The image of Girard's translation is a subset of the \lab givem by the following grammar:
+
+\vspace{10pt}
+\begin{grammar}{
+		\pr{$M, N$}{$\boxe{x} \gors \lambda x.M \gors M \boxi{N}$}
+	}
+\end{grammar}
+\vspace{10pt}
+
+Since application in Girard's translation is of the form 
+\[
+M \boxi{N}
+\]
+
+reducing the left-hand side of the application is not possible without the $\zeta$ rule that allows reduction inside boxed terms.
+
 To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbn$. 
 It is clear that the result obtained after $\redbn$ is equal to the embedding of the result of applying $\redbn$ on $\bi x$ in the \lan, which is $\Tcbn(x) = \boxe{x}$.  
 

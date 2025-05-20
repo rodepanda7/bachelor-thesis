@@ -68,12 +68,16 @@
 
 
 
-The terms of \lab are given by:
 
-\begin{grammar}{
-  \pr{$M, N, P, Q$}{$\boxe{x} \gors \lambda x.M \gors M N \gors \boxi{N}$}
-}
-\end{grammar}
+\begin{definition}[\lab]
+  \label{def:lab}
+  The terms of \lab are given by: \\
+  \begin{grammar}{
+    \pr{$M, N, P, Q$}{$\boxe{x} \gors \lambda x.M \gors M N \gors \boxi{N}$}
+  }
+  \end{grammar}
+\end{definition}
+
 
 \noindent Types are given by:
 
@@ -82,49 +86,58 @@ The terms of \lab are given by:
 }
 \end{grammar}
 
-\noindent The typing rules of \lab are give by:
 
-\begin{prooftree}
-  \def\extraVskip{5pt}
-  \AxiomC{\phantom{A}}
-  \RightLabel{Id$_\square$}
-  \UnaryInfC{$\judgement{\Gamma, x : \boxt{A}}{\boxe{x} : A}$} % Conclusion
-\end{prooftree}
+\begin{definition}
+  The typing rules of \lab are give by:
+  \begin{prooftree}
+    \def\extraVskip{5pt}
+    \AxiomC{\phantom{A}}
+    \RightLabel{Id$_\square$}
+    \UnaryInfC{$\judgement{\Gamma, x : \boxt{A}}{\boxe{x} : A}$} % Conclusion
+  \end{prooftree}
+  
+  \begin{prooftree}
+    \def\extraVskip{5pt}
+    \AxiomC{$\judgement{\Gamma, x : A}{M : B}$}
+    \RightLabel{\impliesi}
+    \UnaryInfC{$\judgement{\Gamma}{\lamb{x}{M} : A \fa B}$} % Conclusion
+  \end{prooftree}
+  
+  \begin{prooftree}
+    \def\extraVskip{5pt}
+    \AxiomC{$\judgement{\Gamma}{M : A \fa B}$}
+    \AxiomC{$\judgement{\Delta}{N : A}$}
+    \RightLabel{\impliese}
+    \BinaryInfC{$\judgement{\Gamma, \Delta}{M N : B}$} % Conclusion
+  \end{prooftree}
+  
+  \begin{prooftree}
+    \def\extraVskip{5pt}
+    \AxiomC{$\judgement{\Gamma}{M : A}$}
+    \RightLabel{$\square$-I}
+    \UnaryInfC{$\judgement{\Gamma}{\boxi{M} : \boxt{A}}$} % Conclusion
+  \end{prooftree}
+\end{definition}
 
-\begin{prooftree}
-  \def\extraVskip{5pt}
-  \AxiomC{$\judgement{\Gamma, x : A}{M : B}$}
-  \RightLabel{\impliesi}
-  \UnaryInfC{$\judgement{\Gamma}{\lamb{x}{M} : A \fa B}$} % Conclusion
-\end{prooftree}
-
-\begin{prooftree}
-  \def\extraVskip{5pt}
-  \AxiomC{$\judgement{\Gamma}{M : A \fa B}$}
-  \AxiomC{$\judgement{\Delta}{N : A}$}
-  \RightLabel{\impliese}
-  \BinaryInfC{$\judgement{\Gamma, \Delta}{M N : B}$} % Conclusion
-\end{prooftree}
-
-\begin{prooftree}
-  \def\extraVskip{5pt}
-  \AxiomC{$\judgement{\Gamma}{M : A}$}
-  \RightLabel{$\square$-I}
-  \UnaryInfC{$\judgement{\Gamma}{\boxi{M} : \boxt{A}}$} % Conclusion
-\end{prooftree}
+\newpage
 
 Since variables always occur inside $\varepsilon$, we need to redefine free and bound variables and substitution.
 For \lab, we have: 
 
-\begin{align*}
-	& FV_b(\boxe{x})    & &= \{\boxe{x}\}                   & & BV(\boxe{x})    & &= \emptyset \\
-	& FV_b(\lamb{x}{M}) & &= FV(M) \backslash \{\boxe{x}\}  & & BV(\lamb{x}{M}) & &= BV(M) \cup \{\boxe{x}\} \\
-	& FV_b(M N)         & &= FV(M) \cup FV(N)               & & BV(M N)         & &= BV(M) \cup BV(N)
-\end{align*}
+\begin{definition}[Free and Bound Variables]
+  \label{def:fv}
+  The free and bound variables of a term $M$ are defined by:
+  \begin{align*}
+    & FV_b(\boxe{x})    & &= \{\boxe{x}\}                   & & BV(\boxe{x})    & &= \emptyset \\
+    & FV_b(\lamb{x}{M}) & &= FV(M) \backslash \{\boxe{x}\}  & & BV(\lamb{x}{M}) & &= BV(M) \cup \{\boxe{x}\} \\
+    & FV_b(M N)         & &= FV(M) \cup FV(N)               & & BV(M N)         & &= BV(M) \cup BV(N)
+  \end{align*}
+\end{definition}
 
-Thus, for substitution, we get:
-
-\[
+\begin{definition}[Substitution in \lab]
+  \label{def:subst}
+  The substitution of a term $Q$ for a variable $\boxe{x}$ in a term $M$ is defined as follows:
+  \[
 \begin{aligned}
 	& \boxe{x} \subst{\boxe{x}}{Q}            & &= Q \\
 	& \boxe{y}  \subst{\boxe{x}}{Q}           & &= \boxe{y} \text{ if } (x \neq y)\\
@@ -133,7 +146,6 @@ Thus, for substitution, we get:
 	& (\lamb{y}{M}) \subst{\boxe{x}}{Q}       & &= \lamb{z}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q}} \text{ if } (x \neq y) \\
 \end{aligned}
 \]
-
 with $z$ a variable defined by:
 \begin{enumerate}
 	\item%1
@@ -141,91 +153,101 @@ with $z$ a variable defined by:
 	\item%2
 	Otherwise, $z$ can be any variable such that $\boxe{z} \notin FV(N)$ or $\boxe{z} \notin FV(M)$
 \end{enumerate}
+\end{definition}
 
-We prove by structural induction on the term $M$ that this substitution preserves well-typedness.  *? is well-defined ?*
-So we prove: 
-\[
-  \judgement{\Gamma, x : A}{M : B} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ implie } \judgement{\Gamma}{M \subst{\boxe{x}}{Q} : B}
-\]
 
-\begin{enumerate}
-  \item%1 
+\begin{proposition}[Preservation of well-typedness]
   \[
-  \boxe{x}[\boxe{x} := Q] = Q
+    \judgement{\Gamma, x : A}{M : B} \mbox{ and } \judgement{\Gamma}{Q : A} \implies \judgement{\Gamma}{M \subst{\boxe{x}}{Q} : B}
   \]
+\end{proposition}
+
+\begin{proof}
+  We prove by structural induction on the term $M$ that this substitution preserves well-typedness.  *? is well-defined ?*
+  \begin{enumerate}
+    \item%1 
+    \[
+    \boxe{x}[\boxe{x} := Q] = Q
+    \]
+    
+    Since $Q$ is well-typed, and $Q$ is the result of the substitution, we have that well-typedness is preserved.
+    \item%2
+    \[
+    \boxe{y}[\boxe{x} := Q] = \boxe{y} \quad \text{if} \ x \neq y
+    \]
   
-  Since $Q$ is well-typed, and $Q$ is the result of the substitution, we have that well-typedness is preserved.
-  \item%2
-  \[
-  \boxe{y}[\boxe{x} := Q] = \boxe{y} \quad \text{if} \ x \neq y
-  \]
-
-  We have that $x \neq y$, and the result of the substitution is $\boxe{y}$, which is well-typed.
+    We have that $x \neq y$, and the result of the substitution is $\boxe{y}$, which is well-typed.
+    
+    \item%3
+    \[
+    (M N)[\boxe{x} := Q] = (M[\boxe{x} := Q]) \ (N[\boxe{x} := Q])
+    \]
   
-  \item%3
-  \[
-  (M N)[\boxe{x} := Q] = (M[\boxe{x} := Q]) \ (N[\boxe{x} := Q])
-  \]
-
-  If we have that $M N$ is well-typed, then $M$ and $N$ are well-typed.
-  By the inductive hypothesis, we get that $M[\boxe{x} := Q]$ is well-typed, and $N[\boxe{x} := Q]$ is well-typed.
-  We also have that application of two well-typed terms is well-typed, so we have that $(M N)[\boxe{x} := Q]$ is well-typed.
-
-  \item%4
-  \[
-  (\lamb{x}{M})[\boxe{x} := Q] = \lamb{x}{M}
-  \]
-
-  Since $\boxe{x}$ is a bound variable in $\lamb{x}{M}$, no substitution occurs. The result of the substitution is the well-typed term $\lamb{x}{M}$.
-
-  \item%5
-  \[
-  (\lamb{y}{M})[\boxe{x} := Q] = \lamb{z}{(M[\boxe{y} := \boxe{z}][\boxe{x} := Q])} \quad \text{if} \ x \neq y
-  \]
-
-  If we have that $\lamb{y}{M}$ is well-typed, then $M$ is well-typed.
-  By the inductive hypothesis, we have that $M[\boxe{y} := \boxe{z}]$ and $M[\boxe{y} := \boxe{z}][\boxe{x} := Q]$ are well-typed.
-  We also havee that abstraction of a well-typed term is well-typed, so we have that \\
-  $\lamb{z}{(M[\boxe{y} := \boxe{z}][\boxe{x} := Q])}$ is well-typed.
-\end{enumerate}
+    We have that $M N$ is well-typed and thus $M$ and $N$ are well-typed.
+    By the inductive hypothesis, we get that $M[\boxe{x} := Q]$ is well-typed, and $N[\boxe{x} := Q]$ is well-typed.
+    We also have that application of two well-typed terms is well-typed, so we have that $(M N)[\boxe{x} := Q]$ is well-typed.
+  
+    \item%4
+    \[
+    (\lamb{x}{M})[\boxe{x} := Q] = \lamb{x}{M}
+    \]
+  
+    We have that $\lamb{x}{M}$ is well-typed and thus $M$ is well-typed.
+    Since $\boxe{x}$ is a bound variable in $\lamb{x}{M}$, no substitution occurs and the result is the well-typed term $\lamb{x}{M}$.
+  
+    \item%5
+    \[
+    (\lamb{y}{M})[\boxe{x} := Q] = \lamb{z}{(M[\boxe{y} := \boxe{z}][\boxe{x} := Q])} \quad \text{if} \ x \neq y
+    \]
+  
+    We have that $\lamb{y}{M}$ is well-typed and thus $M$ is well-typed.
+    By the inductive hypothesis, we have that $M[\boxe{y} := \boxe{z}]$ and $M[\boxe{y} := \boxe{z}][\boxe{x} := Q]$ are well-typed.
+    We also havee that abstraction of a well-typed term is well-typed, so we have that \\
+    $\lamb{z}{(M[\boxe{y} := \boxe{z}][\boxe{x} := Q])}$ is well-typed.
+  \end{enumerate}
+\end{proof}
 
 The reduction rule we can use for this \lc is:
 
-\begin{align*}
-  (\lamb{x}{M})\boxi{N} \red M \subst{\boxe{x}}{N} \quad \quad (\bb)
-\end{align*}
+\begin{definition}[$\bb$]
+  \label{def:beta}
+  In \lab, $\beta$ reduction is defined as follows:
+  \begin{align*}
+    (\lamb{x}{M})\boxi{N} \red M \subst{\boxe{x}}{N} \quad \quad (\bb)
+  \end{align*}
+\end{definition}
 
-We define two relations: $\redbn$ and $\redbv$. The relation $\redbn$ will be used for cbn evaluation for embeddings of \lan in \lab.
-The relation $\redbv$ will be used for cbn evalluation for embeddings of \lav in \lab. 
+We define three relations: $\bb$ closed under $\mu$ and $\nu$, $\bb$ closed under $\mu$ and $\bb$ closed under $\nu$.
+We call them $\redwe$, $\redbn$ and $\redbv$ respectively. 
+The relation $\redwe$ is weak since values do not reduced.
+That is, abstractions and terms of the form $\boxe{x}$ do not reduce.
+The relation $\redwe$ is also external as boxes do not reduce. This relation is called call-by-box (cbb) evaluation.
+We will see after defining the embeddings that $\redwe$ collapses to $\redbn$ and $\redbv$ when we restrict the terms to terms of the image of Girard's or Gödel's embedding.  
 
 \begin{table}[htbp]
-	\centering
-	\begin{tabularx}{\linewidth}{|X|XXXXXX|}
-		\hline
-		\multicolumn{7}{|c|}{\textbf{Closure Rules}}\\
-		\hline
-		       & {$\beta$} & $\mu$        & $\mu_>$     & $\nu$        & $\nu_<$      & $\xi$ \\
-		\hline
-		$\rednb$   & $\bn$ & $\checkmark$ & -           & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
-		\hline
-		$\redn$    & $\bn$ & $\checkmark$ & -           & 						 &              & \\
-		\hline
-		$\redw$    & $\bn$ & $\checkmark$ & -           & $\checkmark$ &              & \\
-		\hline
-    $\redvb$   & $\bv$ & $\checkmark$ & -           & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
-    \hline
-    $\redv$    & $\bv$ & $\checkmark$ & -           & 						 & $\checkmark$ & \\
-    \hline
-    $\redbbox$ & $\bb$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
-    \hline
-    $\redwe$   & $\bb$ & $\checkmark$ & $\checkmark$ & $\checkmark$ &              & \\
-    \hline
-    $\redweg$  & $\bb$ &              & $\checkmark$ & $\checkmark$ &              & \\
-    \hline
-    $\redwes$  & $\bb$ & $\checkmark$ &              &              & $\checkmark$ & \\
-    \hline
-	\end{tabularx}
-	\end{table}
+\centering
+\begin{tabularx}{\linewidth}{|c|XXXXXX|}
+  \hline
+  \textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\mu_>}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ \\
+  \hline
+  $\rednb$   & $\bn$ & \checkmark & - & \checkmark & \checkmark & \checkmark \\
+  \hline
+  $\redn$    & $\bn$ & \checkmark & - & & & \\
+  \hline
+  $\redw$    & $\bn$ & \checkmark & - & \checkmark & & \\
+  \hline
+  $\redvb$   & $\bv$ & \checkmark & - & \checkmark & \checkmark & \checkmark \\
+  \hline
+  $\redv$    & $\bv$ & \checkmark & - & & \checkmark & \\
+  \hline
+  $\redbbox$ & $\bb$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+  \hline
+  $\redwe$   & $\bb$ & $\checkmark$ & $\checkmark$ & $\checkmark$ &              & \\
+  \hline
+\end{tabularx}
+\caption{Closure Rules for Different Reduction Relations}
+\label{tab3:closure-rules}
+\end{table}
 
 % \begin{center}
 % 	\begin{tabularx}{\textwidth}{YY}

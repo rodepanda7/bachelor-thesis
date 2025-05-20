@@ -14,9 +14,16 @@
 \usepackage{xspace}
 \usepackage{tabularx}
 \usepackage{multicol}
+\usepackage{multirow}
 \usepackage{float}
 \usepackage{cmll}
 \usepackage{lipsum}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{caption}
+
+\captionsetup[table]{skip=15pt}  % Spacing between table and caption
+
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
 
 \RequirePackage{packages/defs}
@@ -32,6 +39,13 @@
 \setlength{\extrarowheight}{3pt} %for superscripts in tabular
 \setlength{\arraycolsep}{4pt}
 \lstset{basicstyle = \footnotesize, breaklines = true}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{example}{Example}
 
 \begin{document}
 

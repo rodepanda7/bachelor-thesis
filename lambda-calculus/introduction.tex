@@ -24,11 +24,14 @@ Then we explain \br, after which we define call-by-name evaluation and call-by-v
 \section{\texorpdfstring{Introduction to the \boldmath$\lambda$-calculus}{Introduction to the Lambda Calculus}}
 The grammar of the lambda calculus is as follows:
 
-\vspace{10pt}
-\begin{grammar}{
-		\pr{$M, N, P, Q$}{$x \gors \lambda x.M \gors M N$}
-	}
-\end{grammar}
+\begin{definition}[\lc]
+	\label{def:lambda-calculus}
+	The terms of the \lc are given by: \\
+	\begin{grammar}{
+			\pr{$M, N, P, Q$}{$x \gors \lambda x.M \gors M N$}
+		}
+	\end{grammar}
+\end{definition}
 
 \vspace{10pt}
 Terms are denoted by $M, N, P$ or $Q$ and can either be of the form $x$, $\lambda x.M$ or $M N$:
