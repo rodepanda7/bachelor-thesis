@@ -1,91 +1,83 @@
-\section{\texorpdfstring{Speficitation of \boldmath${\la_b}$}{Specification of the call-by-box lambda calculus}}
+\section{\texorpdfstring{Specification of \boldmath${\la_b}$}{ Specification of the call-by-box lambda calculus}}
 
-% Curry Howard isomorphism states that the simply typed lambda calculus is equivalent to the intuitionistic propositional logic.
-% Boxed lambda calculus is a fragment of the intuitionistic modal logic IS4.
-% Boxed Values: Unlike in standard lambda calculus, boxes are not treated as values themselves but as containers for delayed computations.
+\subsection{Intuitionistic logic IS4}
+Intuitionistic logic \textsf{IS4} is a non-classical logic that is based on the idea of constructive proof.
+Unlike classical logic, intuitionistic logic does not allow for the law of excluded middle, which states that every proposition is either \texttt{true} or \texttt{false}.
+Intuitionistic logic also does not allow for the law of double negation, which states that if a proposition is not \texttt{false}, then it is \texttt{true}.
+Thus, if we know that proposition $A$ not \texttt{false}, we cannot conclude that it is \texttt{true}.
+In intuitionistic logic, a proposition is only considered \texttt{true} if it can be constructively proven.
+That is, a proposition is \texttt{true} if we can build a proof step by step, much like writing a program.
+This is why programming languages and proofs in systems like Agda and Coq are based on intuitionistic logic.
+Since lambda calculus is the foundation of functional programming, it corresponds with intuitionistic logic via the Curry-Howard correspondence,
+where programs are equivalent to proofs and types to propositions.
 
+The intuitionistic modal logic \textsf{IS4} is an extension of intuitionistic logic that introduces \emph{modal operators}.
+The \labox calculus is a fragment of \textsf{IS4} that, besides the usual \lterms, also uses box ($\mathsf{box}$) and unbox ($\varepsilon$) operators 
+and is strong enough to interpret both call-by-name (\textsf{cbn}) and call-by-value (\textsf{cbv}) lambda calculi.
+The box is like a little container that delays a computation, making it possible to simulate both \textsf{cbn} and \textsf{cbv} evaluation strategies. 
+In this research, we formalize the \emph{boxed lambda calculus} in Agda, denoted as \lab, which is as a refinement of the simpler \labox calculus.
 
-% Here is the intuition from chat gpt:
+\subsection{\texorpdfstring{Terms and Types of \boldmath${\la_b}$}{ Terms and Types of the boxed lambda calculus}}
+We now define the types of the \lab calculus. We indicate the types of \lab with $A$ and $B$, representing types and boxed types respectively.
+The type $X$ denotes the base type. Note that functions always take boxed types as input.
 
-% The boxed lambda calculus introduced in this paper, denoted as 
-% 𝜆
-% 𝑏
-% λ 
-% b
-% ​
-%  , emerges as a refined target for the modal embeddings of call-by-name (cbn) and call-by-value (cbv) lambda calculi into modal logic IS4. 
-% Its intuition is centered around unifying these two paradigms through a single intermediate calculus that is "indifferent" 
-% to the differences between cbn and cbv. Here’s a summary of the key ideas:
+\begin{definition}[Types of \lab]
+  \label{def:typesb}
+	\begin{align*}
+    \begin{grammar}{
+      \pr{$A$}{$X \gors B \fa A \gors B$}
+    } \quad \quad
+    \end{grammar}
+    \begin{grammar}{
+      \pr{$B$}{$\boxit{A}$}
+    }
+    \end{grammar}
+  \end{align*}
 
-% Origin and Motivation
-% The boxed lambda calculus is proposed as a refinement of the simpler modal target 
-% 𝜆
-% 2
-% λ 
-% 2
-% ​
-%  , which itself is a fragment of the intuitionistic modal logic IS4. This refinement addresses the following issues:
-
-% Administrative Overhead: In the simpler 
-% 𝜆
-% 2
-% λ 
-% 2
-% ​
-%   target, both Girard's and Gödel's translations lead to numerous administrative reductions (like unnecessary unpacking and repacking of boxes) 
-% that obscure the true computational steps. The boxed lambda calculus aims to reduce these steps.
-
-% Standardization and Indifference: The authors wanted a target that unifies the two calling paradigms in a way that supports standardization theorems, 
-% ensuring that both cbn and cbv can be extracted from a single, more general reduction system.
-
-% Protecting-by-a-Box: The boxed lambda calculus introduces a new compilation technique, "protecting-by-a-box," 
-% which improves on the classical "protecting-by-a-lambda" strategy. This approach efficiently captures both cbn and cbv by treating boxed values as a distinct syntactic category, isolating administrative steps and preserving the semantics of the source languages.
-
-% Core Features of 
-% 𝜆
-% 𝑏
-% λ 
-% b
-% ​
- 
-% Boxed Values: Unlike in standard lambda calculus, boxes are not treated as values themselves but as containers for delayed computations.
-
-% Reduction Strategy: It adopts a new "call-by-box" (cbb) reduction paradigm, where function applications only reduce when the argument is a box, 
-% effectively unifying cbn and cbv under a single reduction rule.
-
-% Standardization: The calculus supports a refined standardization theorem, providing a uniform framework for reasoning about program evaluation across calling paradigms.
-
-% Impact
-% By refining the modal target to 
-% 𝜆
-% 𝑏
-% λ 
-% b
-% ​
-%  , the authors achieve a stronger form of the preservation and reflection properties, 
-% enabling a more precise correspondence between source and target reductions. 
-% This leads to a unified, modality-based understanding of cbn and cbv, bridging the gap between these foundational functional programming paradigms.
-
-
-
-
-\begin{definition}[\lab]
-  \label{def:lab}
-  The terms of \lab are given by: \\
-  \begin{grammar}{
-    \pr{$M, N, P, Q$}{$\boxe{x} \gors \lambda x.M \gors M N \gors \boxi{N}$}
-  }
-  \end{grammar}
 \end{definition}
 
 
-\noindent Types are given by:
+We give some examples of types in \lab. Note that $A$ can be any type that is not boxed, while $B$ can be any type that is boxed. 
+The type $X$ is the base type. 
 
-\begin{grammar}{
-  \pr{$A, B$}{$X \gors A \fa B \gors \square A$}
-}
-\end{grammar}
+\begin{example}[Types in \lab]
+  \label{ex:typesb}
+  % The following types are valid in \lab:
+  \begin{align*}
+    & X \\
+    & \boxt{(B \fa A)} \\
+    & \boxt{X} \fa X \\
+    & \boxt{A} \fa \boxt{B} \\
+    & \boxt{\boxt{\boxt{X}}} \fa \boxt{X}
+  \end{align*}
+\end{example}
 
+We now define the terms of \lab. The terms are defined by the grammar in \ref{def:lab}.
+
+\begin{definition}[Terms in \lab]
+  \label{def:lab}
+  % The terms of \lab are given by: \\
+  \begin{align*}    
+    \begin{grammar}{
+      \pr{$M, N, P, Q$}{$\boxe{x} \gors \lambda x.M \gors M N \gors \boxi{N}$}
+    }
+    \end{grammar}
+  \end{align*}
+\end{definition}
+
+We give some examples of terms that are well typed in \lab. 
+
+\begin{example}[Terms in \lab]
+  \label{ex:termsb}
+  % The following terms are valid in \lab:
+  Assuming \dots , the following terms are well-typed in \lab:
+  \begin{align*}
+    & \boxe{x} \\
+    & \lamb{x}{\boxe{x}} \\
+    & (\lamb{x}{\boxe{x}}) \boxi{\boxe{y}} \\
+    & (\lamb{x}{\boxe{x}}) \boxi{(\lamb{y}{\boxe{y}})}
+  \end{align*}
+\end{example}
 
 \begin{definition}
   The typing rules of \lab are give by:

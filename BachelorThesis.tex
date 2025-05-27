@@ -41,11 +41,11 @@
 \lstset{basicstyle = \footnotesize, breaklines = true}
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}
-\newtheorem{theorem}{Theorem}
+\newtheorem{theorem}{Theorem}[chapter] %QUESTION, SECTION OR CHAPTER?
+\newtheorem{definition}[theorem]{Definition}
 \newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}{Proposition}
-\newtheorem{example}{Example}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{example}[theorem]{Example}
 
 \begin{document}
 

@@ -42,18 +42,6 @@ In the following example, we give the call-by-value evaluation of the \lterm $(\
 The \bre that is reduced is underlined.
 Note that $\redv$ is deterministic, so there is only one way to apply $\redv$ on a \lterm.
 
-% EXPLAIN THIS REDUCTION MORE. MAKE SURE THAT THE READER UNDERSTANDS THIS EXAMPLE.
-\begin{example}
-	This is an example of call-by-value evaluation in \lan.
-	\label{ex:call-by-value}
-	\begin{eqnarray*}
-		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
-		&\redv& \underline{(\lamb{x}{\bi x}) \bi} \\
-		&\redv& \underline{\bi \bi} \\
-		&\redv& \bi 
-	\end{eqnarray*}
-\end{example}
-
 \begin{table}[htbp]
 \centering
 \begin{tabularx}{\linewidth}{|X|XXXXX|}
@@ -66,11 +54,24 @@ Note that $\redv$ is deterministic, so there is only one way to apply $\redv$ on
 		\hline
 		$\redw$  & $\bn$ & $\checkmark$ & $\checkmark$ & & \\
 		\hline
-    $\redvb$ & $\bv$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
-    \hline
-    $\redv$  & $\bv$ & $\checkmark$ & 						 & $\checkmark$ & \\
-    \hline
+		$\redvb$ & $\bv$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+		\hline
+		$\redv$  & $\bv$ & $\checkmark$ & 						 & $\checkmark$ & \\
+		\hline
 \end{tabularx}
 \caption{Closure Rules for Different Reduction Relations}
 \label{tab2:closure-rules}
 \end{table}
+
+% EXPLAIN THIS REDUCTION MORE. MAKE SURE THAT THE READER UNDERSTANDS THIS EXAMPLE.
+\begin{example}
+	This is an example of call-by-value evaluation in \lan.
+	\label{ex:call-by-value}
+	\begin{eqnarray*}
+		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
+		&\redv& \underline{(\lamb{x}{\bi x}) \bi} \\
+		&\redv& \underline{\bi \bi} \\
+		&\redv& \bi 
+	\end{eqnarray*}
+\end{example}
+

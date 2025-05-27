@@ -22,23 +22,11 @@ Call-by-name evaluation is defined as $\redns$. In the following example, we giv
 The \bre that is reduced is underlined.
 Note that $\redn$ is deterministic, so there is only one way to apply $\redn$ on a \lterm.
 
-\begin{example}
-	This is an example of call-by-name evaluation in \lan.
-	\label{ex:call-by-name}
-	\begin{eqnarray*}
-		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redn& \underline{(\lamb{x}{\bi x}) (\bi \bi)} \\
-		&\redn& \underline{\bi (\bi \bi)} \\
-		&\redn& \underline{\bi \bi} \\
-		&\redn& \bi 
-	\end{eqnarray*}
-\end{example}
-
-
 \begin{table}[htbp]
 \centering
 \begin{tabularx}{\linewidth}{|X|XXXX|}
-  \hline
-  \textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\xi}$ \\
+	\hline
+	\textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\xi}$ \\
 	\hline
 	$\rednb$ & $\bn$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
 	\hline
@@ -50,3 +38,15 @@ Note that $\redn$ is deterministic, so there is only one way to apply $\redn$ on
 \caption{Closure Rules for Different Reduction Relations}
 \label{tab1:closure-rules}
 \end{table}
+
+\begin{example}
+	This is an example of call-by-name evaluation in \lan.
+	\label{ex:call-by-name}
+	\begin{eqnarray*}
+		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redn& \underline{(\lamb{x}{\bi x}) (\bi \bi)} \\
+		&\redn& \underline{\bi (\bi \bi)} \\
+		&\redn& \underline{\bi \bi} \\
+		&\redn& \bi 
+	\end{eqnarray*}
+\end{example}
+
