@@ -13,7 +13,7 @@ where programs are equivalent to proofs and types to propositions.
 
 The intuitionistic modal logic \textsf{IS4} is an extension of intuitionistic logic that introduces \emph{modal operators}.
 The \labox calculus is a fragment of \textsf{IS4} that, besides the usual \lterms, also uses box ($\mathsf{box}$) and unbox ($\varepsilon$) operators 
-and is strong enough to interpret both call-by-name (\textsf{cbn}) and call-by-value (\textsf{cbv}) lambda calculi.
+and is strong enough to interpret both call-by-name (\textsf{cbn}) and call-by-value (\textsf{cbv}) lambda calculi \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 The box is like a little container that delays a computation, making it possible to simulate both \textsf{cbn} and \textsf{cbv} evaluation strategies. 
 In this research, we formalize the \emph{boxed lambda calculus} in Agda, denoted as \lab, which is as a refinement of the simpler \labox calculus.
 
@@ -70,7 +70,7 @@ We give some examples of terms that are well typed in \lab.
 \begin{example}[Terms in \lab]
   \label{ex:termsb}
   % The following terms are valid in \lab:
-  Assuming \dots , the following terms are well-typed in \lab:
+  Assuming \dots, the following terms are well-typed in \lab:
   \begin{align*}
     & \boxe{x} \\
     & \lamb{x}{\boxe{x}} \\
@@ -78,6 +78,12 @@ We give some examples of terms that are well typed in \lab.
     & (\lamb{x}{\boxe{x}}) \boxi{(\lamb{y}{\boxe{y}})}
   \end{align*}
 \end{example}
+
+We now define the typing rules of \lab. The Id$_\square$ and $\square$-I rule may need some explanation.
+The $\square$-I rule states that if $M$ is of type $A$, then $\boxi{M}$ is of type $\boxt{A}$.
+The Id$_\square$ rule is the identity rule for boxed variables, which states that if we know that $x$ is a variable of type $\boxt{A}$, we can conclude that $\boxe{x}$ is of type $A$.
+Due to the grammar of \lab, we can only have variables of boxed types which is why Id$_\square$ is defined as such.
+
 
 \begin{definition}
   The typing rules of \lab are give by:
@@ -111,7 +117,7 @@ We give some examples of terms that are well typed in \lab.
   \end{prooftree}
 \end{definition}
 
-\newpage
+\section{\texorpdfstring{Substitution and Free and Bound variables in ${\la_b}$}{ Substitution and Free and Bound variables in the boxed lambda calculus}}
 
 Since variables always occur inside $\varepsilon$, we need to redefine free and bound variables and substitution.
 For \lab, we have: 
@@ -133,6 +139,7 @@ For \lab, we have:
 \begin{aligned}
 	& \boxe{x} \subst{\boxe{x}}{Q}            & &= Q \\
 	& \boxe{y}  \subst{\boxe{x}}{Q}           & &= \boxe{y} \text{ if } (x \neq y)\\
+  & \boxi{M} \subst{\boxe{x}}{Q}            & &= \boxi{M \subst{\boxe{x}}{Q}} \\
 	& (M N) \subst{\boxe{x}}{Q}               & &= M \subst{x}{Q} N \subst{x}{Q} \\
 	& (\lamb{x}{M}) \subst{\boxe{x}}{Q}       & &= \lamb{x}{M} \\
 	& (\lamb{y}{M}) \subst{\boxe{x}}{Q}       & &= \lamb{z}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q}} \text{ if } (x \neq y) \\
@@ -148,58 +155,69 @@ with $z$ a variable defined by:
 \end{definition}
 
 
+With this new lambda calculus, it may not be completely clear that substitution preserves well-typedness.
+We can prove that substitution preserves well-typedness in \lab.
 \begin{proposition}[Preservation of well-typedness]
   \[
-    \judgement{\Gamma, x : A}{M : B} \mbox{ and } \judgement{\Gamma}{Q : A} \implies \judgement{\Gamma}{M \subst{\boxe{x}}{Q} : B}
+    \judgement{\Gamma, x : \boxt{A}}{M : B} \mbox{ and } \judgement{\Gamma}{Q : A} \implies \judgement{\Gamma}{M \subst{\boxe{x}}{Q} : B}
   \]
 \end{proposition}
 
 \begin{proof}
-  We prove by structural induction on the term $M$ that this substitution preserves well-typedness.  *? is well-defined ?*
+  We prove by structural induction on the term $M$ that this substitution preserves well-typedness.
   \begin{enumerate}
     \item%1 
     \[
-    \boxe{x}[\boxe{x} := Q] = Q
+    \boxe{x}\subst{\boxe{x}}{Q} = Q
     \]
     
     Since $Q$ is well-typed, and $Q$ is the result of the substitution, we have that well-typedness is preserved.
     \item%2
     \[
-    \boxe{y}[\boxe{x} := Q] = \boxe{y} \quad \text{if} \ x \neq y
+    \boxe{y}\subst{\boxe{x}}{Q} = \boxe{y} \quad \text{if} \ x \neq y
     \]
   
     We have that $x \neq y$, and the result of the substitution is $\boxe{y}$, which is well-typed.
     
     \item%3
     \[
-    (M N)[\boxe{x} := Q] = (M[\boxe{x} := Q]) \ (N[\boxe{x} := Q])
+    \boxi{M}\subst{\boxe{x}}{Q} = \boxi{M\subst{\boxe{x}}{Q}}
+    \]
+    We have that $\boxi{M}$ is well-typed and thus $M$ is well-typed because of the $\square$-I rule.
+    By the inductive hypothesis, we have that $M\subst{\boxe{x}}{Q}$ is well-typed.
+    We also have that $\boxi{M\subst{\boxe{x}}{Q}}$ is well-typed because of the $\square$-I rule.
+    Thus, we have that $\boxi{M}\subst{\boxe{x}}{Q}$ is well-typed.
+
+    \item%4
+    \[
+    (M N)\subst{\boxe{x}}{Q} = (M\subst{\boxe{x}}{Q}) \ (N\subst{\boxe{x}}{Q})
     \]
   
     We have that $M N$ is well-typed and thus $M$ and $N$ are well-typed.
-    By the inductive hypothesis, we get that $M[\boxe{x} := Q]$ is well-typed, and $N[\boxe{x} := Q]$ is well-typed.
-    We also have that application of two well-typed terms is well-typed, so we have that $(M N)[\boxe{x} := Q]$ is well-typed.
+    By the inductive hypothesis, we get that $M\subst{\boxe{x}}{Q}$ is well-typed, and $N\subst{\boxe{x}}{Q}$ is well-typed.
+    We also have that application of two well-typed terms is well-typed, so we have that $(M N)\subst{\boxe{x}}{Q}$ is well-typed.
   
-    \item%4
+    \item%5
     \[
-    (\lamb{x}{M})[\boxe{x} := Q] = \lamb{x}{M}
+    (\lamb{x}{M})\subst{\boxe{x}}{Q} = \lamb{x}{M}
     \]
   
     We have that $\lamb{x}{M}$ is well-typed and thus $M$ is well-typed.
     Since $\boxe{x}$ is a bound variable in $\lamb{x}{M}$, no substitution occurs and the result is the well-typed term $\lamb{x}{M}$.
   
-    \item%5
+    \item%6
     \[
-    (\lamb{y}{M})[\boxe{x} := Q] = \lamb{z}{(M[\boxe{y} := \boxe{z}][\boxe{x} := Q])} \quad \text{if} \ x \neq y
+    (\lamb{y}{M})\subst{\boxe{x}}{Q} = \lamb{z}{(M\subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q})} \quad \text{if} \ x \neq y
     \]
   
     We have that $\lamb{y}{M}$ is well-typed and thus $M$ is well-typed.
-    By the inductive hypothesis, we have that $M[\boxe{y} := \boxe{z}]$ and $M[\boxe{y} := \boxe{z}][\boxe{x} := Q]$ are well-typed.
-    We also havee that abstraction of a well-typed term is well-typed, so we have that \\
-    $\lamb{z}{(M[\boxe{y} := \boxe{z}][\boxe{x} := Q])}$ is well-typed.
+    By the inductive hypothesis, we have that $M\subst{\boxe{y}}{\boxe{z}}$ and $M\subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q}$ are well-typed.
+    We also have that abstraction of a well-typed term is well-typed, so we have that \\
+    $\lamb{z}{(M\subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q})}$ is well-typed.
   \end{enumerate}
 \end{proof}
 
-The reduction rule we can use for this \lc is:
+With this definition of substitution, we define the reduction rule we can use for this \lab.
 
 \begin{definition}[$\bb$]
   \label{def:beta}
@@ -209,32 +227,40 @@ The reduction rule we can use for this \lc is:
   \end{align*}
 \end{definition}
 
+In \lab, the arguments of abstractions are always boxed, so we can only apply abstractions to boxed terms, 
+which makes sense since the parameters like $x$ are always boxed. 
+Since variables only occur insides $\varepsilon$, we can replace those with the corresponding unboxed term.
+
 We define three relations: $\bb$ closed under $\mu$ and $\nu$, $\bb$ closed under $\mu$ and $\bb$ closed under $\nu$.
 We call them $\redwe$, $\redbn$ and $\redbv$ respectively. 
-The relation $\redwe$ is weak since values do not reduced.
+The relation $\redwe$ is weak since values do not reduce.
 That is, abstractions and terms of the form $\boxe{x}$ do not reduce.
 The relation $\redwe$ is also external as boxes do not reduce. This relation is called call-by-box (cbb) evaluation.
-We will see after defining the embeddings that $\redwe$ collapses to $\redbn$ and $\redbv$ when we restrict the terms to terms of the image of Girard's or Gödel's embedding.  
+We will see after defining the embeddings that $\redwe$ collapses to $\redbn$ in Girard's embedding and that $\redwe$ collapses to $\redbv$ in Gödel's embedding.  
 
 \begin{table}[htbp]
 \centering
-\begin{tabularx}{\linewidth}{|c|XXXXXX|}
+\begin{tabularx}{\linewidth}{|c|XXXXX|}
   \hline
-  \textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\mu_>}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ \\
+  \textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ \\
   \hline
-  $\rednb$   & $\bn$ & \checkmark & - & \checkmark & \checkmark & \checkmark \\
+  $\rednb$   & $\bn$ & \checkmark & \checkmark & \checkmark & \checkmark \\
   \hline
-  $\redn$    & $\bn$ & \checkmark & - & & & \\
+  $\redn$    & $\bn$ & \checkmark & & & \\
   \hline
-  $\redw$    & $\bn$ & \checkmark & - & \checkmark & & \\
+  $\redw$    & $\bn$ & \checkmark & \checkmark & & \\
   \hline
-  $\redvb$   & $\bv$ & \checkmark & - & \checkmark & \checkmark & \checkmark \\
+  $\redvb$   & $\bv$ & \checkmark & \checkmark & \checkmark & \checkmark \\
   \hline
-  $\redv$    & $\bv$ & \checkmark & - & & \checkmark & \\
+  $\redv$    & $\bv$ & \checkmark & & \checkmark & \\
   \hline
-  $\redbbox$ & $\bb$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+  $\redbbox$ & $\bb$ & \checkmark & \checkmark & \checkmark & \checkmark \\
   \hline
-  $\redwe$   & $\bb$ & $\checkmark$ & $\checkmark$ & $\checkmark$ &              & \\
+  $\redwe$   & $\bb$ & \checkmark & \checkmark & \checkmark &            \\
+  \hline
+  $\redbn$   & $\bb$ & \checkmark &            &            &             \\
+  \hline
+  $\redbv$   & $\bb$ &            & \checkmark &            &             \\
   \hline
 \end{tabularx}
 \caption{Closure Rules for Different Reduction Relations}
