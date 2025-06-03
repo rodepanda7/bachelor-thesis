@@ -17,14 +17,18 @@ and let $\Lambda_{CBB}$ be the set containing all \lterms in the \lab.
 The set $\T_{CBV}$ contains all types of the \lav and $\T_{CBB}$ contains all types of the \lab. 
 Now we define functions from $\Lambda_{CBV}$ to $\Lambda_{CBB}$ for term translation and from $\T_{CBV}$ to $\T_{CBB}$ for type translation. 
 
-\[
-\begin{aligned}
-  & \TTcbv          & & : \T_{CBV} \fa \T_{CBB}                            & & \Tcbv              & &: \Lambda_{CBN} \fa \Lambda_{CBB} \\
-  & \TTcbv(X)       & & = \boxt{X}                                         & & \Tcbv(x)           & &= \boxi{\boxe{x}} \\
-  & \TTcbv(A \fa B) & & = \boxt({\boxt{\TTcbv(A)}} \fa \boxt{\TTcbn(B)})   & & \Tcbv(\lamb{x}{M}) & &= \boxi{\lamb{x}{\Tcbv(M)}} \\
-  &                 & &                                                    & & \Tcbv(M N)         & &= \raiseemb{\Tcbv(N)}\Tcbv(M)
-\end{aligned}
-\]
+\begin{figure}[h]
+  \centering
+  \begin{align*}
+    \godel{A}   & = \boxt{\godelv{A}}                                        & \godel{V}             & = \boxi{\godelv{V}} \\
+                &                                                            & \godel{(M N)} & = \raiseemb{\godel{N}}\godel{M} \\\\
+    \godelv{X}  & = X                                                        & \godelv{x}             & = \boxe{x} \\
+    \godelv{(A_1 \fa A_2)} & = \boxt{\godelv{A_1}} \fa \boxt{\godelv{A_2}}   & \godelv{(\lamb{x}{M})} & = \lamb{x}{\godel{M}}
+  \end{align*}
+  \caption{Gödel's translation from \lav to \lab.}
+  \label{fig:gödel-translation}
+\end{figure}
+
 
 To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbv$ twice. 
 It is clear that the result obtained after $\redbv$ is equal to the embedding of the result of applying $\redv$ on $\bi x$ in the \lav, which is $\Tcbn(x) = \boxi{\boxe{x}}$.  

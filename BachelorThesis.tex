@@ -19,8 +19,10 @@
 \usepackage{cmll}
 \usepackage{lipsum}
 \usepackage{amsthm}
+\usepackage{thmtools}
 \usepackage{booktabs}
 \usepackage{caption}
+\usepackage{cleveref}
 
 \captionsetup[table]{skip=15pt}  % Spacing between table and caption
 
@@ -46,6 +48,10 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{example}[theorem]{Example}
+
+\crefname{definition}{Definition}{Definitions}
+\Crefname{definition}{Definition}{Definitions}
+
 
 \begin{document}
 

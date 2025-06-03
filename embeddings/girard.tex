@@ -10,16 +10,19 @@ The set $\T_{CBN}$ contains all types of the \lan and $\T_{CBB}$ contains all ty
 Now we define functions from $\Lambda_{CBN}$ to $\Lambda_{CBB}$ for term translation and from $\T_{CBN}$ to $\T_{CBB}$ for type translation. 
 These functions represent an embedding of the \lan into the \lab. 
 
-\[
-\begin{aligned}
-  & \TTcbn          & & : \T_{CBN} \fa \T_{CBB}           & & \quad & & \Tcbn              & &: \Lambda_{CBN} \fa \Lambda_{CBB} \\
-  & \TTcbn(X)       & & = X                               & & \quad & & \Tcbn(x)           & &= \boxe{x} \\
-  & \TTcbn(A \fa B) & & = \boxt{\TTcbn(A)} \fa \TTcbn(B)  & & \quad & & \Tcbn(\lamb{x}{M}) & &= \lamb{x}{\Tcbn(M)} \\
-  &                 & &                                   & & \quad & & \Tcbn(M N)         & &= \Tcbn(M) \boxi{\Tcbn(N)}
-\end{aligned}
-\]
+\begin{figure}[h]
+  \centering
+  \begin{align*}
+    \girard{X}                 & = X                                          & \girard{x}             & = \boxe{x} \\
+    \girard{(A_1 \fa A_2)}     & = \boxt{\girard{A_1}} \fa \girard{A_2}       & \girard{(\lamb{x}{M})} & = \lamb{x}{\girard{M}} \\
+                               &                                              & \girard{(M N)}        & = \girard{M} \boxi{\girard{N}}
+  \end{align*}
+  \caption{Girard's translation from \lan to \lab.}
+  \label{fig:girard-translation}
+\end{figure}
 
-The image of Girard's translation is a subset of the \lab givem by the following grammar:
+
+The image of Girard's translation is a subset of the \lab given by the following grammar:
 
 \vspace{10pt}
 \begin{grammar}{
@@ -39,8 +42,8 @@ To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\re
 It is clear that the result obtained after $\redbn$ is equal to the embedding of the result of applying $\redbn$ on $\bi x$ in the \lan, which is $\Tcbn(x) = \boxe{x}$.  
 
 \begin{eqnarray*}
-  \Tcbn(\bi x) &=& (\Tcbn(\lamb{x}{x})) \boxi{\Tcbn(x)} \\
-  &=& (\lamb{x}{\Tcbn(x)}) \boxi{\Tcbn(x)} \\
+  \girard{(\bi x)} &=& \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
+  &=& (\lamb{x}{\girard{x}}) \boxi{\girard{x}} \\
   &=& (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}} \\
   &\redbn& (\lamb{x}{\boxe{x}}) \subst{\boxe{x}}{\boxe{x}} \\
   &=& \boxe{x}

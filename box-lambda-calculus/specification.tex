@@ -52,7 +52,10 @@ The type $X$ is the base type.
   \end{align*}
 \end{example}
 
-We now define the terms of \lab. The terms are defined by the grammar in \ref{def:lab}.
+Since variables are always boxed, variables in \lab are always inside the unbox operator $\varepsilon$.
+Thus, we only have $\boxe{x}$ in the grammar with $x$ a variable.
+Abstractions in \lab, take boxed terms as arguments, which is why we define abstractions as $\lamb{x}{M}$, where $x$ is the parameter of a boxed type and $M$ is a term.
+The rest of the terms are defined in \Cref{def:lab}.
 
 \begin{definition}[Terms in \lab]
   \label{def:lab}
