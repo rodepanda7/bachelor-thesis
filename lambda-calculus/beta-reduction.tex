@@ -1,15 +1,19 @@
 \section{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
-Before we discuss \br, we first define bound and free variables and substitution.
+To include a notion of computation to the \lc, we discuss \br.
+This reduction relation is the only way to simplify terms in the \lc.
+So with \br, we can apply an abstraction to an argument.
+To do this, we need to define substitution, free and bound variables.
 
-\subsection{Variables}
+\subsection{Free and Bound Variables}
+Let us first define free and bound variables.
+Let $P$ be any term in the \lc, $FV(P)$ be the set that contains all free variables in $P$ and $FB$ be the set that contains all bound variables in $P$.
+We define both $FV$ and $BV$ inductively on $P$ by \cref{def:free-variable} and \cref{def:bound-variable}.
+Since $P$ can only be a variable, an abstraction or a function application, $P$ can only be of the form $x$, $\lamb{x}{M}$ and $M N$.
+Therefore, we define $FV$ and $BV$ for $x$, $\lamb{x}{M}$ and $M N$.
 
-\begin{definition}[Free Variables]
+\begin{definition}
 	\label{def:free-variable}
-	Let us first define free variables. 
-	Let $P$ be any term in the \lc and $FV(P)$ be the set that contains all free variables in $P$. We define $FV$ inductively on $P$.
-	Since $P$ can only be a variable, an abstraction or a function application, $P$ can only be of the form $x$, $\lamb{x}{M}$ and $M N$.
-	Therefore, we define $FV$ as follows:
-	
+	\textbf{FB} \\
 	\[
 	\begin{aligned}
 		& FV(x)           & &= \{x\} \\
@@ -19,12 +23,31 @@ Before we discuss \br, we first define bound and free variables and substitution
 	\]
 \end{definition}
 
-The variable in a \lterm that solely consists of a variable is free. All free variables in an abstraction are those that are not the parameter of the abstraction.
-For example, the \lterm $\lamb{x}{yx}$ has one free variable, $y$. We can use the following reasoning:
+Let us now explain $FV$.
+The variable $x$ in the \lterm $x$ is free. All free variables in an abstraction are those that are not the parameter of the abstraction.
+For an application $M N$, all free variables are all free variables of \lterm $M$ and \lterm $N$.
 
+\begin{definition}
+	\label{def:bound-variable}
+	\textbf{BV} \\
+	\[
+		\begin{aligned}
+			& BV(x)           & &= \emptyset \\
+			& BV(\lamb{x}{M}) & &= BV(M) \cup \{x\} \\
+			& BV(M N)         & &= BV(M) \cup BV(N)
+		\end{aligned}
+		\]
+	\end{definition}
+Let us now explain $BV$.
+The variable $x$ in the \lterm $x$ is a free variable, and the set of bound variables is empty.
+An abstraction $\lamb{x}{M}$ binds the variable $x$. So the set of bound variables in an abstraction is the set of bound variables in $M$ plus the variable $x$.
+For an application $M N$, the bound variables are all bound variables of both \lterm $M$ and \lterm $N$.
+	
+We give two examples to illustrate the definitions of free and bound variables.
+We show that \lterm $\lamb{x}{yx}$ has one free variable, $y$ and one bound variable $x$.
 \begin{example}
 	\label{ex:free-variable}
-	Let us now reason that $FV(\lamb{x}{yx}) = \{y\}$.
+	\textbf{FV}
 	\begin{eqnarray*}
 		FV(\lamb{x}{yx}) &=& FV(y x) \backslash \{x\} \\
 		&=& (FV(x) \cup FV(y)) \backslash \{x\} \\
@@ -34,24 +57,9 @@ For example, the \lterm $\lamb{x}{yx}$ has one free variable, $y$. We can use th
 	\end{eqnarray*}
 \end{example}
 
-
-\begin{definition}[Bound Variables]
-	\label{def:bound-variable}
-	Let us now define bound variables. Again, let $P$ be any term in the \lc and $BV(P)$ be the set of all bound variables in $P$. 
-	We define $BV$ inductively on $P$ as follows:
-	\[
-	\begin{aligned}
-		& BV(x)           & &= \emptyset \\
-		& BV(\lamb{x}{M}) & &= BV(M) \cup \{x\} \\
-		& BV(M N)         & &= BV(M) \cup BV(N)
-	\end{aligned}
-	\]
-\end{definition}
-
-We say that the abstraction $\lamb{x}{M}$ binds the variable $x$. 
-
 \begin{example}
-	Using our previous example of the \lterm $\lamb{x}{yx}$, we can now reason that $BV(\lamb{x}{xy}) = \{x\}$. 
+	\label{ex:bound-variable}
+	\textbf{BV}
 	\begin{eqnarray*}
 		BV(\lamb{x}{xy}) &=& BV(xy) \cup \{x\} \\
 		&=& (BV(x) \cup BV(y)) \cup \{x\} \\
@@ -64,28 +72,28 @@ We say that the abstraction $\lamb{x}{M}$ binds the variable $x$.
 
 The following example will demonstrate that using two different variables with the same name in a \lterm is quite tricky: $(\lamb{x}{x})x$.
 By the definitions of $FV$ and $BV$, we can reason that $FV((\lamb{x}{x})x) = \{x\}$ and $BV((\lamb{x}{x})x) = \{x\}$.
-This is quite confusing and we prefer to write $(\lamb{y}{y})x$ instead, where $y$ is a new variable with a different name.
+While these sets are the same, they do not refer to the same $x$.
+This is quite confusing, and we prefer to write $(\lamb{y}{y})x$ instead, where $y$ is a new "fresh" variable with a different name.
 We now have $FV((\lamb{y}{y})x) = \{x\}$ and $BV((\lamb{y}{y})x) = \{y\}$.
-These \lterms are equivalent by the notion of \emph{alpha equivalence}, which states that \lterms that differ only by the names of bound variables are considered the same.
-We will discuss this in more detail after we define substitution.
+These \lterms are equivalent by the notion of \aeq, which states that \lterms that differ only by the names of bound variables are considered the same.
+We discuss this in more detail after we define substitution.
 
 \subsection{Substitution}
 % EMPHASIZE THAT SUBSITUTING IS REPLACING FREE VARIABLES BY ANY LAMBDA TERM. OTHERWISE, RULE 3 IS CONFUSING.
 % MAYBE ADD EXAMPLE OF SUBSTITUTION
-Keeping the definitions of free and bound variables in mind, we now define substitution. 
+Keeping the definitions of free and bound variables in mind, we now define substitution.
+In this thesis, substitution is denoted as $P \subst{x}{Q}$ and is defined inductively on $P$ by \cref{def:substitution}.  
 
-\begin{definition}[Substitution]
-	In this research, substitution is often denoted as $P \subst{x}{Q}$ and defined inductively on $P$ by:
-	\[
-	\begin{aligned}
-		& x \subst{x}{Q}             & &= Q \\
-		& y \subst{x}{Q}             & &= y \text{ if } (x \neq y)\\
-		& (M N) \subst{x}{Q}         & &= M \subst{x}{Q} N \subst{x}{Q} \\
-		& (\lamb{x}{M}) \subst{x}{Q} & &= \lamb{x}{M} \\
-		& (\lamb{y}{M}) \subst{x}{Q} & &= \lamb{z}{M \subst{y}{z}\subst{x}{Q}} \text{ if } (x \neq y) \\
-	\end{aligned}
-	\]
-
+\begin{definition}
+	\label{def:substitution}
+	\textbf{Substitution}
+		\begin{flalign*}
+			& x \subst{x}{Q}             = Q &\\
+			& y \subst{x}{Q}             = y \text{ if } (x \neq y) & \\
+			& (M N) \subst{x}{Q}         = M \subst{x}{Q} N \subst{x}{Q} & \\
+			& (\lamb{x}{M}) \subst{x}{Q} = \lamb{x}{M} & \\
+			& (\lamb{y}{M}) \subst{x}{Q} = \lamb{z}{M \subst{y}{z}\subst{x}{Q}} \text{ if } (x \neq y) &
+		\end{flalign*}
 	with $z$ a variable defined by:
 	\begin{enumerate}
 		\item%1
@@ -116,17 +124,17 @@ Keeping the definitions of free and bound variables in mind, we now define subst
 
 
 
-The variable '$z$' always exists. Choosing a fresh variable for $z$ will always satisfy condition two.
-It might not be clear why need to use the variable $z$ and one can expect that the following rule is good enough:
+The variable $z$ always exists. Choosing a fresh variable for $z$ always satisfies condition two.
+It might not be clear why we need to use the variable $z$ and one might expect the rule in \cref{def:simple-substitution} is sufficient.
 \begin{definition}
-	This is a simpler version of the substitution rule which is not correct:
 	\label{def:simple-substitution}
+	\textbf{Incorrect Substitution Rule}
 	\begin{align*}
 		(\lamb{y}{M}) \subst{x}{Q} &= \lamb{z}{M \subst{x}{Q}} \text{ if } (x \neq y)
 	\end{align*}
 \end{definition}
 
-The following example will illustrate why the more complicated rule is necessary.
+However, the following example illustrates why the more complicated rule is necessary.
 Consider the substitution $(\lamb{y}{xy})\subst{x}{y}$. The free variable of \lterm $\lamb{y}{xy}$ is $x$ and the bound variable is $y$.
 If we use the simple rule above, we get that $(\lamb{y}{xy})\subst{x}{y} = \lamb{y}{yy}$, the meaning of the \lterm changes. 
 However, the free variable we substituted, is not free anymore. The variable $y$ is not a free variable in the term that we substituted $y$ in.
@@ -137,15 +145,15 @@ Following the more complex rule, we get:
 	&=& \lamb{z}{yz}
 \end{eqnarray*}
 
-\subsection{\texorpdfstring{\boldmath${\alpha}$ equivalence}{Alpha equivalence}}
+\subsection{\texorpdfstring{\boldmath${\alpha}$-equivalence}{Alpha-equivalence}}
 Here, we define \aeq. The idea is that renaming bound variables does not change the meaning of a \lterm.
 For example, the \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ are equivalent ($\lamb{x}{x} \aeqr \lamb{y}{y}$), since renaming all bound variables can result in identical \lterms.
 The \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ represent the same idea.
-We can define the relation $P \aeqr P'$ inductively on $P$ and $P'$ as follows:
+We define the relation $P \aeqr P'$ inductively on $P$ and $P'$ in \cref{def:alpha-equivalence}.
 
-\begin{definition}[$\alpha$ equivalence]
+\begin{definition}
 	\label{def:alpha-equivalence}
-	Let $x$ and $y$ be variables. The relation $\aeqr$ is defined as follows:
+	\textbf{\boldmath${\alpha}$-equivalence}
 	\[
 	\begin{aligned}
 		& x \aeqr y                      & &  \text{ if } x = y \\
@@ -155,8 +163,7 @@ We can define the relation $P \aeqr P'$ inductively on $P$ and $P'$ as follows:
 	\]
 \end{definition}
 
-
-\noindent The last rule states that abstractions $\lamb{x}{M}$ and $\lamb{y}{M'}$ are equivalent if $M$ and $M'$ are equivalent after substituting $y$ for $x$ in $M'$.
+The last rule states that abstractions $\lamb{x}{M}$ and $\lamb{y}{M'}$ are equivalent if $M$ and $M'$ are equivalent after substituting $y$ for $x$ in $M'$.
 However, $x$ should be equal to $y$ or $x$ should not be a free variable in $M'$. 
 \begin{example}
 	Consider the following:
@@ -164,33 +171,32 @@ However, $x$ should be equal to $y$ or $x$ should not be a free variable in $M'$
 		\item 
 		$\lamb{x}{zx}$ is equivalent to $\lamb{y}{zy}$, since $zy\subst{y}{x} = zx \aeqr zx$ and $x$ is not a free variable in $zy$.
 		\item
-		$\lamb{z}{zx}$ is not to $\lamb{y}{zy}$, since $z$ is a free variable in $zy$ and $x$ is not equal to $y$.
+		$\lamb{z}{zx}$ is not equivalent to $\lamb{y}{zy}$, since $z$ is a free variable in $zy$ and $x$ is not equal to $y$.
 	\end{itemize}
 \end{example}
 
 
 \subsection{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
-Now, we are ready to discuss \br. In the \lc, there is one way to simplify terms, which is \br. We can define:
+Now, we are ready to discuss \br. In the \lc, there is only one way to simplify terms, which is \br. 
+This \br relation is defined in \cref{def:beta-reduction} with $M$ and $N$ being terms in the \lc. 
 
-\begin{definition}[$\beta$-reduction]
+\begin{definition}
 	\label{def:beta-reduction}
-	Let $M$ and $N$ be terms in the \lc. The relation $\red$ is defined as follows:
-	
+	\textbf{\boldmath${\beta}$-reduction}
 	\begin{align*}
 		(\lamb{x}{M})N \red M \subst{x}{N} \quad \quad (\beta)
 	\end{align*}
 \end{definition}
 
 
-So a \lterm of the form $(\lamb{x}{M})N$ can be reduced by substituting $x$ by $N$ in $M$. 
+A \lterm of the form $(\lamb{x}{M})N$ can be reduced by substituting $x$ by $N$ in $M$. 
 However, without additional rules, we cannot apply \br to subterms. 
 For example, the following reduction would not be possible: $\lamb{x}{(\lamb{y}{y})x} \red \lamb{x}{x}$.
-Therefore, we can define the following rules:
+Therefore, in \cref{def:closure-rules}, we define the following closure rules: $\mu$, $\nu$ and $\xi$.
 
-\begin{definition}[Closure rules]
-	Closure rules $\mu$, $\nu$ and $\xi$ are defined as follows:
+\begin{definition}
 	\label{def:closure-rules}
-	\begin{center}
+	\textbf{Closure rules for \boldmath${\beta}$-reduction} \\
 		\begin{tabularx}{\textwidth}{YYY}
 			\begin{prooftree}
 				\AxiomC{$M \rightarrow M'$} % Conclusion
@@ -210,7 +216,6 @@ Therefore, we can define the following rules:
 				\UnaryInfC{$\lambda x. M \rightarrow \lambda x. M'$}
 			\end{prooftree}
 		\end{tabularx}
-	\end{center}
 \end{definition}
 
 
@@ -220,8 +225,8 @@ In one reduction, we may need to use multiple rules. The \bre that is reduced is
 For instance, we need to use the $\mu$ and $\xi$ rule in the last example of the following reductions: 
 
 \begin{example}
-	This example shows how to use the closure rules.
 	\label{ex:beta-reduction}
+	\textbf{Usage of Closure Rules}
 	\begin{align*}
 		(\underline{\bi \bi})(\bi \bi) 							&\redb \bi (\bi \bi) 							 & &\beta \text{ with } \mu \text{ rule } \\
 		(\bi \bi)(\underline{\bi \bi}) 							&\redb (\bi \bi) \bi 							 & &\beta \text{ with } \nu \text{ rule } \\
@@ -229,3 +234,7 @@ For instance, we need to use the $\mu$ and $\xi$ rule in the last example of the
 		(\bi(\lamb{x}{\underline{\bi x}}))(\bi \bi) &\redb (\bi(\lamb{x}{x}))(\bi \bi) & &\beta \text{ with } \mu \text{ and } \xi \text{ rule } \\
 	\end{align*}
 \end{example}
+
+We see that \br is a non-deterministic relation, which means that there can be multiple ways to reduce a term.
+However, sometimes we would only like to reduce a term in one way and have a deterministic relation.
+To achieve this, we can define subrelations that do not allow all closure rules.
