@@ -1,28 +1,28 @@
 \section{\texorpdfstring{Specification of \boldmath${\la_b}$}{ Specification of the call-by-box lambda calculus}}
 
-\subsection{Intuitionistic logic IS4}
+\subsection{Intuitionistic logic \textsf{IS4}}
 Intuitionistic logic \textsf{IS4} is a non-classical logic that is based on the idea of constructive proof.
-Unlike classical logic, intuitionistic logic does not allow for the law of excluded middle, which states that every proposition is either \texttt{true} or \texttt{false}.
-Intuitionistic logic also does not allow for the law of double negation, which states that if a proposition is not \texttt{false}, then it is \texttt{true}.
-Thus, if we know that proposition $A$ not \texttt{false}, we cannot conclude that it is \texttt{true}.
-In intuitionistic logic, a proposition is only considered \texttt{true} if it can be constructively proven.
-That is, a proposition is \texttt{true} if we can build a proof step by step, much like writing a program.
+Unlike classical logic, intuitionistic logic does not allow for the law of excluded middle, which states that for every proposition $P$,
+the statement $P \lor \neg P$ assumed.
+In intuitionistic logic, a proposition is only considered true if it can be constructively proven.
+That is, a proposition is true if we can explicitly construct a proof, much like writing a program.
 This is why programming languages and proofs in systems like Agda and Coq are based on intuitionistic logic.
-Since lambda calculus is the foundation of functional programming, it corresponds with intuitionistic logic via the Curry-Howard correspondence,
+Since \lc is the foundation of functional programming, it corresponds with intuitionistic logic via the Curry-Howard correspondence,
 where programs are equivalent to proofs and types to propositions.
 
-The intuitionistic modal logic \textsf{IS4} is an extension of intuitionistic logic that introduces \emph{modal operators}.
+The intuitionistic modal logic \textsf{IS4} is an extension of intuitionistic logic that introduces \emph{modal operator} $\square$.
 The \labox calculus is a fragment of \textsf{IS4} that, besides the usual \lterms, also uses box ($\mathsf{box}$) and unbox ($\varepsilon$) operators 
 and is strong enough to interpret both call-by-name (\textsf{cbn}) and call-by-value (\textsf{cbv}) lambda calculi \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 The box is like a little container that delays a computation, making it possible to simulate both \textsf{cbn} and \textsf{cbv} evaluation strategies. 
-In this research, we formalize the \emph{boxed lambda calculus} in Agda, denoted as \lab, which is as a refinement of the simpler \labox calculus.
+In this thesis, we formalize the \emph{boxed lambda calculus} in Agda, denoted as \lab, which is as a refinement of the simpler \labox calculus.
 
 \subsection{\texorpdfstring{Terms and Types of \boldmath${\la_b}$}{ Terms and Types of the boxed lambda calculus}}
 We now define the types of the \lab calculus. We indicate the types of \lab with $A$ and $B$, representing types and boxed types respectively.
-The type $X$ denotes the base type. Note that functions always take boxed types as input.
+The type $X$ denotes the base type. Note that functions types are of the form $B \fa A$ thus the input is always a boxed type.
 
-\begin{definition}[Types of \lab]
+\begin{definition}
   \label{def:typesb}
+  \textbf{Types of \boldmath${\la_b}$}
 	\begin{align*}
     \begin{grammar}{
       \pr{$A$}{$X \gors B \fa A \gors B$}
@@ -33,16 +33,15 @@ The type $X$ denotes the base type. Note that functions always take boxed types 
     }
     \end{grammar}
   \end{align*}
-
 \end{definition}
 
 
 We give some examples of types in \lab. Note that $A$ can be any type that is not boxed, while $B$ can be any type that is boxed. 
 The type $X$ is the base type. 
 
-\begin{example}[Types in \lab]
+\begin{example}
   \label{ex:typesb}
-  % The following types are valid in \lab:
+  \textbf{Types in \boldmath${\la_b}$}
   \begin{align*}
     & X \\
     & \boxt{(B \fa A)} \\
@@ -52,14 +51,14 @@ The type $X$ is the base type.
   \end{align*}
 \end{example}
 
-Since variables are always boxed, variables in \lab are always inside the unbox operator $\varepsilon$.
+Since variables are always boxed, variables in \lab are always inside the unboxing operator $\varepsilon$.
 Thus, we only have $\boxe{x}$ in the grammar with $x$ a variable.
 Abstractions in \lab, take boxed terms as arguments, which is why we define abstractions as $\lamb{x}{M}$, where $x$ is the parameter of a boxed type and $M$ is a term.
-The rest of the terms are defined in \Cref{def:lab}.
+The rest of the terms are defined in \cref{def:lab} and some example terms are given in \cref{ex:termsb}.
 
-\begin{definition}[Terms in \lab]
+\begin{definition}
   \label{def:lab}
-  % The terms of \lab are given by: \\
+  \textbf{Terms in \boldmath${\la_b}$}
   \begin{align*}    
     \begin{grammar}{
       \pr{$M, N, P, Q$}{$\boxe{x} \gors \lambda x.M \gors M N \gors \boxi{N}$}
@@ -68,28 +67,27 @@ The rest of the terms are defined in \Cref{def:lab}.
   \end{align*}
 \end{definition}
 
-We give some examples of terms that are well typed in \lab. 
-
-\begin{example}[Terms in \lab]
+\begin{example}
   \label{ex:termsb}
-  % The following terms are valid in \lab:
-  Assuming \dots, the following terms are well-typed in \lab:
+  \textbf{Terms in \boldmath${\la_b}$}
   \begin{align*}
     & \boxe{x} \\
     & \lamb{x}{\boxe{x}} \\
     & (\lamb{x}{\boxe{x}}) \boxi{\boxe{y}} \\
-    & (\lamb{x}{\boxe{x}}) \boxi{(\lamb{y}{\boxe{y}})}
+    & (\lamb{x}{\boxe{x}}) \boxi{\lamb{y}{\boxe{y}}}
   \end{align*}
 \end{example}
 
-We now define the typing rules of \lab. The Id$_\square$ and $\square$-I rule may need some explanation.
-The $\square$-I rule states that if $M$ is of type $A$, then $\boxi{M}$ is of type $\boxt{A}$.
+The typing rules of \lab are defined in \cref{def:typing-rules}. The $\square$-I rule states that if $M$ is of type $A$, then $\boxi{M}$ is of type $\boxt{A}$.
 The Id$_\square$ rule is the identity rule for boxed variables, which states that if we know that $x$ is a variable of type $\boxt{A}$, we can conclude that $\boxe{x}$ is of type $A$.
-Due to the grammar of \lab, we can only have variables of boxed types which is why Id$_\square$ is defined as such.
-
+The only way to add variables to the context is by using the \impliesi rule. These variables are always boxed, since they are the parameters of abstractions.
+Due to the grammar of \lab, all variables in \lab occur inside the unboxing operator $\varepsilon$ and thus the Id$_\square$ rule covers all cases.
+The \impliese rule states that if we have a term $M$ of type $B \fa A$ and a term $N$ of type $B$, we can conclude that the application $M N$ has type $A$.
+It is important that the argument $N$ is a boxed term, which is why we denote its type as $B$.
 
 \begin{definition}
-  The typing rules of \lab are give by:
+  \label{def:typing-rulesb}
+  \textbf{Typing rules of \boldmath${\la_b}$}
   \begin{prooftree}
     \def\extraVskip{5pt}
     \AxiomC{\phantom{A}}
@@ -106,10 +104,10 @@ Due to the grammar of \lab, we can only have variables of boxed types which is w
   
   \begin{prooftree}
     \def\extraVskip{5pt}
-    \AxiomC{$\judgement{\Gamma}{M : A \fa B}$}
-    \AxiomC{$\judgement{\Delta}{N : A}$}
+    \AxiomC{$\judgement{\Gamma}{M : B \fa A}$}
+    \AxiomC{$\judgement{\Gamma}{N : B}$}
     \RightLabel{\impliese}
-    \BinaryInfC{$\judgement{\Gamma, \Delta}{M N : B}$} % Conclusion
+    \BinaryInfC{$\judgement{\Gamma}{M N : B}$} % Conclusion
   \end{prooftree}
   
   \begin{prooftree}
@@ -119,6 +117,35 @@ Due to the grammar of \lab, we can only have variables of boxed types which is w
     \UnaryInfC{$\judgement{\Gamma}{\boxi{M} : \boxt{A}}$} % Conclusion
   \end{prooftree}
 \end{definition}
+
+We now demonstrate these typing rules with \cref{ex:typingb}, where we show that the term $(\lamb{x}{\boxe{x}}) \boxi{\lamb{y}{\boxe{y}}}$ is well-typed. 
+Note that the argument $\boxi{\lamb{y}{\boxe{y}}}$ is boxed. 
+If the argument was not boxed, we would not be able to apply the abstraction $\lamb{x}{\boxe{x}}$ to it.
+
+\begin{example}
+  \label{ex:typingb}
+  \textbf{Well-typedness of \boldmath$(\lamb{x}{\boxe{x}}) \boxi{\lamb{y}{\boxe{y}}}$}
+  \small
+  \begin{prooftree}
+    \def\extraVskip{5pt}
+        \AxiomC{\phantom{A}}
+      \RightLabel{Id$_\square$}
+      \UnaryInfC{$\judgement{x : \boxt{(\boxt{A} \fa A)}}{\boxe{x} : \boxt{A} \fa A}$}
+    \RightLabel{\impliesi}
+    \UnaryInfC{$\judgement{}{\lamb{x}{\boxe{x}} : \boxt{(\boxt{A} \fa A)} \fa (\boxt{A} \fa A)}$}
+    
+        \AxiomC{\phantom{A}}
+        \RightLabel{Id$_\square$}
+        \UnaryInfC{$\judgement{y : \boxt{A}}{\boxe{y} : A}$}
+      \RightLabel{\impliesi}
+      \UnaryInfC{$\judgement{}{\lamb{y}{\boxe{y} : \boxt{A} \fa A}}$}
+    \RightLabel{$\square$-I}
+    \UnaryInfC{$\judgement{}{\boxi{\lamb{y}{\boxe{y}}} : \boxt{(\boxt{A} \fa A)}}$}
+    \RightLabel{\impliese}
+    \BinaryInfC{$\judgement{}{(\lamb{x}{\boxe{x}}) \boxi{\lamb{y}{\boxe{y}}} : \boxt{A} \fa A}$} % Conclusion
+  \end{prooftree}
+\end{example}
+
 
 \section{\texorpdfstring{Substitution and Free and Bound variables in ${\la_b}$}{ Substitution and Free and Bound variables in the boxed lambda calculus}}
 
@@ -216,8 +243,9 @@ We can prove that substitution preserves well-typedness in \lab.
     We have that $\lamb{y}{M}$ is well-typed and thus $M$ is well-typed.
     By the inductive hypothesis, we have that $M\subst{\boxe{y}}{\boxe{z}}$ and $M\subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q}$ are well-typed.
     We also have that abstraction of a well-typed term is well-typed, so we have that \\
-    $\lamb{z}{(M\subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q})}$ is well-typed.
+    $\lamb{z}{(M\subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q})}$ is well-typed. $\square$
   \end{enumerate}
+  \renewcommand{\qedsymbol}{}
 \end{proof}
 
 With this definition of substitution, we define the reduction rule we can use for this \lab.
