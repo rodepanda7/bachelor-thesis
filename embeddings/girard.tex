@@ -1,14 +1,21 @@
 \section{Girard's Embedding}
 
-Here we present Girard's embedding, which is a method to represent a logical system in a different framework, often used in the context of linear logic and proof theory.\section{\texorpdfstring{Embedding of \boldmath${\la_n}$ into \boldmath${\la_b}$}{Embedding of call-by-name lambda calculus into the call-by-box lambda calculus}}
+Here we present Girard's embedding, which is a method to represent a logical system in a different framework, often used in the context of linear logic and proof theory.
+
+\section{\texorpdfstring{Embedding of \boldmath${\la_n}$ into \boldmath${\la_b}$}{Embedding of call-by-name lambda calculus into the call-by-box lambda calculus}}
 
 % Research more about Girard's tranlation
 
-Let $\Lambda_{CBN}$ be the set containing all \lterms in the \lan
-and let $\Lambda_{CBB}$ be the set containing all \lterms in the \lab. 
-The set $\T_{CBN}$ contains all types of the \lan and $\T_{CBB}$ contains all types of the \lab. 
-Now we define functions from $\Lambda_{CBN}$ to $\Lambda_{CBB}$ for term translation and from $\T_{CBN}$ to $\T_{CBB}$ for type translation. 
-These functions represent an embedding of the \lan into the \lab. 
+% Let $\Lambda_{CBN}$ be the set containing all \lterms in the \lan
+% and let $\Lambda_{CBB}$ be the set containing all \lterms in the \lab. 
+% The set $\T_{CBN}$ contains all types of the \lan and $\T_{CBB}$ contains all types of the \lab. 
+% Now we define functions from $\Lambda_{CBN}$ to $\Lambda_{CBB}$ for term translation and from $\T_{CBN}$ to $\T_{CBB}$ for type translation. 
+% These functions represent an embedding of the \lan into the \lab. 
+
+The model embedding of the \lan into the \lab is given by Girard's translation, denoted as $\girard{(\cdot)}$.
+Thus, $\girard{M}$ is the translation of a term $M$ from the \lan to the \lab, and $\girard{A}$ is the translation of a type $A$ from the \lan to the \lab.
+The translation is inductively defined in \cref{fig:girard-translation} for both terms and types.
+We also give the translation of \lterm $\bi x$ in \cref{ex:girard-translation}.
 
 \begin{figure}[h]
   \centering
@@ -21,8 +28,19 @@ These functions represent an embedding of the \lan into the \lab.
   \label{fig:girard-translation}
 \end{figure}
 
+\begin{example}
+  \label{ex:girard-translation}
+  \textbf{\boldmath${\girard{(\bi x)}}$}
+  \begin{align*}
+    \girard{(\bi x)} &= \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
+                     &= (\lamb{x}{\girard{x}}) \boxi{\girard{x}} \\
+                     &= (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}}.
+  \end{align*}
+\end{example}
 
-The image of Girard's translation is a subset of the \lab given by the following grammar:
+From Girard's translation, we see that a boxed \lterm can never occur on its own.
+Boxed terms are always part of an application, where the left-hand side is a term in \lab and the right-hand side is the boxed term.
+Therefore, the image of Girard's translation is a subset of the \lab given by the following grammar:
 
 \vspace{10pt}
 \begin{grammar}{
@@ -31,21 +49,24 @@ The image of Girard's translation is a subset of the \lab given by the following
 \end{grammar}
 \vspace{10pt}
 
-Since application in Girard's translation is of the form 
-\[
-M \boxi{N}
-\]
+We can reason that the relation $\redwe$ collapses to $\redbn$ when we consider the image of Girard's translation.
+Since application in Girard's image is always of the form $M \boxi{N}$, the right-hand side of the application can never be reduced without the use of the $\zeta$ rule.
+In $\redwe$, the only closure rules allowed are $\mu$ and $\nu$. 
+It is clear that the $\nu$ rule can never be applied in Girard's image as it is not possible to reduce under boxed terms.
+Thus, the only closure rule that can be applied is the $\mu$ rule, and $\redwe$ collapses to $\redbn$ in Girard's image.
 
-reducing the left-hand side of the application is not possible without the $\zeta$ rule that allows reduction inside boxed terms.
+We give a small example to clarify everything. Consider the \lterm $\bi x$. It holds that $\bi x \redn x$ in \lan. 
+\Cref{ex:girard-translation-bn} shows that $\girard{(\bi x)} \redbn \girard{x}$ also holds.
 
-To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbn$. 
-It is clear that the result obtained after $\redbn$ is equal to the embedding of the result of applying $\redbn$ on $\bi x$ in the \lan, which is $\Tcbn(x) = \boxe{x}$.  
-
-\begin{eqnarray*}
-  \girard{(\bi x)} &=& \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
-  &=& (\lamb{x}{\girard{x}}) \boxi{\girard{x}} \\
-  &=& (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}} \\
-  &\redbn& (\lamb{x}{\boxe{x}}) \subst{\boxe{x}}{\boxe{x}} \\
-  &=& \boxe{x}
-\end{eqnarray*}
-
+\begin{example}
+  \label{ex:girard-translation-bn}
+  \textbf{\boldmath${\girard{(\bi x)}}$ under $\redbn$}
+  \begin{eqnarray*}
+    \girard{(\bi x)} &=& \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
+    &=& (\lamb{x}{\girard{x}}) \boxi{\girard{x}} \\
+    &=& (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}} \\
+    &\redbn& (\lamb{x}{\boxe{x}}) \subst{\boxe{x}}{\boxe{x}} \\
+    &=& \boxe{x} \\
+    &=& \girard{x}
+  \end{eqnarray*}
+\end{example}  

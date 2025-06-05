@@ -248,7 +248,10 @@ We can prove that substitution preserves well-typedness in \lab.
   \renewcommand{\qedsymbol}{}
 \end{proof}
 
-With this definition of substitution, we define the reduction rule we can use for this \lab.
+With this definition of substitution, we define the reduction rule for \lab in \cref{def:beta}.
+In \lab, the arguments of abstractions are always boxed, so we can only apply abstractions to boxed terms, 
+which makes sense since the parameters like $x$ are always boxed. 
+Since variables only occur insides $\varepsilon$, we can replace those, including $\varepsilon$, with the corresponding unboxed term.
 
 \begin{definition}[$\bb$]
   \label{def:beta}
@@ -258,40 +261,53 @@ With this definition of substitution, we define the reduction rule we can use fo
   \end{align*}
 \end{definition}
 
-In \lab, the arguments of abstractions are always boxed, so we can only apply abstractions to boxed terms, 
-which makes sense since the parameters like $x$ are always boxed. 
-Since variables only occur insides $\varepsilon$, we can replace those with the corresponding unboxed term.
+For completeness, we need to define a new closure rule. This new rule only applies to the \lab, and allows reduction under boxed terms.
+We call this rule $\zeta$, and \cref{def:closure} defines it.
 
-We define three relations: $\bb$ closed under $\mu$ and $\nu$, $\bb$ closed under $\mu$ and $\bb$ closed under $\nu$.
-We call them $\redwe$, $\redbn$ and $\redbv$ respectively. 
+\begin{definition}
+  \label{def:closure}
+  \textbf{\boldmath${\zeta}$}
+  \begin{prooftree}
+    \def\extraVskip{5pt}
+    \AxiomC{$M \redbbox N$}
+    \RightLabel{($\zeta$)}
+    \UnaryInfC{$\boxi{M} \redbbox \boxi{N}$} % Conclusion
+  \end{prooftree}
+\end{definition}
+
+The relation $\redbbox$ is the relation that allows reduction under all term formers, including boxes. 
+We also define three other relations: $\bb$ closed under $\mu$ and $\nu$, $\bb$ closed under $\mu$ and $\bb$ closed under $\nu$.
+We call them $\redwe$, $\redbn$ and $\redbv$ respectively. \Cref{tab3:closure-rules} is an overview of all relations.  
 The relation $\redwe$ is weak since values do not reduce.
 That is, abstractions and terms of the form $\boxe{x}$ do not reduce.
 The relation $\redwe$ is also external as boxes do not reduce. This relation is called call-by-box (cbb) evaluation.
 We will see after defining the embeddings that $\redwe$ collapses to $\redbn$ in Girard's embedding and that $\redwe$ collapses to $\redbv$ in Gödel's embedding.  
 
+
+
 \begin{table}[htbp]
 \centering
-\begin{tabularx}{\linewidth}{|c|XXXXX|}
+\begin{tabularx}{\linewidth}{|c|XXXXXX|}
   \hline
-  \textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ \\
+  \textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ & $\boldsymbol{\zeta}$ \\
   \hline
-  $\rednb$   & $\bn$ & \checkmark & \checkmark & \checkmark & \checkmark \\
+  $\rednb$   & $\bn$ & \checkmark & \checkmark & \checkmark & \checkmark &  \\
   \hline
-  $\redn$    & $\bn$ & \checkmark & & & \\
+  $\redn$    & $\bn$ & \checkmark & & & & \\
   \hline
-  $\redw$    & $\bn$ & \checkmark & \checkmark & & \\
+  $\redw$    & $\bn$ & \checkmark & \checkmark & & & \\
   \hline
-  $\redvb$   & $\bv$ & \checkmark & \checkmark & \checkmark & \checkmark \\
+  $\redvb$   & $\bv$ & \checkmark & \checkmark & \checkmark & \checkmark & \\
   \hline
-  $\redv$    & $\bv$ & \checkmark & & \checkmark & \\
+  $\redv$    & $\bv$ & \checkmark & & \checkmark & & \\
   \hline
-  $\redbbox$ & $\bb$ & \checkmark & \checkmark & \checkmark & \checkmark \\
+  $\redbbox$ & $\bb$ & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
   \hline
-  $\redwe$   & $\bb$ & \checkmark & \checkmark & \checkmark &            \\
+  $\redwe$   & $\bb$ & \checkmark & \checkmark & \checkmark &            &  \\
   \hline
-  $\redbn$   & $\bb$ & \checkmark &            &            &             \\
+  $\redbn$   & $\bb$ & \checkmark &            &            &            &  \\
   \hline
-  $\redbv$   & $\bb$ &            & \checkmark &            &             \\
+  $\redbv$   & $\bb$ &            & \checkmark &            &            &  \\
   \hline
 \end{tabularx}
 \caption{Closure Rules for Different Reduction Relations}

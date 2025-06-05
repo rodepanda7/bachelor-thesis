@@ -6,22 +6,27 @@ Here we present Gödel's embedding, which is a method to represent a logical sys
 
 % Research more about Girard's tranlation
 
-For the embedding of the \lav into the \lab, we make use of the abbreviation "raise" defined by:
+\section{\texorpdfstring{Embedding of \boldmath${\la_n}$ into \boldmath${\la_b}$}{Embedding of call-by-name lambda calculus into the call-by-box lambda calculus}}
 
+In the model embedding of \lav into \lab, we make use of an abbreviation, which we call \raiseembn.
+The idea of \raiseembn is to swap two lambda terms, while removing a box of one \lterm. 
+Its use will become clear later in this section when we give some examples.
+We define \raiseembn as follows:
 \begin{flalign*}
   \hspace{20pt} \raiseemb{M} := \lamb{z}{\boxe{z}M} &&
 \end{flalign*}
-
-Let $\Lambda_{CBV}$ be the set containing all \lterms in the \lav
-and let $\Lambda_{CBB}$ be the set containing all \lterms in the \lab. 
-The set $\T_{CBV}$ contains all types of the \lav and $\T_{CBB}$ contains all types of the \lab. 
-Now we define functions from $\Lambda_{CBV}$ to $\Lambda_{CBB}$ for term translation and from $\T_{CBV}$ to $\T_{CBB}$ for type translation. 
+The model embedding of \lav into \lab is given by Gödel's translation, denoted as $\godel{(\cdot)}$.
+Thus, $\godel{M}$ is the translation of a term $M$ from \lav to \lab, and $\godel{A}$ is the translation of a type $A$ from the \lav to the \lab.
+We also define $\godelv{(\cdot)}$ for the translation of values and types in \lav.
+The embedding $\godel{(\cdot)}$ and $\godelv{(\cdot)}$ are mutually inductively defined in \cref{fig:gödel-translation} for both terms and types.
+That is, we define $\godel{(\cdot)}$ in terms of $\godelv{(\cdot)}$ and vice versa.
+We also give the translation of \lterm $\bi x$ in \cref{ex:gödel-translation}.
 
 \begin{figure}[h]
   \centering
   \begin{align*}
     \godel{A}   & = \boxt{\godelv{A}}                                        & \godel{V}             & = \boxi{\godelv{V}} \\
-                &                                                            & \godel{(M N)} & = \raiseemb{\godel{N}}\godel{M} \\\\
+    &                                                            & \godel{(M N)} & = \raiseemb{\godel{N}}\godel{M} \\\\
     \godelv{X}  & = X                                                        & \godelv{x}             & = \boxe{x} \\
     \godelv{(A_1 \fa A_2)} & = \boxt{\godelv{A_1}} \fa \boxt{\godelv{A_2}}   & \godelv{(\lamb{x}{M})} & = \lamb{x}{\godel{M}}
   \end{align*}
@@ -29,16 +34,68 @@ Now we define functions from $\Lambda_{CBV}$ to $\Lambda_{CBB}$ for term transla
   \label{fig:gödel-translation}
 \end{figure}
 
+\begin{example}
+  \label{ex:gödel-translation}
+  \textbf{\boldmath${\godel{(\bi x)}}$}
+  \begin{align*}
+    \godel{(\bi x)} &= \raiseemb{\godel{x}} \godel{(\lamb{x}{x})}  \\
+                    &= \raiseemb{\boxi{\godelv{x}}} \boxi{\godelv{(\lamb{x}{x})}}  \\
+                    &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\godel{x}}} \\
+                    &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\boxi{\godelv{x}}}} \\
+                    &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\boxi{\boxe{x}}}}
+  \end{align*}
+\end{example}
 
-To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbv$ twice. 
-It is clear that the result obtained after $\redbv$ is equal to the embedding of the result of applying $\redv$ on $\bi x$ in the \lav, which is $\Tcbn(x) = \boxi{\boxe{x}}$.  
+Let us now reason about the image of Gödel's translation.
+From the translation, it follows that all applications in the image of Gödel's translation are of the form $\raiseemb{M'} M$, 
+where both $M'$ and $M$ are terms in \lab.
+Every term in the image that is not an application, is of the form $\boxi{V}$, with $V$ a value in \lab.
+Thus, the image of Gödel's translation is a subset of \lab given by the following grammar:
 
-\begin{eqnarray*}
-  \Tcbv(\bi x) &=& \raiseemb{\Tcbv(x)}T(\bi) \\
-  &=& \raiseemb{\Tcbv(x)}T(\lamb{x}{x}) \\
-  &=& \raiseemb{\boxi{\boxe{x}}}\boxi{\lamb{x}{\Tcbv(x)}} \\
-  &=& \raiseemb{\boxi{\boxe{x}}}\boxi{\lamb{x}{\boxi{\boxe{x}}}} \\
-  &=& (\lamb{z}{\boxe{z}\boxi{\boxe{x}}})\boxi{\lamb{x}{\boxi{\boxe{x}}}} \\
-  &\redbv& (\lamb{x}{\boxi{\boxe{x}}})\boxi{\boxe{x}} \\
-  &\redbv& \boxi{\boxe{x}}
-\end{eqnarray*}
+\begin{align*}
+  \begin{grammar}{
+    \pr{$M$}{$\boxi{V} \gors \raiseemb{M'} M$}
+  } \quad \quad
+  \end{grammar}
+  \begin{grammar}{
+    \pr{$V$}{$\boxe{x} \gors \lamb{x}{M}$}
+  }
+  \end{grammar}
+\end{align*}
+
+Now, we reason that the relation $\redwe$ collapses to $\redbv$ when we consider the image of Gödel's translation.
+We do this by showing that the only closure rule that can be applied on each type of term in Gödel's image is the $\nu$ rule.
+\begin{enumerate}
+  \item%1
+  If a term in Gödel's image is of the form $\boxi{V}$, we cannot apply any reduction rule,
+  since we do not allow reductions under boxed terms. Besides, $V$ is a value, which cannot be reduced.
+  \item%2
+  If a term in Gödel's image is of the form $\raiseemb{M'} M$, we can only apply the $\nu$ rule.
+  We have that $\raiseemb{M'} = \lamb{z}{\boxe{z}M'}$, which is a value. 
+  Thus, $\raiseemb{M'}$ cannot be reduced and the $\mu$ rule cannot be applied.
+  The only closure rule that can be applied is the $\nu$ rule.
+\end{enumerate}
+
+We give a small example to clarify everything. Consider the \lterm $\bi x$. It holds that $\bi x \redv x$ in \lan. 
+\Cref{ex:girard-translation-bn} shows that $\godel{(\bi x)} \redbvs \godel{x}$ also holds.
+
+
+% To clarify, we give the embedding of $\bi x$ into \lab after which we apply $\redbv$ twice. 
+% It is clear that the result obtained after $\redbv$ is equal to the embedding of the result of applying $\redv$ on $\bi x$ in the \lav, which is $\Tcbn(x) = \boxi{\boxe{x}}$.  
+
+\begin{example}
+  \label{ex:gödel-translation-bv}
+  \textbf{\boldmath${\godel{(\bi x)}}$}
+  \begin{align*}
+    \godel{(\bi x)} &= \raiseemb{\godel{x}} \godel{(\lamb{x}{x})}  \\
+                    &= \raiseemb{\boxi{\godelv{x}}} \boxi{\godelv{(\lamb{x}{x})}}  \\
+                    &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\godel{x}}} \\
+                    &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\boxi{\godelv{x}}}} \\
+                    &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\boxi{\boxe{x}}}} \\
+                    &= (\lamb{z}{\boxe{z}\boxi{\boxe{x}}}) \boxi{\lamb{x}{\boxi{\boxe{x}}}} \\
+                    &\redbv (\lamb{x}{\boxi{\boxe{x}}})\boxi{\boxe{x}} \\
+                    &\redbv \boxi{\boxe{x}} \\
+                    &= \boxi{\godelv{x}} \\
+                    &= \godel{x}
+  \end{align*}
+\end{example}
