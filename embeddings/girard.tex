@@ -1,16 +1,17 @@
 \section{Girard's Embedding}
 
-Here we present Girard's embedding, which is a method to represent a logical system in a different framework, often used in the context of linear logic and proof theory.
+In this section, we present Girard's embedding, which is a method to translate intuitionistic logic into linear logic \cite{GIRARD19871}.
+Jean-Yves Girard introduced this embedding to represent intuitionistic logic in a linear framework, where resources are managed explicitly.
+Linear logic can be seen as a refinement of classical logic, where assumptions - or resources - are managed explicitly.
+In particular, linear logic distinguishes between assumptions that should be used exactly once and those that can be used any number of times, including zero times.
+However, this thesis does not focus on linear logic, but on the way Girard's embedding can be used to represent the call-by-name \lc in the modal call-by-box \lc, \lab.
+
+In general, Girard's embedding is not limited to linear logic. It is more general technique to represent one logical system in a different framework.
+The embedding can be used to represent one logical system in another framework that has a way to manage resources or assumptions.
+In the context of \lan, parameters of functions can be seen as resources that are consumed when the function is applied.
+These resources can be used as many times as needed, hence the connection with Girard's embedding and linear logic.
 
 \section{\texorpdfstring{Embedding of \boldmath${\la_n}$ into \boldmath${\la_b}$}{Embedding of call-by-name lambda calculus into the call-by-box lambda calculus}}
-
-% Research more about Girard's tranlation
-
-% Let $\Lambda_{CBN}$ be the set containing all \lterms in the \lan
-% and let $\Lambda_{CBB}$ be the set containing all \lterms in the \lab. 
-% The set $\T_{CBN}$ contains all types of the \lan and $\T_{CBB}$ contains all types of the \lab. 
-% Now we define functions from $\Lambda_{CBN}$ to $\Lambda_{CBB}$ for term translation and from $\T_{CBN}$ to $\T_{CBB}$ for type translation. 
-% These functions represent an embedding of the \lan into the \lab. 
 
 The model embedding of the \lan into the \lab is given by Girard's translation, denoted as $\girard{(\cdot)}$.
 Thus, $\girard{M}$ is the translation of a term $M$ from the \lan to the \lab, and $\girard{A}$ is the translation of a type $A$ from the \lan to the \lab.
