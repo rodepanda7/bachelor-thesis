@@ -24,6 +24,12 @@
 \usepackage{caption}
 \usepackage{cleveref}
 \usepackage{mathtools}
+\usepackage{packages/agda} % path to generated agda.sty
+\usepackage{newunicodechar}         % For defining new unicode chars
+
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{∷}{\ensuremath{\mathnormal{::}}}
+\newunicodechar{₁}{\ensuremath{_1}}
 
 \captionsetup[table]{skip=15pt}  % Spacing between table and caption
 
