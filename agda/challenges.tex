@@ -1,22 +1,240 @@
 \section{Challenges in Formalisation}
 
-Voor elk punt, 
-Wat doe je?
-Waarom doe je dat?
-Vergelijken met alternatieven
+\subsection{De Bruijn Indices}
+De Bruijn indeces, introduced by Nico G. de Bruijn, are a method to eliminate the need for variable names in the \lc \cite{DEBRUIJN1972381}.
+This is useful because it makes the notion of \aeq irrelevant. 
+We do not have to worry about variables with the same name that refer to different variables, or about variable capture, simplifying the formalisation in Agda.
+The definition of substitution becomes simpler because of this.
+This subsection first explains the concept of de Bruijn indices, and then shows how they are implemented in the formalisation.
 
+The \lterms that use de Bruijn indices do not use variable names, but integers. We precede the integers with \# to prevent confusion if the index is higher than 9.
+Without \#, $10$ could be confused with two indices $1$ and $0$ that occur next to each other. 
+These integers represent the "distance" to the corresponding $\lambda$. 
+\Cref{ex:deBruijn-closed} gives representations of \lterms without free variables, using de Bruijn indices.
+These terms are said to be closed.
+
+\begin{example}
+  \label{ex:deBruijn-closed}
+  Closed \lterms represented with \textbf{de Bruijn indices}:
+  \begin{flalign*}
+    & \lamb{x}{x}                                  \equiv \lamb{}{\#0}                        & \\
+    & \lamb{x}{\lamb{y}{x}}                        \equiv \lamb{}{\lamb{}{\#1}}               & \\
+    & \lamb{x}{\lamb{y}{y}}                        \equiv \lamb{}{\lamb{}{\#0}}               & \\
+    & \lamb{x}{x}\lamb{y}{y}                       \equiv \lamb{}{\#0}\lamb{}{\#0}            & \\
+  \end{flalign*}
+\end{example}
+
+Representing open \lterms (\lterms with free variables) using de Bruijn indices is a little more complex. 
+First, we represent the \lterm with de Bruijn indices, ignoring the free variables.
+Then, we give each free variable a unique index, that is larger than the largest index of the bound variables.
+\Cref{ex:deBruijn-open} will demonstrate this.
+\begin{example}
+  Open \lterms represented with \textbf{de Bruijn indices}:
+  \begin{flalign*}
+    & x\lamb{y}{y}                                 \equiv x\lamb{}{0}      \equiv \#1\lamb{}{\#0}          & \\
+    & x\lamb{y}{x}                                 \equiv x\lamb{}{x}      \equiv \#1\lamb{}{\#1}          & \\
+    & \lamb{x}{\lamb{t}{x t (\lamb{s}{w})}wy}      \equiv \lamb{}{\lamb{}{\#1} \#0 (\lamb{}{w}) wy} \equiv \lamb{}{\lamb{}{\#1} \#0 (\lamb{}{\#4}) \#3\#2} & \\    
+  \end{flalign*} 
+\end{example}
+
+In the formalisation, we will represent de Bruijn indices similar to how natural numbers are represented in Agda.
+De Bruijn index 0 is represented as \textsf{Z}, de Bruijn index 1 as \textsf{S Z}, de Bruijn index 2 as \textsf{S (S Z)}, and so on.
+
+
+\subsection{Well-typed Terms}
+
+This subsection discusses the restriction to well-typed terms in the formalisation of \lab.
+The restriction to well-typed terms is important because it avoids all complications that arise from ill typed terms. 
+For example, in the context of evaluation, it makes sense to restrict to well-typed terms, 
+because ill-typed terms do not have a normal form.
+Evaluation is only defined for well-typed terms, and thus the restriction to well-typed terms aligns with the goal of the thesis.
+
+In the formalisation, we use an intrinsically typed approach where terms are defined together with their types.
+So \lterms in the formalisation are automatically associated with a type, and we can only construct well-typed terms.
+This approach is also referred to as Church style typing, and was introduced by Alonzo Church in \cite{ALONZOCHURCH1940}.
+
+The formalisation is based on the representation proposed by Thorsten AltenKirch and Bernhard Reus in \cite{THORSTENALTENKIRCH1999}.
+We briefly go over the types and \lterms in the formalisation, and how they are defined. 
+\Cref{def:types:agda} gives the formal definition of types in the \lc. 
+
+\begin{definition}
+  \label{def:types:agda}
+  \textbf{Types} in the \lc:
+  \input{agda-code/calc1.tex}
+\end{definition}
+
+Terms in the \lc are defined together with a context, which can be seen as a list of Types.
+We do not need to name the variables in the context, because we use de Bruijn indices to refer to them.
+\Cref{def:context:agda} gives the formal definition of contexts in the \lc.
+This construction has roughly the same idea as the list data type that we gave as example in \cref{ex:agda-parametrized-data-type}.
+
+\begin{definition}
+  \label{def:context:agda}
+  \textbf{Context} in the \lc:
+  \input{agda-code/calc2.tex}
+\end{definition}
+
+We now define de Bruijn indices that refer to the variables in the context.
+They can be seen as a proof that some type is in the context. If \textsf{A} occurs in the context, 
+then $\textsf{A} \in \Gamma$ denotes that \textsf{A} is in the context $\Gamma$, and the Bruijn index is the proof of this. 
+The de Bruijn index \textsf{Z} refers the most recently introduced variable in the context, which appears on the right most position of the context.
+The de Bruijn index \textsf{S Z} refers to the second most recently introduced variable, and so on.
+
+\begin{definition}
+  \label{def:deBruijn:agda}
+  \textbf{De Bruijn indices} in the \lc:
+  \input{agda-code/calc3.tex}
+\end{definition}
+
+\Cref{def:terms:agda} gives the formal definition of terms in the \lc.
+The \lterms are defined by the context they are in and the type they have. For example,
+$\Gamma \vdash \textsf{A}$ denotes the \lterms that have type \textsf{A} in the context $\Gamma$.
+With the constructors $`$, $\lambdabar$ and $\cdot$, we can construct \lterms.'
+The $`$ constructor is used to construct \lterms that are variables if we can provide a proof that the variable is in the context.
+Abstractions are constructed with the $\lambdabar$ constructor, which takes a context with more than one variable,
+and creates a new \lterm that has one less variable in the context with one. This new \lterm is the abstraction of the original \lterm.
+The $\cdot$ constructor is used to construct applications of \lterms.
+Given an abstraction and an argument for that abstraction, $\cdot$ constructs a new \lterm of the return type of the abstraction.
+Examples of \lterms are given in \cref{ex:terms-agda}.
+Note that we need to give the type of the \lterm, which is of the form $\Gamma \vdash \textsf{A}$,
+and that we provide evidence for this type when constructing the \lterm. 
+
+\begin{definition}
+  \label{def:terms:agda}
+  \textbf{Terms} in the \lc:
+  \input{agda-code/calc4.tex}
+\end{definition}
+
+\begin{example}
+  \label{ex:terms-agda}
+  \lterms in the \lc:
+  \input{agda-code/calcExamples1.tex}
+\end{example}
+
+Now that we have defined the types, contexts and terms in the standard \lc, we define the \lterms in the \lab.
+\Cref{def:terms:lab} gives the formal definition of \lterms in the \lab. Note that \textsf{b} is the suffix of many constructors,
+which is to distinguish between the constructors of the standard \lc and \lab.  
+\begin{definition}
+  \label{def:terms:lab}
+  \textbf{Terms} of \lab in Agda:
+  \input{agda-code/boxCalc1.tex}
+\end{definition} 
+
+
+\subsection{Substitution}
+The next challenge in the formalisation is a correct definition of substitution.
+This definition appeared to be the most complex part of the formalisation, and it caused the most problems with the proofs later in this thesis.
+The definition of substitution is similar to the definition of substitution that is used in the chapter "De Bruijn indices" in the PLFA book \cite{plfa22.08}.
+This definition is based on the definition by Conor McBride \cite{BENTON2012}, which gives a similar definition of substitution in Rocq.
+In \cref{def:substitution:lab}, we only give the definition of substitution in Agda of \lterms in \lab, since the definition of substitution in \lc is exactly the same as \cite{plfa22.08}.
+We first define parallel substitution, which is the substitution of a list of \lterms by another list of \lterms.
+Then we define single substitution, which might be more familiar and is the substitution of a single \lterm by another \lterm.
+Single substitution of the \lterm that occurs most recently in the context of $M$ by \lterm $N$ is denoted by $M [ N ]b$ in the formalisation of \lab.
+
+
+\begin{definition}
+  \label{def:substitution:lab}
+  \textbf{Substitution in Agda} of \lab:
+  \input{agda-code/boxCalc2.tex}
+\end{definition}
+
+We give some examples of this definition of substitution in \lab in \cref{ex:substitution:lab}.
+In the example, we have that $\textsf{t}_1 \ [ \textsf{ t}_2 \ ]\textsf{b} \equiv \textsf{ t}_3$
+% which means that substituting \textsf{t₂} for the most recent variable in \textsf{t₁} results in \textsf{t₃}.
+
+\begin{example}
+  \label{ex:substitution:lab}
+  Substitution in \lab:
+  \input{agda-code/boxExamples1.tex}
+\end{example}
+
+\subsection{Weakening and Renaming}
+Weakening and renaming becomes something to take into consideration in the formalisation. Two \lterms that are the same except for the contexts
+are not exactly the same. An example to demonstrate this is the formal definition of \raiseembn in Agda,
+where the use of \textsf{renameb} is required. Recall that \raiseembn was defined as follows:
+\begin{flalign*}
+  \hspace{20pt} \raiseemb{M} := \lamb{z}{\boxe{z}M} &&
+\end{flalign*}
+The term $M$ outside the function (in $\raiseemb{M}$) has a different context than the term $M$ inside the function of \raiseembn ($\lamb{z}{\boxe{z}M}$).
+We attempt to give a typing derivation in \cref{fig:modal-implication}. We assume that term $M$ has type \textsf{B'} which can be derived from $\Gamma$.
+However, we are stuck in the derivation since we do not have rules to discard assumptions. 
+We see that we need to proof $\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{M : B'}$ instead of $\judgement{\Gamma}{M : B'}$.
+
+\begin{figure}[H]
+  \small
+  \begin{prooftree}
+    \def\extraVskip{5pt}
+    
+        \AxiomC{\phantom{A}}
+        \RightLabel{Id$_\square$}
+        \UnaryInfC{$\judgement{\Gamma , z : \boxt{\boxt{B} \fa B'}}{\boxe{z} : \boxt{B} \fa B'}$}
+      
+        \AxiomC{\vdots}
+        \noLine
+        \UnaryInfC{$\judgement{\Gamma , z : \boxt{\boxt{B} \fa B'}}{M : B'}$}
+      \RightLabel{\impliese}
+      \BinaryInfC{$\judgement{\Gamma , z : \boxt{\boxt{B} \fa B'}}{\boxe{z}M :B'}$}
+    \RightLabel{\impliesi}
+    \UnaryInfC{$\judgement{\Gamma}{\lamb{z}{\boxe{z}M} : \boxt{(\boxt{B} \fa B')} \fa B'}$} % Conclusion
+  \end{prooftree}
+  \caption{The attempt of the typing derivation of $\lamb{z}{\boxe{z}M}$}
+  \label{fig:modal-implication}
+\end{figure}
+
+However, it makes sense that $\judgement{\Gamma}{M : B'} \mbox{ implies } \judgement{\Gamma , z : \boxt{(\boxt{B} \fa \boxt{B'})}}{M : \boxt{B'}}$.
+We only add an extra assumption that we do not use, so we need a function that can handle this. 
+This is where \textsf{renameb} comes in.
+The function \textsf{renameb} "renames" the de Bruijn indices in the \lterms with a certain function and changes the context accordingly. 
+In our case, we need to rename the indices with \textsf{Sb} (\textsf{S} for \lab).
+
+Let us show how this works in the formalisation.
+We have a \lterm $M$ that has type $B'$ in context $\Gamma$, which is denoted by $M : \judgement{\Gamma}{B'}$ in the formalisation.
+Therefore, we use \textsf{renameb} in such a way that it returns a \lterm of the type $\judgement{\Gamma \ ,\textsf{b} \ \boxt{(\boxt{B \fa B'})}}{\boxt{B'}}$.
+We achieve this by renaming with the function \textsf{Sb} as shown below. The resulting type is $\judgement{\Gamma \ ,\textsf{b} \ \boxt{(\boxt{B} \fa \boxt{B'})}}{\boxt{B'}}$
+
+\[
+  \textsf{rename (Sb } \{\square B = \boxt{(\boxt{B} \fa \boxt{B'})}\}) \ M
+\]
+
+Here, we needed to give the implicit argument since \textsf{Sb} needs to know what to the resulting context should be.
+Now, we incorporate this into the definition of \raiseembn. 
+Note that Agda can automatically infer the implicit arguments of \textsf{Sb} in the definition of \textsf{raise}.
+
+\begin{definition}
+  \label{def:raise:agda}
+  \textbf{\textsf{raise}} in Agda
+  \input{agda-code/embedCBVIntoCBB1.tex}
+\end{definition}
+
+
+\subsection{Helper Lemmas}
 \begin{enumerate}
-  \item De Bruijn indices
-  \item Restrictie tot well-typed terms
-  \item Weakening en renaming worden nu expliciet
-  \item Definitie van substitutie (single and parallel stubstitution)
-  \item Substitutie lemma's en inductie
+  \item pres-subst 
+  \item pres-simultaneous-subst
+  \item pres-rename
+  \item pres-exts
+  \item rename-comp
+  \item pres-rename-red
 \end{enumerate}
 
-Code fragmenten:
-Hoe ziet je data type van lambda-termen eruit
 
-Belangrijk voor code-fragmenten:
-de code moet eenvoudig leesbaar zijn
-ze moeten wat toevoegen aan het verhaal
-syntax highlighting
+% Voor elk punt, 
+% Wat doe je?
+% Waarom doe je dat?
+% Vergelijken met alternatieven
+
+% \begin{enumerate}
+%   \item De Bruijn indices
+%   \item Restrictie tot well-typed terms
+%   \item Weakening en renaming worden nu expliciet
+%   \item Definitie van substitutie (single and parallel stubstitution)
+%   \item Substitutie lemma's en inductie
+% \end{enumerate}
+
+% Code fragmenten:
+% Hoe ziet je data type van lambda-termen eruit
+
+% Belangrijk voor code-fragmenten:
+% de code moet eenvoudig leesbaar zijn
+% ze moeten wat toevoegen aan het verhaal
+% syntax highlighting
