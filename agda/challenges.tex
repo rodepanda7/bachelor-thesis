@@ -1,4 +1,4 @@
-\section{Challenges in Formalisation}
+\section{Challenges of the Formalisation}
 
 \subsection{De Bruijn Indices}
 De Bruijn indeces, introduced by Nico G. de Bruijn, are a method to eliminate the need for variable names in the \lc \cite{DEBRUIJN1972381}.
@@ -206,62 +206,6 @@ Note that Agda can automatically infer the implicit arguments of \textsf{Sb} in 
   \input{agda-code/embedCBVIntoCBB1.tex}
 \end{definition}
 
-
-\subsection{Helper Lemmas}
-This subsection goes over some helper lemmas needed to prove the main reduction properties of \lab. 
-The first lemma we discuss is the lemma \textsf{pres-subst}, which states that the order of embedding and substitution does not matter.
-So substitution is preserved and reflected under embedding. 
-We prove this lemma by using another lemma, \textsf{pres-simultaneous-subst}, which states that simultaneous substitution is preserved and reflected under embedding.
-This can be proven by induction on the structure of the \lterm in which substitution is done. However, in \cref{def:substitution:lab}, we defined substitution in terms of \textsf{extsb},
-which is defined in terms of \textsf{renameb} and \textsf{extb}. 
-Therefore, we also make the following helper lemmas: \textsf{pres-ext}, \textsf{pres-rename} and \textsf{pres-exts}.
-
-We only show the lemmas \textsf{pres-subst} and \textsf{pres-simultaneous-subst} for Girard's embedding, since the idea for Gödel's translation is the same.
-\Cref{lem:pres-subst} shows proof of the \textsf{pres-subst} lemma, and \cref{lem:pres-simultaneous-subst} shows the proof of the \textsf{pres-simultaneous-subst} lemma.
-Lemma \textsf{pres-subst-func} is a helper lemma in \cref{lem:pres-subst} that proofs assumption $h$ in \cref{lem:pres-simultaneous-subst}.
-This assumption shows how functions fb' and f' are related to each other, which is needed to prove \textsf{pres-simultaneous-subst}.
-
-\begin{lemma}
-  \label{lem:pres-subst}
-  \textbf{Preservation of single substitution}:
-  \small
-  \input{agda-code/nameProofs1.tex}
-\end{lemma}
-
-\begin{lemma}
-  \label{lem:pres-simultaneous-subst}
-  \textbf{Preservation of simultaneous substitution}:
-  \small
-  \input{agda-code/nameProofs2.tex}
-\end{lemma}
-
-Some other interesting helper lemmas are the congruence, compose and commute lemmas, which were needed in the poofs of Gödel's embedding.
-This refined embedding makes use of the abbrevation \raiseembn, which is formally defined in \cref{def:raise:agda} with the use of \textsf{renameb}.
-This use of \textsf{renameb} makes the proofs a lot more complex and requires the need for these helper lemmas. 
-We only give congruence, compose and commute helper lemma's for simultaneous substitution because these lemmas are similar for \textsf{extsb}, \textsf{renameb} and \textsf{extb}.
-\Cref{lem:subst:commute} uses helper lemmas \textsf{subst-renameb-comp} and substb-rename-commute, of which \textsf{subst-renameb-comp} is given in \cref{lemm:subst:comp}.
-The lemma \textsf{substb-cong} is used in \cref{lem:subst:commute} and given in \cref{lem:cong:subst}.
-
-\begin{lemma}
-  \label{lem:subst:commute}
-  \textbf{Commutativity} of renaming followed by substitution under an extended context and substitution followed by renaming:
-  \small
-  \input{agda-code/valueProofs1.tex}
-\end{lemma}
-
-\begin{lemma}
-  \label{lemm:subst:comp}
-  \textbf{Compose} of renaming and substitution:
-  \small
-  \input{agda-code/valueProofs2.tex}
-\end{lemma}
-
-\begin{lemma}
-  \label{lem:cong:subst}
-  \textbf{Congruence} of substitution:
-  \small
-  \input{agda-code/valueProofs3.tex}
-\end{lemma}
 
 %CONG
 % extb-cong

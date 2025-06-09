@@ -193,7 +193,7 @@ We can prove that substitution preserves well-typedness in \lab.
   \]
 \end{proposition}
 
-\begin{proof}
+\begin{proofthm}
   We prove by structural induction on the term $M$ that this substitution preserves well-typedness.
   \begin{enumerate}
     \item%1 
@@ -245,8 +245,8 @@ We can prove that substitution preserves well-typedness in \lab.
     We also have that abstraction of a well-typed term is well-typed, so we have that \\
     $\lamb{z}{(M\subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q})}$ is well-typed. $\square$
   \end{enumerate}
-  \renewcommand{\qedsymbol}{}
-\end{proof}
+  % \renewcommand{\qedsymbol}{}
+\end{proofthm}
 
 With this definition of substitution, we define the reduction rule for \lab in \cref{def:beta}.
 In \lab, the arguments of abstractions are always boxed, so we can only apply abstractions to boxed terms, 

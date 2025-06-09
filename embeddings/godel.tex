@@ -106,3 +106,39 @@ We give a small example to clarify everything. Consider the \lterm $\bi x$. It h
                     &= \godel{x}
   \end{align*}
 \end{example}
+
+In the following propositions, we give the properties of Gödel's translation.
+We proof \cref{prop:godel-preservation-red} and \cref{prop:godel-preservation-red2s} in the Agda formalization.
+Due to time limitations, we did not prove \cref{prop:girard-preservation-eval} in the Agda formalization.
+However, a less formal proof of this proposition is given by José Espírito Santo, Luís Pinto, and Tarmo Uustalu in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+\Cref{lem:godel-pres-subst} is needed to prove \cref{prop:girard-preservation-red} and \cref{prop:girard-preservation-eval}.
+
+\begin{lemma}
+  \label{lem:godel-pres-subst}
+  \textbf{Preservation of substitution} under Gödel's translation.
+  For all \lterms $M$, values $V$, $W$, and variables $x$, it holds that
+  \[
+    \godel{M}\subst{\godelv{V}}{\boxe{x}} \equiv \godel{(M \subst{V}{x})} \ and \ \godelv{M}\subst{\godelv{W}}{\boxe{x}} \equiv \godelv{(W \subst{V}{x})}
+  \]
+\end{lemma}
+
+\begin{proposition}
+  \label{prop:godel-preservation-red}
+  \textbf{Preservation of reduction} under Gödel's translation.
+  \center
+  For all \lterms $M$ and $N$, if $M \rednb N$ in \lan, then $\girard{M} \redbboxt \girard{N}$.
+\end{proposition}
+
+\begin{proposition}
+  \label{prop:godel-preservation-red2s}
+  \textbf{Preservation of reduction} under Gödel's translation with $\redbboxts$ reduction rule.
+  \center
+  For all \lterms $M$ and $N$, if $M \rednb N$ in \lan, then $\girard{M} \redbboxts \girard{N}$.
+\end{proposition}
+
+\begin{proposition}
+  \label{prop:girard-preservation-eval}
+  \textbf{Preservation of evaluation} under Gödel's translation.
+  \center
+  For all \lterms $M$ and values $V$, if $M \redn V$ in \lan, then $\girard{M} \redbn \girard{V}$.
+\end{proposition}

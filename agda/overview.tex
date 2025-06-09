@@ -1,3 +1,106 @@
 \section{Overview of the Formalisation}
 
-wat is er en hoe verhoudt het zich tot de scriptie qua resultaten
+This section provides an overview of the propositions we managed to proof in the formalisation of \lab in Agda.
+We will not go into detail about the proofs, but we will briefly explain the propositions.
+First, some helper lemmas are given that are needed to prove the main propositions.
+Then, we give the propositions regarding Girard's translation and Gödel's translation.
+
+\subsection{Helper Lemmas}
+\label{sec:helper-lemmas}
+This subsection goes over some helper lemmas needed to prove the main reduction properties of \lab. 
+The first lemma we discuss is the lemma \textsf{pres-subst}, which states that the order of embedding and substitution does not matter.
+So substitution is preserved and reflected under embedding. 
+We prove this lemma by using another lemma, \textsf{pres-simultaneous-subst}, which states that simultaneous substitution is preserved and reflected under embedding.
+This can be proven by induction on the structure of the \lterm in which substitution is done. However, in \cref{def:substitution:lab}, we defined substitution in terms of \textsf{extsb},
+which is defined in terms of \textsf{renameb} and \textsf{extb}. 
+Therefore, we also make the following helper lemmas: \textsf{pres-ext}, \textsf{pres-rename} and \textsf{pres-exts}.
+
+We only show the lemmas \textsf{pres-subst} and \textsf{pres-simultaneous-subst} for Girard's embedding, since the idea for Gödel's translation is the same.
+\Cref{lem:pres-subst} shows proof of the \textsf{pres-subst} lemma, and \cref{lem:pres-simultaneous-subst} shows the proof of the \textsf{pres-simultaneous-subst} lemma.
+Lemma \textsf{pres-subst-func} is a helper lemma in \cref{lem:pres-subst} that proofs assumption $h$ in \cref{lem:pres-simultaneous-subst}.
+This assumption shows how functions fb' and f' are related to each other, which is needed to prove \textsf{pres-simultaneous-subst}.
+
+\begin{lemma}
+  \label{lem:pres-subst}
+  \textbf{Preservation of single substitution}:
+  \small
+  \input{agda-code/nameProofs1.tex}
+\end{lemma}
+
+\begin{lemma}
+  \label{lem:pres-simultaneous-subst}
+  \textbf{Preservation of simultaneous substitution}:
+  \small
+  \input{agda-code/nameProofs2.tex}
+\end{lemma}
+
+Some other interesting helper lemmas are the congruence, compose and commute lemmas, which were needed in the poofs of Gödel's embedding.
+This refined embedding makes use of the abbrevation \raiseembn, which is formally defined in \cref{def:raise:agda} with the use of \textsf{renameb}.
+This use of \textsf{renameb} makes the proofs a lot more complex and requires the need for these helper lemmas. 
+We only give congruence, compose and commute helper lemma's for simultaneous substitution because these lemmas are similar for \textsf{extsb}, \textsf{renameb} and \textsf{extb}.
+\Cref{lem:subst:commute} uses helper lemmas \textsf{subst-renameb-comp} and substb-rename-commute, of which \textsf{subst-renameb-comp} is given in \cref{lemm:subst:comp}.
+The lemma \textsf{substb-cong} is used in \cref{lem:subst:commute} and given in \cref{lem:cong:subst}.
+
+\begin{lemma}
+  \label{lem:subst:commute}
+  \textbf{Commutativity} of renaming followed by substitution under an extended context and substitution followed by renaming:
+  \small
+  \input{agda-code/valueProofs1.tex}
+\end{lemma}
+
+\begin{lemma}
+  \label{lemm:subst:comp}
+  \textbf{Compose} of renaming and substitution:
+  \small
+  \input{agda-code/valueProofs2.tex}
+\end{lemma}
+
+\begin{lemma}
+  \label{lem:cong:subst}
+  \textbf{Congruence} of substitution:
+  \small
+  \input{agda-code/valueProofs3.tex}
+\end{lemma}
+
+\subsection{Proofs of the Main Propositions}
+Here we give the proofs of \cref{prop:girard-preservation-red} and \cref{prop:girard-preservation-eval}.
+These proofs are not very difficult and depend on the preservation of substitution, which is given in \cref{lem:girard-pres-subst}.
+This proof was a lot more complicated. 
+
+\begin{proofthm}
+  \label{proof:girard-preservation-red}
+  \textbf{Preservation of reduction} under Girard's translation.
+  \small
+  \input{agda-code/nameProofs3.tex}
+  \hfill $\qed$
+\end{proofthm}
+
+\begin{proofthm}
+  \label{proof:girard-preservation-eval}
+  \textbf{Preservation of evaluation} under Girard's translation.
+  \small
+  \input{agda-code/nameProofs4.tex}
+  \hfill $\qed$
+\end{proofthm}
+
+Here, we give the proofs of \cref{prop:godel-preservation-red} and \cref{prop:godel-preservation-red2s}.
+These proofs are more tricky than the proofs regarding Girard's translation because of the use of \textsf{renameb} inside \raiseembn.
+Some helper lemmas that we needed are discussed in the \cref{sec:helper-lemmas}.
+
+\begin{proofthm}
+  \label{proof:gogel-preservation-2step-red}
+  \textbf{Preservation of reduction} under Gödel's translation with $\redbboxts$ reduction rule.
+  \small
+  \input{agda-code/valueProofs4.tex}
+  \hfill $\qed$
+\end{proofthm}
+
+\begin{proofthm}
+  \label{proof:godel-preservation-red}
+  \textbf{Preservation of reduction} under Gödel's translation with $\redbboxt$ reduction rule.
+  \small
+  \input{agda-code/valueProofs5.tex}
+  \hfill $\qed$
+\end{proofthm}
+
+% wat is er en hoe verhoudt het zich tot de scriptie qua resultaten
