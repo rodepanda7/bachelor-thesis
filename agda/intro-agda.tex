@@ -3,7 +3,7 @@
 
 This section, aims to provide a brief introduction to Agda, a dependently typed functional programming language and proof assistant. 
 Agda uses strong typing and dependent types, and thus it can be used to write proofs constructively, which can be run as programs.
-In order to understand the formalisation of \lab in Agda, we discuss the following basic concepts of Agda: 
+In order to understand the formalisation of \lab in Agda, we discuss the following basic concepts: 
 data types, parameterised data types, functions, dependent data types, implicit arguments, and hole-based programming.
 
 \subsection{Data Types and Functions}
@@ -22,21 +22,23 @@ The keyword \textsf{Set} in the type signature indicates the type of type. This 
 
 \begin{example}
   \label{ex:agda-data-type}
-  \textbf{Data type} in Agda:
+  \textbf{Natural numbers as a data type in Agda:}
   \input{agda-code/data-type-ex.tex}
+  This example shows how the natural numbers can be defined in Agda by using an inductive data type with the constructors \textsf{zero} and \textsf{suc}.
 \end{example}
 
 
 Data types in Agda can also have parameters. 
 This makes them more flexible and allows for the creation of more complex data types.
-\Cref{ex:agda-parametrized-data-type} shows an example of a parameterised data type, which is a list that can hold elements of any type \(A\).
-We could make a list of natural numbers, which will have the type \textsf{List ℕ}, or a list of Booleans, which will have the type \textsf{List Bool}.
+\Cref{ex:agda-parametrized-data-type} shows such a data type, which is a list that can hold elements of any type \(A\).
+We can make a list of natural numbers, which will have the type \textsf{List ℕ}, or a list of Booleans, which will have the type \textsf{List Bool}.
 Note that the parameter $A$ occurs before the colon, indicating that it is a type parameter.
 
 \begin{example}
   \label{ex:agda-parametrized-data-type}
-  \textbf{Parameterised data type} in Agda:
+  \textbf{List as a parameterised data type in Agda:}:
   \input{agda-code/data-type-par-ex.tex}
+  This example shows how a list can be defined in Agda by using a parameterised data type with the constructors \textsf{[]} and \textsf{\_::\_}.
 \end{example}
 
 
@@ -47,58 +49,60 @@ where functions can be recursive. \Cref{ex:agda-function} shows such a function,
 
 Functions can also be higher order, taking other functions as arguments or returning functions as results.
 Function application of function $F$ to argument $x$ is written as $F \ x$ in Agda.
-Infix functions are denoted with underscores, such as $\_::\_$ in \cref{ex:agda-parametrized-data-type}, which is the constructor for the list data type.
+Infix functions are denoted with underscores, such as $\_::\_$ in \cref{ex:agda-parametrized-data-type}, where it is the constructor for the list data type.
 The first argument can be put on the left side of the constructor and the second argument on the right side, such as in $x :: xs$.
 
 \begin{example}
   \label{ex:agda-function}
-  \textbf{Simple Recursive Function} in Agda:
+  \textbf{Function that doubles a natural number in Agda:}
   \input{agda-code/function-double-ex.tex}
+  This example shows how a function can be defined in Agda by using pattern matching on the natural numbers.
 \end{example}
 
-\Cref{ex:agda-dependent-data-type} shows an example of a dependent data type, which is a vector that has a length that is encoded in its type.
-In this example, we see that the type of the vector depends on a natural number, which is different for both constructors.
+\Cref{ex:agda-dependent-data-type} presents a dependent data type, which is a vector that has a length that is encoded in its type.
+In this example, we see that the type of a vector depends on a natural number, which is different for both constructors.
 The dependent type occurs after the colon, which is $\mathbb{N}$ in this case. 
-Dependent types differ from parameterised types in that dependent types can differ for each constructor, while parameterised types have a single type parameter that is shared across all constructors.
+Dependent types differ from parameterised types in that they can vary between constructors, whereas parameterised types use a single type parameter shared by all constructors.
 
 The constructor $\_::\_$ in \cref{ex:agda-dependent-data-type} is also an example of a dependent function.
 That is, the return type of $\_::\_$ depends on the value of the implicit argument $n$. The argument $n$ is implicit, denoted by the curly braces around it.
 
 
-We see that $[]$ constructs a vector of length \textsf{zero}, resulting in type $\mbox{\textsf{Vector} } A \mbox{ \textsf{zero}}$, 
+We see that $[]$ constructs a vector of length zero, resulting in type $\mbox{\textsf{Vector} } A \mbox{ \textsf{zero}}$, 
 while the constructor $\_::\_$ constructs a vector of length $n+1$, resulting in type $\mbox{\textsf{Vector }} A \mbox{ \textsf{(suc} } n)$.
 Note that the implicit argument $n$ can be inferred from the input type $\mbox{\textsf{Vector} } A \ n$.
 
 \begin{example}
   \label{ex:agda-dependent-data-type}
-  \textbf{Dependent data type} in Agda:
+  \textbf{Vector as a dependent data type in Agda:}
   \input{agda-code/data-type-dep-ex.tex}
+  This example shows how a vector can be defined in Agda by using a dependent data type with the constructors \textsf{[]} and \textsf{\_::\_}.
 \end{example}
 
 \subsection{Hole-Based Programming}
 Agda is made to be used with the Emacs text editor, and the combination of Agda and Emacs provides a way to construct definitions and proofs interactively, which is called hole-based programming.
-Terms can be constructed step by step, using question marks as placeholders, which will turn into holes, indicating incomplete definitions.
-It is best to show this with an example. Note that we could have used more holes in \cref{ex:agda-hole-based-programming},
-but we feel like that this example is sufficient to understand the concept of hole-based programming.
+Terms can be constructed step by step, using question marks as placeholders. These turn into holes, indicating incomplete definitions.
+It is best to show this with an example. Note that we could use more holes in \cref{ex:agda-hole-based-programming},
+but we feel like this example is sufficient for understanding the concept of hole-based programming.
 
 \begin{example}
   \label{ex:agda-hole-based-programming}
-  \textbf{Hole-based programming} in Agda: \\
+  \textbf{Hole-based programming in Agda:} \\
   This example defines the function \textsf{plus} that adds two natural numbers.
   It defines the function with a question mark, which we can fill in later. The type signature is already given.
   \input{agda-code/hbp-plus-1.tex}
-  Pressing the keys C-c C-l (while pressing the control key, typing c and then typing l) will load the file and will transform the question mark into a hole.
+  Pressing the keys \emacs{C-c C-l} (while pressing the control key, typing c and then typing l) loads the file and transforms the question mark into a hole.
   \input{agda-code/hbp-plus-2.tex}
-  We can now let Agda give the arguments of the plus function by pressing C-c C-c. You will get the following output:
+  We can now let Agda give the arguments of the plus function by pressing \emacs{C-c C-c}. The following prompt is shown:
   \begin{verbatim}
     pattern variables to case (empty for split on result):
   \end{verbatim}
   Since we do not have any arguments yet, we can press enter.
   \input{agda-code/hbp-plus-3.tex}
-  Now, we would like to do a case distinction on the first argument. We let Agda do this by pressing C-c C-c again.
-  The same prompt will be shown as before, but now we type the first argument, which is $x$ in this case.
+  Now, we would like to do a case distinction on the first argument. We let Agda do this by pressing \emacs{C-c C-c} again.
+  The same prompt will be shown as before, but now we type the first argument $x$.
   \input{agda-code/hbp-plus-4.tex}
-  Inside the first hole, we press C-c C-, . This gives us information about the type of the hole and all the variables in scope,
+  Inside the first hole, we press \emacs{C-c C-,}. This gives us information about the type of the hole and all the variables in scope,
   which are the variables that we can use to fill in the hole. We get something like the following output:
   \begin{verbatim}
     Goal: ℕ
@@ -106,24 +110,25 @@ but we feel like that this example is sufficient to understand the concept of ho
     x₁ : ℕ
   \end{verbatim}
   This tells us we need to produce a natural number and that we can use the variable $x_1$ inside this hole.
-  Since we have that $0 + x_1 = x_1$, we fill in the hole with $x_1$, which can be done by typing $x_1$ inside the hole and pressing C-c C-space.
-  The hole will be filled in and Agda will check if the type of the hole is correct. Pressing C-c C-f will move the cursor forward to the next hole.
+  Since we have that $0 + x_1 = x_1$, we fill in the hole with $x_1$, which can be done by typing $x_1$ inside the hole and pressing \emacs{C-c C-space}.
+  The hole will be filled in and Agda will check if the type of the hole is correct. Pressing \emacs{C-c C-f} will move the cursor forward to the next hole.
   \input{agda-code/hbp-plus-5.tex}
-  Typing C-c C-, in this second hole will give us the type of the next hole. The output will be similar to the following:
+  Typing \emacs{C-c C-,} in this second hole gives us the type of the next hole. The output will be similar to the following:
   \begin{verbatim}
     Goal: ℕ
     _________________________
     x₁ : ℕ
     x : ℕ
   \end{verbatim}
-  The goal is to produce a natural number. It is the result of an addition. Since one of the arguments is $\textsf{suc } x$, we know the result is not zero.
-  The result should a natural number that uses the \textsf{suc} constructor. We fill in the hole with \textsf{suc ?} and type C-c C-space.
-  We closed a hole and made a new hole, which is the argument of the \textsf{suc} constructor. We should now have the following code:
+  The goal is to produce a natural number, which is the result of an addition. Since one of the arguments is $\textsf{suc } x$, we know the result is not zero.
+  The result should a natural number that uses the \textsf{suc} constructor. We fill in the hole with \textsf{suc ?} and type \emacs{C-c C-space}.
+  We closed a hole and made a new hole, which is the argument of the \textsf{suc} constructor. We now have the following code:
   \input{agda-code/hbp-plus-6.tex}
-  We can fill in the last hole with $\textsf{plus } x \ x_1$ and press C-c C-space to close the hole.
-  The final code will look like this:
+  We can fill in the last hole with $\textsf{plus } x \ x_1$ and press \emacs{C-c C-space} to close the hole.
+  The final code looks like this:
   \input{agda-code/hbp-plus-7.tex}
 \end{example}
 
-\Cref{ex:agda-hole-based-programming} shows how to use the commands C-c C-l, C-c C-c, C-c C-f, C-c C-, , and C-c C-space to interactively develop a function in Agda.
-However, there many more commands available in Agda to help with hole-based programming (refer to the Agda documentation for more information). 
+\Cref{ex:agda-hole-based-programming} shows how to use the commands \emacs{C-c C-l}, \emacs{C-c C-c}, \emacs{C-c C-f}, \emacs{C-c C-space}, and \emacs{C-c C-,} to interactively develop a function in Agda.
+However, there many more commands available in Agda to help with hole-based programming.
+For a complete list of commands, we refer to the Agda documentation about Emacs Mode \cite{agda-emacs-mode}.
