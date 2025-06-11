@@ -123,19 +123,20 @@ and that we provide evidence for this type when constructing the \lterm.
 \begin{example}
   \label{ex:terms-agda}
   \textbf{\boldmath${\lambda}$-terms in Agda:}
-  \input{agda-code/calcExamples1.tex}
   In this example, we show how to construct \lterms in Agda. 
-  We also show in comments to what \lterms they correspond if we write them in the traditional style.
+  We also show in comments to what \lterms they correspond if they are written in the traditional style.
+  \input{agda-code/calcExamples1.tex}
 \end{example}
 
-Now that we have defined the types, contexts and terms in the standard \lc, we define the \lterms in the \lab.
+Now that we have defined types, contexts and terms in the standard \lc, we define the \lterms in the \lab.
 \Cref{def:terms:lab} gives the formal definition of \lterms in the \lab. Note that \textsf{b} is the suffix of many constructors,
 which is to distinguish between the constructors of the standard \lc and \lab.  
 \begin{definition}
   \label{def:terms:lab}
-  \textbf{\boldmath${\lambda}$-terms in Agda}.
-  In this example, we show how to construct \lterms in Agda. 
-  We also show in comments to what \lterms they correspond if we write them in the traditional style.
+  \textbf{\boldmath${\lambda_b}$ in Agda.}
+  This definition gives the data types for types, contexts and $\lambda$-terms of $\lambda_b$ in Agda.
+  \textsf{BOX A} is a convenient abbreviation for \textsf{Box ($\square$ A)}.
+  The definition of the \lterms is based on the typing rules of \lab, which are given in \cref{def:typing-rules}.
   \input{agda-code/boxCalc1.tex}
 \end{definition} 
 
@@ -143,32 +144,72 @@ which is to distinguish between the constructors of the standard \lc and \lab.
 \subsection{Substitution}
 The next challenge in the formalisation is a correct definition of substitution.
 This definition appeared to be the most complex part of the formalisation, and it caused the most problems with the proofs later in this thesis.
-The definition of substitution is similar to the definition of substitution that is used in the chapter "De Bruijn indices" in the PLFA book \cite{plfa22.08}.
-This definition is based on the definition by Conor McBride \cite{BENTON2012}, which gives a similar definition of substitution in Rocq.
-In \cref{def:substitution:lab}, we only give the definition of substitution in Agda of \lterms in \lab, since the definition of substitution in \lc is exactly the same as \cite{plfa22.08}.
-We first define parallel substitution, which is the substitution of a list of \lterms by another list of \lterms.
-Then we define single substitution, which might be more familiar and is the substitution of a single \lterm by another \lterm.
-Single substitution of the \lterm that occurs most recently in the context of $M$ by \lterm $N$ is denoted by $M [ N ]b$ in the formalisation of \lab.
+The definition of substitution is similar to the definition that is used in the chapter "De Bruijn indices" in the PLFA book \cite{plfa22.08}.
+It is based on the definition by Conor McBride \cite{BENTON2012}, which gives a similar definition of substitution in Rocq.
 
+We only give the definition of substitution in Agda of \lterms in \lab, since the definition of substitution in the standard \lc is exactly the same as the definition in \cite{plfa22.08}.
+\Cref{def:substitution:lab} gives the definition of parallel substitution, which is the substitution of a list of variables by a list of \lterms.
+Then we define single substitution in \cref{def:single:substitution:lab}, which might be more familiar and is the substitution of a single \lterm by another \lterm.
+
+In general, substitution is about replacing variables by \lterms. With  parallel substitution, a multiple variables are replaced by other \lterms. 
+So, substitution can be seen as a function, taking a map from variables in one context to \lterms in another context
+and a \lterm as arguments, and returning a new \lterm with the variables replaced by the corresponding \lterms.
+
+For the definition of parallel substitution, we need to have an extension lemma, which is needed when we encounter an abstraction.
+An abstraction adds a new variable to the context, and we need a way to use the substitution function on the new context.
+This is where the extension lemma \textsf{extsb} comes in.
+It is a function from a map from variables in one context to \lterms in another context,
+to a map from variables in the first context extended with a type to \lterms in the second context extended with a type.
+The type that is used for extending the context is the input type of the $\lambda$ abstraction.
+
+The extension lemma is defined in terms of \textsf{renameb}, which is used to construct a \lterm with an extended context.
+The \textsf{renameb} function takes a function from variables in one context to variables in another context,
+and returns a function from \lterms in the first context to \lterms in the second context.
+For example, \textsf{renameb Sb $M$} renames $M$ by applying the function \textsf{Sb} to the variables in $M$.
+An example of this is given in \cref{ex:rename:agda}.
+
+The rename lemma is defined in terms of \textsf{extb}, which works similarly to \textsf{extsb}, but is only used for extending the context.
+The function \textsf{extb} takes a map from variables in one contex to variables in another context and returns a map from variables in the first context extended with a type to variables in the second context extended with a type.
+Again, this type will be the the input type of the $\lambda$ abstraction in \textsf{renameb}.
+Thus, the definition of simultaneous substitution is based on the definitions of \textsf{extsb}, \textsf{renameb} and \textsf{extb}.
+
+\begin{example}
+  \label{ex:rename:agda}
+  \textbf{Renaming in Agda.}
+  Renaming $\textsf{t}_1$ with \textsf{Sb} results in $\textsf{t}_2$.
+  \input{agda-code/boxExamples2.tex}
+\end{example}
 
 \begin{definition}
   \label{def:substitution:lab}
-  \textbf{Substitution in Agda} of \lab:
+  \textbf{Parallel substitution in Agda of \boldmath${\lambda_b}$.} 
+  We define Parallel substitution in terms of \textsf{extsb}, \textsf{renameb} and \textsf{extb}. 
   \input{agda-code/boxCalc2.tex}
 \end{definition}
 
-We give some examples of this definition of substitution in \lab in \cref{ex:substitution:lab}.
-In the example, we have that $\textsf{t}_1 \ [ \textsf{ t}_2 \ ]\textsf{b} \equiv \textsf{ t}_3$
-% which means that substituting \textsf{t₂} for the most recent variable in \textsf{t₁} results in \textsf{t₃}.
+Single substitution can be defined by using parallel substitution. 
+The map \textsf{fb} in \cref{def:single:substitution:lab} is a function that takes a variable in the context and returns a \lterm.
+It only returns the \lterm that is substituted if the variable is the most recent variable in the context.
+Single substitution of the \lterm that occurs most recently in the context of $M$ by \lterm $N$ is denoted by $M \textsf{ [ } N \textsf{ ]b }$ in the formalisation of \lab.
+
+\begin{definition}
+  \label{def:single:substitution:lab}
+  \textbf{Single substitution in Agda of \boldmath${\lambda_b}$.}
+  Single substitution is defined in terms of parallel substitution, using the function \textsf{fb} that replaces the most recent variable in the context with the \lterm that is substituted.
+  \input{agda-code/boxCalc3.tex}
+\end{definition}
+
+\Cref{ex:substitution:lab} gives a demonstration of single substitution in \lab.
 
 \begin{example}
   \label{ex:substitution:lab}
-  Substitution in \lab:
+  \textbf{Single substitution in Agda of \boldmath${\lambda_b}$.}
+  This example shows that $\textsf{t}_1 \ [ \textsf{ t}_2 \ ]\textsf{b} \equiv \textsf{ t}_3$
   \input{agda-code/boxExamples1.tex}
 \end{example}
 
 \subsection{Weakening and Renaming}
-Weakening and renaming becomes something to take into consideration in the formalisation. Two \lterms that are the same except for the contexts
+Weakening and renaming becomes something to take into consideration in the formalisation. Two \lterms that are the same except for the context
 are not exactly the same. An example to demonstrate this is the formal definition of \raiseembn in Agda,
 where the use of \textsf{renameb} is required. Recall that \raiseembn was defined as follows:
 \begin{flalign*}
@@ -186,13 +227,13 @@ We see that we need to proof $\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{
     
         \AxiomC{\phantom{A}}
         \RightLabel{Id$_\square$}
-        \UnaryInfC{$\judgement{\Gamma , z : \boxt{\boxt{B} \fa B'}}{\boxe{z} : \boxt{B} \fa B'}$}
+        \UnaryInfC{$\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{\boxe{z} : \boxt{B} \fa B'}$}
       
         \AxiomC{\vdots}
         \noLine
-        \UnaryInfC{$\judgement{\Gamma , z : \boxt{\boxt{B} \fa B'}}{M : B'}$}
+        \UnaryInfC{$\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{M : B'}$}
       \RightLabel{\impliese}
-      \BinaryInfC{$\judgement{\Gamma , z : \boxt{\boxt{B} \fa B'}}{\boxe{z}M :B'}$}
+      \BinaryInfC{$\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{\boxe{z}M :B'}$}
     \RightLabel{\impliesi}
     \UnaryInfC{$\judgement{\Gamma}{\lamb{z}{\boxe{z}M} : \boxt{(\boxt{B} \fa B')} \fa B'}$} % Conclusion
   \end{prooftree}
@@ -200,22 +241,25 @@ We see that we need to proof $\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{
   \label{fig:modal-implication}
 \end{figure}
 
-However, it makes sense that $\judgement{\Gamma}{M : B'} \mbox{ implies } \judgement{\Gamma , z : \boxt{(\boxt{B} \fa \boxt{B'})}}{M : \boxt{B'}}$.
+Though we cannot immediately conclude following below, it does make sense that this is the case.
+\[
+\judgement{\Gamma}{M : B'} \mbox{ implies } \judgement{\Gamma , z : \boxt{(\boxt{B} \fa \boxt{B'})}}{M : \boxt{B'}}
+\]
 We only add an extra assumption that we do not use, so we need a function that can handle this. 
 This is where \textsf{renameb} comes in.
 The function \textsf{renameb} "renames" the de Bruijn indices in the \lterms with a certain function and changes the context accordingly. 
-In our case, we need to rename the indices with \textsf{Sb} (\textsf{S} for \lab).
+In our case, we only need to rename the indices with \textsf{Sb} (\textsf{S} for \lab).
 
 Let us show how this works in the formalisation.
-We have a \lterm $M$ that has type $B'$ in context $\Gamma$, which is denoted by $M : \judgement{\Gamma}{B'}$ in the formalisation.
-Therefore, we use \textsf{renameb} in such a way that it returns a \lterm of the type $\judgement{\Gamma \ ,\textsf{b} \ \boxt{(\boxt{B \fa B'})}}{\boxt{B'}}$.
+Assume that we have a \lterm $M$ that has type $B'$ in context $\Gamma$, which is denoted by $M : \judgement{\Gamma}{B'}$ in the formalisation.
+We use \textsf{renameb} in such a way that it returns a \lterm of the type $\judgement{\Gamma \ ,\textsf{b} \ \boxt{(\boxt{B \fa B'})}}{\boxt{B'}}$.
 We achieve this by renaming with the function \textsf{Sb} as shown below. The resulting type is $\judgement{\Gamma \ ,\textsf{b} \ \boxt{(\boxt{B} \fa \boxt{B'})}}{\boxt{B'}}$
 
 \[
   \textsf{rename (Sb } \{\square B = \boxt{(\boxt{B} \fa \boxt{B'})}\}) \ M
 \]
 
-Here, we needed to give the implicit argument since \textsf{Sb} needs to know what to the resulting context should be.
+Here, we need to give the implicit argument since \textsf{Sb} needs to know what to the resulting context will be.
 Now, we incorporate this into the definition of \raiseembn. 
 Note that Agda can automatically infer the implicit arguments of \textsf{Sb} in the definition of \textsf{raise}.
 

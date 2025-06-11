@@ -1,9 +1,29 @@
 \section{Overview of the Formalisation}
 
-This section provides an overview of the propositions we managed to proof in the formalisation of \lab in Agda.
-We will not go into detail about the proofs, but we will briefly explain the propositions.
-First, some helper lemmas are given that are needed to prove the main propositions.
-Then, we give the propositions regarding Girard's translation and Gödel's translation.
+This section provides an overview of the formalisation in Agda.
+We show how propositions in \cref{sec:name-embedding} and \cref{sec:value-embedding} are formalised in Agda.
+We also give the main helper lemmas that are needed to prove these propositions.
+The formalisation is available on GitHub\footnote{\url{www.thisurlwillbeavailablelater.com}}
+
+
+\subsection{File Structure}
+\label{sec:file-structure}
+The Agda formalisation is structured into a number of files. Here, we go over the file structure.
+The project has the following three main directories: examples, formalisation and proofs.
+The \texttt{examples} directory contains some examples of \lterms, substitution, embeddings and reductions.
+The \texttt{formalisation} directory is the most important directory and contains the formalisation of \lterms, substitution, embeddings and reductions.
+Here, we list all files in this directory and give a short description of their contents:
+\begin{itemize}
+  \item \texttt{boxCalc.agda}: Contains the definition of \lterms in \lab, the definition of substitution and the definition of values in \lab.
+  \item \texttt{boxCalcRed.agda}: Contains all the reduction relations in \lab.
+  \item \texttt{calc.agda}: Contains the definition of \lterms in the standard \lc, the definition of substitution and the definition of values.
+  \item \texttt{embedCBNIntoCBB.agda}: Contains the definition of Girard's embedding.
+  \item \texttt{embedCBVIntoCBB.agda}: Contains the definition of Gödel's embedding.
+  \item \texttt{nameCalcRed.agda}: Contains the reduction relations for \lan.
+  \item \texttt{valueCalcRed.agda}: Contains the reduction relations for \lav.
+\end{itemize}
+
+The \texttt{proofs} directory contains the proofs of the propositions in \cref{sec:name-embedding} and \cref{sec:value-embedding} in the files \texttt{nameProofs.agda} and \texttt{valueProofs.agda} respectively.
 
 \subsection{Helper Lemmas}
 \label{sec:helper-lemmas}
