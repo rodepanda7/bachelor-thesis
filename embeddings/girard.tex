@@ -74,8 +74,18 @@ We give a small example to clarify everything. Consider the \lterm $\bi x$. It h
   \end{eqnarray*}
 \end{example}  
 
-In the following propositions, we give the properties of Girard's translation that will be proven in the Agda formalization.
-\Cref{lem:girard-pres-subst} is needed to prove \cref{prop:girard-preservation-red} and \cref{prop:girard-preservation-eval}.
+We now discuss the properties of Girard's translation.
+Girard's translation preserves the reduction and evaluation relations of \lan.
+Preservation of reduction is the first proposition and is defined by \cref{prop:girard-preservation-red}.
+More specifically, it states that if a \lterm $M$ reduces to $N$ in \lan, then $\girard{M}$ reduces to $\girard{N}$ in \lab.
+The proof of this proposition is rather simple and is given in the chapter about the Agda formalisation, \cref{sec:proofs-main-propositions},
+though it requires a helper lemma, \cref{lem:girard-pres-subst}, which states that Girard's translation preserves and reflects substitution.
+The proof of this helper lemma is rather complex, because of the definition of substitution.
+% We now discuss the properties of Gödel's translation.
+% Just like Girard's translation, Gödel's translation preserves reduction and evaluation.
+% To proof these properties, we again need a helper lemma that is similar to the one used for Girard's translation.
+% The helper lemma, \cref{lem:godel-pres-subst}, states that Gödel's translation preserves and reflects substitution.
+% The lemma is divided into two parts - one concerning substitution within values, and the other dealing with substitution in any \lterm.
 
 \begin{lemma}
   \label{lem:girard-pres-subst}
@@ -90,6 +100,11 @@ In the following propositions, we give the properties of Girard's translation th
   \center
   For all \lterm $M$ and $N$, if $M \rednb N$ in \lan, then $\girard{M} \redbbox \girard{N}$.
 \end{proposition}
+
+The second proposition about Girard's translation is \cref{prop:girard-preservation-eval}.
+It states that if a \lterm $M$ evaluates to \lterm $N$ with $\redn$ in \lan in one step,
+then the translation of $M$ under Girard's embedding also evaluates to the translation of $N$ under Girard's embedding with $\redbn$ in one step.
+From this proposition, it easily follows that if $M$ evaluates to $N$ by call-by-name in \lan, then $\girard{M}$ evaluates by call-by-box to $\girard{N}$ in \lab.
 
 \begin{proposition}
   \label{prop:girard-preservation-eval}

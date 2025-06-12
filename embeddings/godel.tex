@@ -109,38 +109,82 @@ We give a small example to clarify everything. Consider the \lterm $\bi x$. It h
   \end{align*}
 \end{example}
 
-In the following propositions, we give the properties of Gödel's translation.
-We proof \cref{prop:godel-preservation-red} and \cref{prop:godel-preservation-red2s} in the Agda formalization.
-Due to time limitations, we did not prove \cref{prop:girard-preservation-eval} in the Agda formalization.
-However, a less formal proof of this proposition is given by José Espírito Santo, Luís Pinto, and Tarmo Uustalu in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
-\Cref{lem:godel-pres-subst} is needed to prove \cref{prop:girard-preservation-red} and \cref{prop:girard-preservation-eval}.
+We now discuss the properties of Gödel's translation.
+Just like Girard's translation, Gödel's translation preserves reduction and evaluation.
+To proof these properties, we again need a helper lemma that is similar to the one used for Girard's translation.
+The helper lemma, \cref{lem:godel-pres-subst}, states that Gödel's translation preserves and reflects substitution.
+The lemma is divided into two parts - one concerning substitution within values, and the other dealing with substitution in any \lterm.
 
 \begin{lemma}
   \label{lem:godel-pres-subst}
-  \textbf{Preservation of substitution} under Gödel's translation.
+  \textbf{Preservation and Reflection of substitution} under Gödel's translation.
   For all \lterms $M$, values $V$, $W$, and variables $x$, it holds that
   \[
     \godel{M}\subst{\godelv{V}}{\boxe{x}} \equiv \godel{(M \subst{V}{x})} \ and \ \godelv{M}\subst{\godelv{W}}{\boxe{x}} \equiv \godelv{(W \subst{V}{x})}
   \]
 \end{lemma}
 
+Preservation of reduction of Gödel's translation is slightly more complicated than Girard's translation.
+This is because Gödel's translation makes use of the \raiseembn abbreviation, which swaps two terms.
+However, this swapping takes an extra step while reducing a \lterm.
+Thus, \cref{prop:godel-preservation-red} states that if a \lterm $M$ in \lav reduces to $N$ in one step, then $\godel{M}$ reduces to $\godel{N}$ in \lab in two steps.
+
 \begin{proposition}
   \label{prop:godel-preservation-red}
   \textbf{Preservation of reduction} under Gödel's translation.
   \center
-  For all \lterms $M$ and $N$, if $M \rednb N$ in \lan, then $\girard{M} \redbboxt \girard{N}$.
+  For all \lterms $M$ and $N$, if $M \rednb N$ in \lav, then $\godel{M} \redbboxt \godel{N}$.
 \end{proposition}
+
+The two steps that are taken next to each other are always similar and can be merged together into one step.
+Let us reason about this. 
+
+Let us say that \lterm $P$ in \lav reduces to \lterm $Q$. We have that $P$ is of the form $(\lambda{x}{M}) V$ and thus $Q$ is of the form $M \subst{x}{V}$.
+In Gödel's image, we have the following:
+\[
+\godel{P} \equiv \raiseemb{\godel{V}} \godel{(\lamb{x}{M})} \equiv \raiseemb{\boxi{\godelv{V}}} \boxi{\lambda{x}{\godel{M}}}
+\]
+
+\begin{align*}
+  \raiseemb{\boxi{\godelv{V}}} \boxi{\lambda{x}{\godel{M}}} 
+                  &\equiv (\lamb{z}{\boxe{z}\boxi{\godelv{V}}}) \boxi{\lambda{x}{\godel{M}}}   \\
+                  &\redbbox (\lambda{x}{\godel{M}})\boxi{\godelv{V}}  \\
+                  &\redbbox \godel{M} \subst{\boxe{x}}{\godelv{V}} \\
+\end{align*}
+
+So, we have that $\raiseemb{\boxi{\godelv{V}}} \boxi{\lambda{x}{\godel{M}}} \redbboxt \godel{M} \subst{\boxe{x}}{\godelv{V}}$.
+More generally, \cref{def:redbboxts} defines the relation $\redbboxts$.
+
+\begin{definition}
+  \label{def:redbboxts}
+  \textbf{Gödel's two-step reduction relation \boldmath${\redbboxts}$}.
+  \begin{align*}
+    \raiseemb{\boxi{N}} \boxi{\lambda{x}{M}} \redbboxts M \subst{\boxe{x}}{N}\quad \quad (\redbboxts)
+  \end{align*}
+\end{definition}
+
+With this new reduction relation, we can also formulate the preservation of reduction in one step.
+This is done in \cref{prop:godel-preservation-red2s}.
 
 \begin{proposition}
   \label{prop:godel-preservation-red2s}
   \textbf{Preservation of reduction} under Gödel's translation with $\redbboxts$ reduction rule.
   \center
-  For all \lterms $M$ and $N$, if $M \rednb N$ in \lan, then $\girard{M} \redbboxts \girard{N}$.
+  For all \lterms $M$ and $N$, if $M \redvb N$ in \lav, then $\godel{M} \redbboxts \godel{N}$.
 \end{proposition}
 
+Preservation of evaluation is more difficult to prove than preservation of reduction.
+\Cref{prop:girard-preservation-eval} states that if a \lterm $M$ evaluates to a value $V$ in \lav in any number of $\redv$ steps, 
+then $\godel{M}$ evaluates to $\godel{V}$ in \lab using any number of $\redbv$ steps.
+Alternatively, we can also say that if a \lterm  evaluates by call-by-value to a value, 
+then the translation of that \lterm under Gödel's embedding evaluates by call-by-box to the translation of that value under Gödel's embedding.
+
+Due to time limitations, we did not prove \cref{prop:godel-preservation-eval} in the Agda formalization.
+However, a less formal proof of this proposition is given by José Espírito Santo, Luís Pinto, and Tarmo Uustalu in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+
 \begin{proposition}
-  \label{prop:girard-preservation-eval}
+  \label{prop:godel-preservation-eval}
   \textbf{Preservation of evaluation} under Gödel's translation.
   \center
-  For all \lterms $M$ and values $V$, if $M \redn V$ in \lan, then $\girard{M} \redbn \girard{V}$.
+  For all \lterms $M$ and values $V$, if $M \redv V$ in \lav, then $\godel{M} \redbv \godel{V}$.
 \end{proposition}
