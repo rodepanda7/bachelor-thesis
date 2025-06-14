@@ -1,6 +1,6 @@
 \section{\texorpdfstring{Call-by-value \boldmath$\lambda$-calculus}{Call-by-value Lambda Calculus}}
-
-Before we define the call-by-value \lc (\lav), we first define the notion of values. 
+The call-by-value \lc (\lav) is defined by Gordon Plotkin in \cite{PLOTKIN1975125} and this section defines it similarly. 
+We first define the notion of values.
 Values are \lterms that are fully evaluated. That is, values are \lterms that cannot be reduced any further and thus do not contain any function applications.
 We define values \cref{def:values} as all \lterms that are either a variable or an abstraction. We denote values by $V$ or $W$.
 
@@ -26,7 +26,7 @@ The \br rule is defined in \cref{def:call-by-value-reduction}.
 	\end{align*}
 \end{definition}
 
-We define a new closure rule, $\nu_<$, which is similar to the $\nu$ rule, but requires the left \lterm to be a value.
+We define a new closure rule, $\nu_<$ \cite{espritosanto_et_al:LIPIcs:2019:10525}, which is similar to the $\nu$ rule, but requires the left \lterm to be a value.
 In call-by-value evaluation, we first reduce the left \lterm of a function application, to an abstraction, before reducing the right \lterm to a value to apply $\bv$.
 
 \begin{definition}

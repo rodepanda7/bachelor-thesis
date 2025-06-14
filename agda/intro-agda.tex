@@ -2,15 +2,15 @@
 % https://serokell.io/blog/agda-in-nutshell
 
 This section, aims to provide a brief introduction to Agda, a dependently typed functional programming language and proof assistant. 
-Agda uses strong typing and dependent types, and thus it can be used to write proofs constructively, which can be run as programs.
+Agda uses strong typing and dependent types, and thus it can be used to write proofs constructively, which can be run as programs \cite{Norell2007}.
 In order to understand the formalisation of \lab in Agda, we discuss the following basic concepts: 
-data types, parameterised data types, functions, dependent data types, implicit arguments, and hole-based programming.
+data types, parameterised data types, functions, dependent data types, implicit arguments, and hole-based programming \cite{AgdaDocs}.
 
 \subsection{Data Types and Functions}
 Data types, can be seen as a collection of values that have something in common.
-This collection is usually structured in some kind of way, such as a list or a tree.
+This collection is usually structured in some kind of way, such as a list or a tree \cite{Norell2007}.
 Elements of a data type can be constructed using constructors, which are functions that return a value of the data type.
-In Agda, we can create a data type with the \textsf{data} keyword, followed by the name of the data type and its constructors.
+In Agda, we can create a data type with the \textsf{data} keyword, followed by the name of the data type and its constructors \cite{AgdaDocs}.
 
 \Cref{ex:agda-data-type} shows an example of a simple inductive data type: the natural numbers. It defines two constructors:
 \begin{itemize}
@@ -40,7 +40,6 @@ Note that the parameter $A$ occurs before the colon, indicating that it is a typ
   \input{agda-code/data-type-par-ex.tex}
   This example shows how a list can be defined in Agda by using a parameterised data type with the constructors \textsf{[]} and \textsf{\_::\_}.
 \end{example}
-
 
 Functions in Agda are defined using pattern matching, similar to Haskell. 
 Each function has a type signature that defines the type of the function and its arguments.
@@ -80,7 +79,7 @@ Note that the implicit argument $n$ can be inferred from the input type $\mbox{\
 \end{example}
 
 \subsection{Hole-Based Programming}
-Agda is made to be used with the Emacs text editor, and the combination of Agda and Emacs provides a way to construct definitions and proofs interactively, which is called hole-based programming.
+Agda is made to be used with the Emacs text editor, and the combination of Agda and Emacs provides a way to construct definitions and proofs interactively \cite{Norell2007, AgdaDocs, agda-emacs-mode}, which is called hole-based programming.
 Terms can be constructed step by step, using question marks as placeholders. These turn into holes, indicating incomplete definitions.
 It is best to show this with an example. Note that we could use more holes in \cref{ex:agda-hole-based-programming},
 but we feel like this example is sufficient for understanding the concept of hole-based programming.

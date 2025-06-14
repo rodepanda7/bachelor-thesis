@@ -6,9 +6,9 @@ In this section, we discuss the call-by-name \lc (\lan).
 The reduction rule that is used in this calculus is the same as the $\beta$ reduction rule.
 However, we name the rule $\bn$ (\cref{def:call-by-name-reduction}) to make it clear that it is the reduction rule of \lan.
 While call-by-name avoids evaluating the argument of a function, arguments are re-evaluated every time they are used in the body of the function.
-Lazy evaluation stores the evaluation of each argument, so it does not have to re-evaluate the same argument every time it is used.
+Lazy evaluation (call-by-need) stores the evaluation of each argument, so it does not have to re-evaluate the same argument every time it is used.
 Therefore, an optimised version of call-by-name evaluation is lazy evaluation, which is used in many programming languages.
-However, for simplicity, we will only focus on call-by-name.
+Zena et al. \cite{AriolaFelleisen1997} define a call-by-need calculus, but for simplicity, we only use \lan in this thesis. 
 
 \begin{definition}
 	\label{def:call-by-name-reduction}
@@ -20,7 +20,7 @@ However, for simplicity, we will only focus on call-by-name.
 
 % DO WE NEED WEAK REDUCTION? IF NOT, REMOVE IT.
 % EXPLAIN THE IDEA OF THE NAME REDUCTION
-
+The relations we define in this thesis are all similar to the relations discussed in \cite{espritosanto_et_al:LIPIcs:2019:10525}
 We define the relation $\rednb$ as $\bn$ closed under $\mu$, $\nu$ and $\xi$.
 The relation $\rednb$ is the call-by-name reduction relation, which allows reduction of \lterms under all term formers.
 Weak reduction, $\redw$, is defined as $\bn$ closed under $\mu$ and $\nu$. The only restriction of $\redw$ is that it cannot reduce under $\la$'s.

@@ -4,6 +4,10 @@ This section discusses the concept of well-typedness in the context of lambda ca
 We first discuss types, typing judgements and typing rules. We then explore how to use these rules to show that a \lterm is well-typed.
 
 Types of \lc are defined in \cref{def:types}, and are either $X$, which is the base type, or a function type, $A \fa A'$ with $A$ and $A'$ being types in \lc.
+This formulation follows from Church's \emph{simple typed lambda calculus}, introduced in \cite{ALONZOCHURCH1940}.
+In this thesis, we use the Curry-style notation where we write terms without explicit types.
+This notation is formulated by Haskell B. Curry, and the notation used here is discussed in \cite{barendregt1992lambda}.
+
 \begin{definition}
   \label{def:types}
   \textbf{Types of \boldmath${\lambda}$-calculus}
@@ -19,7 +23,7 @@ A typing judgement is of the form $\judgement{\Gamma}{M : A}$, and it means that
 A context $\Gamma$ is a list of variable-type pairs, where each variable is associated with a type. 
 A context is written as $\Gamma = x_1 : A_1, \ldots, x_n : A_n$, where each $x_i$ is a variable and each $A_i$ is a type.
 
-The typing rules are defined in \cref{def:typing-rules}. The Id rule states that if $x$ has type $A$ in the context, we can conclude that $x$ has type $A$.
+The typing rules are defined in \cref{def:typing-rules}, and are from \cite{barendregt1992lambda}. The Id rule states that if $x$ has type $A$ in the context, we can conclude that $x$ has type $A$.
 The \impliesi rule states that if we have a term $M$ of type $A'$ in the context $\Gamma, x : A$, we can conclude that from context $\Gamma$ it follows that $\lamb{x}{M}$ has type $A \fa A'$. 
 The \impliese rule states that if we have a term $M$ of type $A \fa A'$ and a term $N$ of type $A$, we can conclude that the application $M N$ has type $A'$.
 

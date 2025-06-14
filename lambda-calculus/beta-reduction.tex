@@ -1,11 +1,13 @@
 \section{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
 To include a notion of computation to the \lc, we discuss \br.
+This notion of computation was introduced by Alonzo Church in \cite{original-lambda-calc} and
+the definition of \br we use is by \cite{barendregt1992lambda}.
 This reduction relation is the only way to simplify terms in the \lc.
 So with \br, we can apply an abstraction to an argument.
-To do this, we need to define substitution, free and bound variables.
+To do this, we give definitions of substitution, free and bound variables similar to the definitions in \cite{barendregt1992lambda}.
 
 \subsection{Free and Bound Variables}
-Let us first define free and bound variables.
+Let us first define free and bound variables \cite{PLOTKIN1975125, barendregt1992lambda}.
 Let $P$ be any term in the \lc, $FV(P)$ be the set that contains all free variables in $P$ and $FB$ be the set that contains all bound variables in $P$.
 We define both $FV$ and $BV$ inductively on $P$ by \cref{def:free-variable} and \cref{def:bound-variable}.
 Since $P$ can only be a variable, an abstraction or a function application, $P$ can only be of the form $x$, $\lamb{x}{M}$ and $M N$.
@@ -79,10 +81,15 @@ These \lterms are equivalent by the notion of \aeq, which states that \lterms th
 We discuss this in more detail after we define substitution.
 
 \subsection{Substitution}
+\label{sec:substitution}
 % EMPHASIZE THAT SUBSITUTING IS REPLACING FREE VARIABLES BY ANY LAMBDA TERM. OTHERWISE, RULE 3 IS CONFUSING.
 % MAYBE ADD EXAMPLE OF SUBSTITUTION
 Keeping the definitions of free and bound variables in mind, we now define substitution.
-In this thesis, substitution is denoted as $P \subst{x}{Q}$ and is defined inductively on $P$ by \cref{def:substitution}.  
+In this thesis, substitution is denoted as $P \subst{x}{Q}$ and is defined inductively on $P$ (see \cref{def:substitution}).
+Essentially, it replaces all free occurrences of the variable $x$ in the \lterm $P$ by \lterm $Q$.
+We chose not to use the original notation of substitution by Curry, Feys, and Craig in \cite{CurryFeysCraig1958}, which is $[Q/x]P$,
+as we think the notation $P \subst{x}{Q}$ is more clear and intuitive.  
+We adopt the definition of substitution from \cite{PLOTKIN1975125}, defined by Plotkin. 
 
 \begin{definition}
 	\label{def:substitution}
@@ -146,7 +153,8 @@ Following the more complex rule, we get:
 \end{eqnarray*}
 
 \subsection{\texorpdfstring{\boldmath${\alpha}$-equivalence}{Alpha-equivalence}}
-Here, we define \aeq. The idea is that renaming bound variables does not change the meaning of a \lterm.
+Here, we define \aeq. We use the definition by Plotkin in \cite{PLOTKIN1975125}. 
+The idea is that renaming bound variables does not change the meaning of a \lterm.
 For example, the \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ are equivalent ($\lamb{x}{x} \aeqr \lamb{y}{y}$), since renaming all bound variables can result in identical \lterms.
 The \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ represent the same idea.
 We define the relation $P \aeqr P'$ inductively on $P$ and $P'$ in \cref{def:alpha-equivalence}.
@@ -178,7 +186,7 @@ However, $x$ should be equal to $y$ or $x$ should not be a free variable in $M'$
 
 \subsection{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
 Now, we are ready to discuss \br. In the \lc, there is only one way to simplify terms, which is \br. 
-This \br relation is defined in \cref{def:beta-reduction} with $M$ and $N$ being terms in the \lc. 
+We use the definition of \br discussed in \cite{barendregt1992lambda} and \cref{def:beta-reduction} defines \br with $M$ and $N$ being terms in the \lc. 
 
 \begin{definition}
 	\label{def:beta-reduction}
@@ -190,7 +198,9 @@ This \br relation is defined in \cref{def:beta-reduction} with $M$ and $N$ being
 
 
 A \lterm of the form $(\lamb{x}{M})N$ can be reduced by substituting $x$ by $N$ in $M$. 
-However, without additional rules, we cannot apply \br to subterms. 
+However, without additional rules, we cannot apply \br to subterms.
+We use closure rules similar to how José Espírito Santo, Luís Pinto, and Tarmo Uustalu use them in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+Closure rules are also discussed in \cite{barendregt1992lambda} and \cite{PLOTKIN1975125}.
 For example, the following reduction would not be possible: $\lamb{x}{(\lamb{y}{y})x} \red \lamb{x}{x}$.
 Therefore, in \cref{def:closure-rules}, we define the following closure rules: $\mu$, $\nu$ and $\xi$.
 

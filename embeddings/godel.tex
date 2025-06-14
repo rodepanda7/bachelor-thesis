@@ -1,23 +1,23 @@
+% \section{\texorpdfstring{Embedding of \boldmath${\la_n}$ into \boldmath${\la_b}$}{Embedding of call-by-name lambda calculus into the call-by-box lambda calculus}}
 \section{Gödel's Embedding}
 \label{sec:godel-embedding}
 
 In this section, we present Gödel's embedding, introduced by Kurt Gödel.
 Gödel introduced this embedding as a method to translate intuitionistic logic into modal logic \textsf{S4} \cite{troelstra1933f}.
 More specifically, an embedding to represent intuitionistic logic in a modal framework, where box modality, $\square$ is used to indicate provability.
-That is, $\square P$ can be read as $P$ is provable.
+That is, $\square P$ can be read as $P$ is provable \cite{troelstra1933f}.
 
-In general, Gödel's embedding is used to represent one more restricted logical system in a stronger framework.
-This thesis uses Gödel's embedding to represent the call-by-name \lc in the modal call-by-box \lc, \lab.
-The intuition behind Gödel's embedding is that boxes are used to represent values, which are already evaluated expressions.
+In general, Gödel's embedding is used to represent one more restricted logical system in a stronger framework \cite{McKinseyTarski1948}.
+This thesis uses Gödel's embedding to represent the call-by-name \lc in the modal call-by-box \lc, \lab \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+The intuition behind Gödel's embedding is that boxes are used to represent values, which are already evaluated expressions \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 
 % \section{\texorpdfstring{Embedding of \boldmath${\la_v}$ into \boldmath${\la_b}$}{Embedding of call-by-value lambda calculus into the call-by-box lambda calculus}}
 
 % Research more about Girard's tranlation
 
-\section{\texorpdfstring{Embedding of \boldmath${\la_n}$ into \boldmath${\la_b}$}{Embedding of call-by-name lambda calculus into the call-by-box lambda calculus}}
 \label{sec:value-embedding}
 
-In the model embedding of \lav into \lab, we make use of an abbreviation, which we call \raiseembn.
+In the model embedding of \lav into \lab, we make use of an abbreviation, which we call \raiseembn similar to \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 The idea of \raiseembn is to swap two lambda terms, while removing a box of one \lterm. 
 Its use will become clear later in this section when we give some examples.
 We define \raiseembn as follows:

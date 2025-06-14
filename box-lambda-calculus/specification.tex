@@ -3,12 +3,12 @@
 \subsection{Intuitionistic logic \textsf{IS4}}
 Intuitionistic logic \textsf{IS4} is a non-classical logic that is based on the idea of constructive proof.
 Unlike classical logic, intuitionistic logic does not allow for the law of excluded middle, which states that for every proposition $P$,
-the statement $P \lor \neg P$ assumed.
+the statement $P \lor \neg P$ assumed \cite{Heyting1930}.
 In intuitionistic logic, a proposition is only considered true if it can be constructively proven.
 That is, a proposition is true if we can explicitly construct a proof, much like writing a program.
-This is why programming languages and proofs in systems like Agda and Coq are based on intuitionistic logic.
+This is why programming languages and proofs in systems like Agda and Rocq are based on intuitionistic logic.
 Since \lc is the foundation of functional programming, it corresponds with intuitionistic logic via the Curry-Howard correspondence,
-where programs are equivalent to proofs and types to propositions.
+where programs are equivalent to proofs and types to propositions \cite{Howard1980}.
 
 The intuitionistic modal logic \textsf{IS4} is an extension of intuitionistic logic that introduces \emph{modal operator} $\square$.
 The \labox calculus is a fragment of \textsf{IS4} that, besides the usual \lterms, also uses box ($\mathsf{box}$) and unbox ($\varepsilon$) operators 
@@ -17,7 +17,7 @@ The box is like a little container that delays a computation, making it possible
 In this thesis, we formalize the \emph{boxed lambda calculus} in Agda, denoted as \lab, which is as a refinement of the simpler \labox calculus.
 
 \subsection{\texorpdfstring{Terms and Types of \boldmath${\la_b}$}{ Terms and Types of the boxed lambda calculus}}
-We now define the types of the \lab calculus. We indicate the types of \lab with $A$ and $B$, representing types and boxed types respectively.
+We now define the types of the \lab calculus as is done in \cite{espritosanto_et_al:LIPIcs:2019:10525}. We indicate the types of \lab with $A$ and $B$, representing types and boxed types respectively.
 The type $X$ denotes the base type. Note that functions types are of the form $B \fa A$ thus the input is always a boxed type.
 
 \begin{definition}
@@ -78,7 +78,7 @@ The rest of the terms are defined in \cref{def:lab} and some example terms are g
   \end{align*}
 \end{example}
 
-The typing rules of \lab are defined in \cref{def:typing-rules}. The $\square$-I rule states that if $M$ is of type $A$, then $\boxi{M}$ is of type $\boxt{A}$.
+The typing rules of \lab are defined in \cref{def:typing-rules} \cite{espritosanto_et_al:LIPIcs:2019:10525}. The $\square$-I rule states that if $M$ is of type $A$, then $\boxi{M}$ is of type $\boxt{A}$.
 The Id$_\square$ rule is the identity rule for boxed variables, which states that if we know that $x$ is a variable of type $\boxt{A}$, we can conclude that $\boxe{x}$ is of type $A$.
 The only way to add variables to the context is by using the \impliesi rule. These variables are always boxed, since they are the parameters of abstractions.
 Due to the grammar of \lab, all variables in \lab occur inside the unboxing operator $\varepsilon$ and thus the Id$_\square$ rule covers all cases.
@@ -275,15 +275,14 @@ We call this rule $\zeta$, and \cref{def:closure} defines it.
   \end{prooftree}
 \end{definition}
 
-The relation $\redbbox$ is the relation that allows reduction under all term formers, including boxes. 
+The relations defined here are from \cite{espritosanto_et_al:LIPIcs:2019:10525} and form the reduction and evaluation relations of \lab.
+The relation $\redbbox$ allows reduction under all term formers, including boxes. 
 We also define three other relations: $\bb$ closed under $\mu$ and $\nu$, $\bb$ closed under $\mu$ and $\bb$ closed under $\nu$.
 We call them $\redwe$, $\redbn$ and $\redbv$ respectively. \Cref{tab3:closure-rules} is an overview of all relations.  
 The relation $\redwe$ is weak since values do not reduce.
 That is, abstractions and terms of the form $\boxe{x}$ do not reduce.
 The relation $\redwe$ is also external as boxes do not reduce. This relation is called call-by-box (cbb) evaluation.
 We will see after defining the embeddings that $\redwe$ collapses to $\redbn$ in Girard's embedding and that $\redwe$ collapses to $\redbv$ in Gödel's embedding.  
-
-
 
 \begin{table}[htbp]
 \centering

@@ -1,4 +1,12 @@
 \chapter{\texorpdfstring{Embeddings in \boldmath${\la_b}$}{Embeddings in the boxed lambda calculus}}
 
+This chapter discusses the modal embeddings of the call-by-name \lc (\lan), and the call-by-value \lc (\lav) 
+into the shared target, call-by-box \lc (\lab).
+We also give propositions about the embeddings, which will be proven in Agda later.
+These propositions state that reduction and evaluation are preserved by the embeddings, 
+and have been proven several times in different contexts, for example, using linear logic or thunks \cite{EhrhardGuerrieri2016, MARAIST1999175, HATCLIFF_DANVY_1997}.
+However, \lab is a refined version of \labox \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+We formalise these embeddings and prove their propositions in Agda. 
+
 \input{embeddings/girard.tex}
 \input{embeddings/godel.tex}
