@@ -1,4 +1,36 @@
 \chapter{Related Work}\label{relatedwork}
-In this chapter you demonstrate that you are sufficiently aware of the
-state-of-art knowledge of the problem domain that you have investigated as
-well as demonstrating that you have found a \emph{new} solution / approach / method.
+% In this chapter you demonstrate that you are sufficiently aware of the
+% state-of-art knowledge of the problem domain that you have investigated as
+% well as demonstrating that you have found a \emph{new} solution / approach / method.
+
+Several approaches have been proposed to unify call-by-name and call-by-value evaluation strategies.
+This section goes over the most notable ones.
+
+Paul Blain Levy's approach \cite{levy2001thesis} introduces a programming paradigm called call-by-push-value (CBPV),
+which is based on the quote "a value is, a computation does".
+CBPV distinguishes between values and computations.
+It can be constricted to simulate call-by-name in one way and call-by-value in another.
+An extensive formalisation of CBPV in Rocq is provided by Forster et al. in \cite{ForsterSSS19}. 
+
+Another approach to unifying cbn and cbv is by the use of linear logic. 
+Maraist et al. \cite{MARAIST1999175} describe how two translations by Girard from intuitionistic logic into linear logic can be used to simulate call-by-name, call-by-value, and call-by-need evaluation strategies.
+The idea is that linear logic can be used to keep track of the usage and evaluation of resources, which in this case are the arguments of a function.
+Thomas Ehrhard and Giulio Guerrieri \cite{EhrhardGuerrieri2016} also used linear logic to unify cbn and cbv.
+They introduced the Bang Calculus, which is a linear logic-based \lc that can express both cbn and cbv by using Girard's translations.
+A formalisation of a linear logic-based λ-calculus in Rocq is provided by Zhao, Zhang, and Zdancewic in \cite{ZhaoZhangZdancewic2010},
+with the implementation on GitHub \cite{ZdancewicLinearityRepo}.
+
+The next approach we discuss uses thunks to unify cbn and cbv.
+Thunks can be seen as wrappers around some expression that delay the evaluation until it is needed.
+Continuous-Passing Style (CPS) translations are also a technique to unify cbn and cbv.
+CPS translations are a way to rewrite a program such that all functions take an extra argument, which is the continuation function.
+This continuation function is called with the result of the function, and it indicates the next step in the computation.
+John Hatcliff and Olivier Danvy \cite{HATCLIFF_DANVY_1997} used thunks and CPS translations to unify cbn and cbv.
+There is one formalisation of a CPS translation in Rocq by Paulo Torrens \cite{torrens2024cpsrepo}, though it is not a direct translation of the approach by Hatcliff and Danvy.
+
+The last approach we discuss uses modal logic. 
+Espírito Santo et al. \cite{espritosanto_et_al:LIPIcs:2019:10525} introduced the modal \lc \labox, which is a fragment of Bierman and de Paiva's intuitionistic modal logic (\textsf{IS4}) \cite{BiermanPaiva2000}.
+The modal calculus \labox can express both cbn and cbv by using Girard's and Gödel's embeddings, respectively.
+Espírito Santo et al. refined \labox to a simpler \lc, which they called the call-by-box \lc (\lab).
+This refinement has simpler typing rules and a more straightforward reduction strategy.
+No formalisation of \lab has been made in a proof assistant yet, and thus we formalised \lab in Agda.

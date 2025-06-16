@@ -6,7 +6,7 @@
 % Therefore, conclusions can be brief and to the point.
 \section{Conclusions}
 This thesis has formalised the call-by-box lambda calculus, a refined modal \lc introduced by \cite{espritosanto_et_al:LIPIcs:2019:10525}.
-We implemented its syntax, substitution, reduction and evaluation relations of \lab in Agda.
+We implemented the syntax, substitution, reduction and evaluation relations of \lab in Agda.
 We also formalised Girard's and Gödel's embeddings which are embeddings from the standard call-by-name \lc (\lan) and call-by-value \lc (\lav) to the shared target, the call-by-box \lc (\lab).
 For both embeddings, we have proven some properties that are preserved in \lab. We have proven the following propositions formally in Agda:
 
@@ -22,7 +22,7 @@ and \cref{lem:godel-pres-subst} for the properties about Gödel's translation.
 These helper lemmas state that substitution is preserved and reflected by the translation.
 They were the most complex to prove, but they are fundamental for the proofs about preservation of reduction and evaluation.
 
-We also saw that the formal definition of \raiseembn in Gödel's embedding is more complex than less formal definition due to the use of the rename function.
+We also saw that the formal definition of \raiseembn in Gödel's embedding is more complex than the less formal definition due to the use of the rename function.
 This rename function made proofs about Gödel's embedding significantly more complex than those about Girard's embedding,
 which is one of the reasons why we did not formally prove preservation of evaluation for Gödel's embedding. 
 
@@ -32,11 +32,11 @@ The formalisation could serve as a basis for further research into the unificati
 and could also serve as a foundation for future programming languages or proof assistants that natively support both evaluation strategies.
 
 \section{Future Work}
-This thesis has formalised the core functionalities of \lab and has proved some important properties of Girard's and Gödel's embeddings.
+This thesis has formalised the core functionalities of \lab and has proven some important properties of Girard's and Gödel's embeddings.
 However, there are still many areas for future work regarding this formalisation. We list some opportunities for future work below.
 
 \begin{itemize}
-  \item Our formalisation of \lab can be extended with more features, such as case expressions, natural numbers or recursion.
+  \item The formalisation of \lab can be extended with more features, such as case expressions, natural numbers or recursion.
   The book PLFA \cite{plfa22.08} implements these features in the standard \lc, and they can be implemented in \lab as well.
   \item Preservation of evaluation under Gödel's embedding has not been proven formally yet, but it is an interesting property to prove.
   It would make the formalisation more complete and could be useful for future research.
@@ -45,7 +45,7 @@ However, there are still many areas for future work regarding this formalisation
   For example, reflection of reduction under Girard's translation can be stated as follows: if $\girard{M} \redbbox \girard{N}$, then $M \rednb N$ in \lan.
   \item We only formalised \lab in Agda, but it could be interesting to also formalise different framworks that can simulate both cbn and cbv,
   such as the linear logic approach by Thomas Ehrhard and Giulio Guerrieri \cite{EhrhardGuerrieri2016} or Maraist et al. \cite{MARAIST1999175}, 
-  and the thunk-based approach by Hatcliff, John and Danny, Olivier \cite{HATCLIFF_DANVY_1997}.
+  and the thunk-based approach by John Hatcliff and Olivier Danny \cite{HATCLIFF_DANVY_1997}.
   All these formalisations could then be compared to see which is simpler, more efficient or more powerful.
   \item The boxed \lc can also be used to construct an interpreter for a programming language that supports both cbn and cbv evaluation.
   This is a more practical application and it could be interesting to see \lab in practice.  

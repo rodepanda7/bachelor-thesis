@@ -33,7 +33,7 @@ While cbv can be simulated in Haskell, it requires some workarounds and support 
 Many approaches of unifying cbn and cbv have been proposed. 
 Thomas Ehrhard and Giulio Guerrieri \cite{EhrhardGuerrieri2016} proposed a linear logic approach,
 just like the one by Maraist et al. \cite{MARAIST1999175},
-while Hatcliff, John and Danny, Olivier \cite{HATCLIFF_DANVY_1997} proposed a thunk-based approach.
+while John Hatcliff and Olivier Danvy \cite{HATCLIFF_DANVY_1997} proposed a thunk-based approach.
 However, we focus on the modal approach, introduced by Espírito Santo et al. \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 This approach is based on the modal \lc \labox, which is a fragment of Bierman and de Paiva's intuitionistic modal logic (\textsf{IS4}) \cite{BiermanPaiva2000}.
 The proposed call-by-box \lc (\lab) is a refinement of \labox, which has simpler typing rules and a more straightforward reduction strategy.
@@ -46,9 +46,9 @@ Therefore, the main research question of this thesis is as follows:
   How can the unification of call-by-name and call-by-value using modal logic be formalised in Agda?
 \end{quote} 
 
-In \lab, cbn and cbv can be simulated by using \emph{Girard's} and \emph{Gödel's} embeddings, respectively.
+In \lab, cbn and cbv can be simulated by using Girard's and Gödel's embeddings, respectively.
 These are embeddings from the standard \lc to \lab, preserving both reduction and evaluation. 
-This thesis formalises both embeddings in Agda and we prove the following:
+Besides \lab, this thesis also formalises both embeddings, and we prove the following in Agda:
 
 \begin{itemize}
   \item Girard's embedding preserves reduction.
@@ -63,5 +63,5 @@ We now give a brief overview of the chapters in this thesis.
 \Cref{chap:lambda-calculus} introduces the \lc, with substitution, \br and evaluation relations.
 The next chapter, \cref{chap:box-lambda-calculus}, introduces \lab, with substitution, \br and its evaluation relations.
 We then discuss the two embeddings in \cref{chap:embeddings}, where we also provide the propositions about the embeddings.
-\Cref{chap:agda} explains the basic Agda concepts, the challenges we faced while formalising \lab and their embeddings, and how we solved them.
-Finally, \cref{conclusions} concludes the thesis and \cref{relatedwork} gives an overview of related work in the field.
+\Cref{chap:agda} explains the basic Agda concepts, the challenges we faced while formalising \lab, the embeddings, and how we solved them.
+Finally, \cref{relatedwork} gives an overview of related work in the field, and \cref{conclusions} concludes the thesis.
