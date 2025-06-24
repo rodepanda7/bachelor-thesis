@@ -2771,7 +2771,8 @@
 \AgdaOperator{\AgdaFunction{[}}\AgdaSpace{}%
 \AgdaBound{V}\AgdaSpace{}%
 \AgdaOperator{\AgdaFunction{]}}\AgdaSymbol{)}\<%
-\\
+\end{code}
+\begin{code}[hide]%
 \>[0]\AgdaFunction{pres-subst}\AgdaSpace{}%
 \AgdaBound{M}\AgdaSpace{}%
 \AgdaBound{V}\AgdaSpace{}%
@@ -2798,8 +2799,7 @@
 \\
 %
 \>[4]\AgdaBound{M}\<%
-\end{code}
-\begin{code}[hide]%
+\\
 \>[0]\AgdaComment{--\ Helper\ lemma:\ if\ a\ value\ is\ substituted\ in\ a\ value,\ the\ resulting\ lambda\ term\ will\ also\ be\ a\ value}\<%
 \\
 \>[0]\AgdaFunction{val-after-subst}\AgdaSpace{}%
@@ -2914,16 +2914,18 @@
 \AgdaBound{V}\AgdaSymbol{)}\<%
 \\
 %
-\>[2]\AgdaSymbol{→}\AgdaSpace{}%
-\AgdaFunction{embedValue}\AgdaSpace{}%
+\>[2]\AgdaSymbol{→}%
+\>[2064I]\AgdaFunction{embedValue}\AgdaSpace{}%
 \AgdaBound{M}\AgdaSpace{}%
 \AgdaBound{x}\AgdaSpace{}%
 \AgdaOperator{\AgdaFunction{[}}\AgdaSpace{}%
 \AgdaFunction{embedValue}\AgdaSpace{}%
 \AgdaBound{V}\AgdaSpace{}%
 \AgdaBound{y}\AgdaSpace{}%
-\AgdaOperator{\AgdaFunction{]b}}\AgdaSpace{}%
-\AgdaOperator{\AgdaDatatype{≡}}\AgdaSpace{}%
+\AgdaOperator{\AgdaFunction{]b}}\<%
+\\
+\>[.][@{}l@{}]\<[2064I]%
+\>[4]\AgdaOperator{\AgdaDatatype{≡}}\AgdaSpace{}%
 \AgdaFunction{embedValue}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaBound{M}\AgdaSpace{}%
 \AgdaOperator{\AgdaFunction{[}}\AgdaSpace{}%
@@ -2934,7 +2936,8 @@
 \AgdaBound{V}\AgdaSpace{}%
 \AgdaBound{x}\AgdaSpace{}%
 \AgdaBound{y}\AgdaSymbol{)}\<%
-\\
+\end{code}
+\begin{code}[hide]%
 \>[0]\AgdaFunction{pres-subst-val}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaInductiveConstructor{`}\AgdaSpace{}%
 \AgdaInductiveConstructor{Z}\AgdaSymbol{)}\AgdaSpace{}%
@@ -3057,8 +3060,7 @@
 \\
 %
 \>[2]\AgdaOperator{\AgdaFunction{∎eq}}\<%
-\end{code}
-\begin{code}[hide]%
+\\
 \>[0]\AgdaComment{--\ fb\ and\ renameb\ commute\ under\ extended\ context.}\<%
 \\
 \>[0]\AgdaFunction{fb-renameb-extb-commute}\AgdaSpace{}%
@@ -3185,7 +3187,7 @@
 \\
 %
 \>[2]\AgdaSymbol{→}%
-\>[2236I]\AgdaFunction{renameb}\AgdaSpace{}%
+\>[2235I]\AgdaFunction{renameb}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaFunction{extb}\AgdaSpace{}%
 \AgdaBound{fb'}\AgdaSymbol{)}\AgdaSpace{}%
 \AgdaBound{M}\AgdaSpace{}%
@@ -3195,7 +3197,7 @@
 \AgdaBound{W}\AgdaSpace{}%
 \AgdaOperator{\AgdaFunction{]b}}\<%
 \\
-\>[.][@{}l@{}]\<[2236I]%
+\>[.][@{}l@{}]\<[2235I]%
 \>[4]\AgdaOperator{\AgdaDatatype{≡}}\AgdaSpace{}%
 \AgdaFunction{renameb}\AgdaSpace{}%
 \AgdaBound{fb'}\AgdaSpace{}%
@@ -3850,7 +3852,7 @@
 \\
 %
 \>[2]\AgdaSymbol{→}%
-\>[2698I]\AgdaFunction{substb}\AgdaSpace{}%
+\>[2697I]\AgdaFunction{substb}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaFunction{fb}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaInductiveConstructor{ƛb}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaFunction{embedTerm}\AgdaSpace{}%
@@ -3860,7 +3862,7 @@
 \AgdaSymbol{(}\AgdaFunction{embedTerm}\AgdaSpace{}%
 \AgdaBound{M₂}\AgdaSymbol{))}\<%
 \\
-\>[.][@{}l@{}]\<[2698I]%
+\>[.][@{}l@{}]\<[2697I]%
 \>[4]\AgdaOperator{\AgdaDatatype{≡}}\AgdaSpace{}%
 \AgdaInductiveConstructor{box}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaFunction{embedValue}\AgdaSpace{}%
@@ -4544,9 +4546,9 @@
 \>[2]\AgdaInductiveConstructor{μ}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaInductiveConstructor{ξ}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaInductiveConstructor{ν}%
-\>[3188I]\AgdaSymbol{(}\AgdaFunction{pres-rename-red-↝βb²}\<%
+\>[3187I]\AgdaSymbol{(}\AgdaFunction{pres-rename-red-↝βb²}\<%
 \\
-\>[3188I][@{}l@{\AgdaIndent{0}}]%
+\>[3187I][@{}l@{\AgdaIndent{0}}]%
 \>[12]\AgdaInductiveConstructor{Sb}\<%
 \\
 %
@@ -4580,9 +4582,9 @@
 \>[2]\AgdaInductiveConstructor{μ}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaInductiveConstructor{ξ}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaInductiveConstructor{ν}%
-\>[3207I]\AgdaSymbol{(}\AgdaFunction{pres-rename-red-↝βb²}\<%
+\>[3206I]\AgdaSymbol{(}\AgdaFunction{pres-rename-red-↝βb²}\<%
 \\
-\>[3207I][@{}l@{\AgdaIndent{0}}]%
+\>[3206I][@{}l@{\AgdaIndent{0}}]%
 \>[12]\AgdaInductiveConstructor{Sb}\<%
 \\
 %
