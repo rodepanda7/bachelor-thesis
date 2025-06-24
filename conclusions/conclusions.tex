@@ -16,15 +16,15 @@ For both embeddings, we have proven some properties that are preserved in \lab. 
   \item Gödel's embedding preserves reduction (\cref{prop:godel-preservation-red} and \ref{prop:godel-preservation-red2s}).
 \end{itemize}
 
-In order to prove these propositions, we made use of several helper lemmas.
-The most important helper lemma is \cref{lem:girard-pres-subst} for the properties about Girard's translation,
+To prove these propositions, we relied on several helper lemmas.
+The most important are \cref{lem:girard-pres-subst} for the properties about Girard's translation,
 and \cref{lem:godel-pres-subst} for the properties about Gödel's translation.
 These helper lemmas state that substitution is preserved and reflected by the translation.
 They were the most complex to prove, but they are fundamental for the proofs about preservation of reduction and evaluation.
 
 We also saw that the formal definition of \raiseembn in Gödel's embedding is more complex than the less formal definition due to the use of the rename function.
 This rename function made proofs about Gödel's embedding significantly more complex than those about Girard's embedding,
-which is one of the reasons why we did not formally prove preservation of evaluation for Gödel's embedding. 
+which is one reason why we did not prove preservation of evaluation for Gödel's embedding formally. 
 
 In conclusion, this thesis provides a formal foundation for \lab in Agda. 
 It contains the syntax, substitution, reduction and evaluation relations as well as some proofs about Girard's and Gödel's embeddings.
@@ -43,7 +43,7 @@ However, there are still many areas for future work regarding this formalisation
   \item We can extend the formalisation with more properties, such as reflection of reduction and evaluation under Girard's and Gödel's embeddings.
   This would show that the target \lab, does not simulate any other reductions or evaluations than those of \lan and \lav.
   For example, reflection of reduction under Girard's translation can be stated as follows: if $\girard{M} \redbbox \girard{N}$, then $M \rednb N$ in \lan.
-  \item We only formalised \lab in Agda, but it could be interesting to also formalise different framworks that can simulate both cbn and cbv,
+  \item We only formalised \lab in Agda, but it could be interesting to also formalise different frameworks that can simulate both cbn and cbv,
   such as the linear logic approach by Thomas Ehrhard and Giulio Guerrieri \cite{EhrhardGuerrieri2016} or Maraist et al. \cite{MARAIST1999175}, 
   and the thunk-based approach by John Hatcliff and Olivier Danny \cite{HATCLIFF_DANVY_1997}.
   All these formalisations could then be compared to see which is simpler, more efficient or more powerful.

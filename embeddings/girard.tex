@@ -66,7 +66,7 @@ We give a small example to clarify everything. Consider the \lterm $\bi x$. It h
     \girard{(\bi x)} &=& \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
     &=& (\lamb{x}{\girard{x}}) \boxi{\girard{x}} \\
     &=& (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}} \\
-    &\redbn& (\lamb{x}{\boxe{x}}) \subst{\boxe{x}}{\boxe{x}} \\
+    &\redbn& \boxe{x} \subst{\boxe{x}}{\boxe{x}} \\
     &=& \boxe{x} \\
     &=& \girard{x}
   \end{eqnarray*}
@@ -89,7 +89,7 @@ The proof of this helper lemma is rather complex, because of the definition of s
   \label{lem:girard-pres-subst}
   \textbf{Preservation of substitution} under Girard's translation.
   \center
-  For all \lterms $M$, $N$ and $x$, $ \girard{M}\subst{\girard{N}}{\boxe{x}} \equiv \girard{(M \subst{N}{x})}$.
+  For all \lterms $M$, $N$ and $x$: $ \girard{M}\subst{\girard{N}}{\boxe{x}} \equiv \girard{(M \subst{N}{x})}$.
 \end{lemma}
 
 \begin{proposition}

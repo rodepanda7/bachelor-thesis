@@ -18,7 +18,7 @@ The intuition behind Gödel's embedding is that boxes are used to represent valu
 \label{sec:value-embedding}
 
 In the model embedding of \lav into \lab, we make use of an abbreviation, which we call \raiseembn similar to \cite{espritosanto_et_al:LIPIcs:2019:10525}.
-The idea of \raiseembn is to swap two lambda terms, while removing a box of one \lterm. 
+The idea of \raiseembn is to swap two \lterms, while removing a box of one \lterm. 
 Its use will become clear later in this section when we give some examples.
 We define \raiseembn as follows:
 \begin{flalign*}
@@ -120,7 +120,7 @@ The lemma is divided into two parts - one concerning substitution within values,
   \textbf{Preservation and Reflection of substitution} under Gödel's translation.
   For all \lterms $M$, values $V$, $W$, and variables $x$, it holds that
   \[
-    \godel{M}\subst{\godelv{V}}{\boxe{x}} \equiv \godel{(M \subst{V}{x})} \ and \ \godelv{M}\subst{\godelv{W}}{\boxe{x}} \equiv \godelv{(W \subst{V}{x})}
+    \godel{M}\subst{\godelv{V}}{\boxe{x}} \equiv \godel{(M \subst{V}{x})} \mbox{ and } \godelv{W}\subst{\godelv{V}}{\boxe{x}} \equiv \godelv{(W \subst{V}{x})}
   \]
 \end{lemma}
 
@@ -139,27 +139,27 @@ Thus, \cref{prop:godel-preservation-red} states that if a \lterm $M$ in \lav red
 The two steps that are taken next to each other are always similar and can be merged together into one step.
 Let us reason about this. 
 
-Let us say that \lterm $P$ in \lav reduces to \lterm $Q$. We have that $P$ is of the form $(\lambda{x}{M}) V$ and thus $Q$ is of the form $M \subst{x}{V}$.
+Let us say that \lterm $P$ in \lav reduces to \lterm $Q$. We have that $P$ is of the form $(\lamb{x}{M}) V$ and thus $Q$ is of the form $M \subst{x}{V}$.
 In Gödel's image, we have the following:
 \[
-\godel{P} \equiv \raiseemb{\godel{V}} \godel{(\lamb{x}{M})} \equiv \raiseemb{\boxi{\godelv{V}}} \boxi{\lambda{x}{\godel{M}}}
+\godel{P} \equiv \raiseemb{\godel{V}} \godel{(\lamb{x}{M})} \equiv \raiseemb{\boxi{\godelv{V}}} \boxi{\lamb{x}{\godel{M}}}
 \]
 
 \begin{align*}
-  \raiseemb{\boxi{\godelv{V}}} \boxi{\lambda{x}{\godel{M}}} 
-                  &\equiv (\lamb{z}{\boxe{z}\boxi{\godelv{V}}}) \boxi{\lambda{x}{\godel{M}}}   \\
-                  &\redbbox (\lambda{x}{\godel{M}})\boxi{\godelv{V}}  \\
+  \raiseemb{\boxi{\godelv{V}}} \boxi{\lamb{x}{\godel{M}}} 
+                  &\equiv (\lamb{z}{\boxe{z}\boxi{\godelv{V}}}) \boxi{\lamb{x}{\godel{M}}}   \\
+                  &\redbbox (\lamb{x}{\godel{M}})\boxi{\godelv{V}}  \\
                   &\redbbox \godel{M} \subst{\boxe{x}}{\godelv{V}} \\
 \end{align*}
 
-So, we have that $\raiseemb{\boxi{\godelv{V}}} \boxi{\lambda{x}{\godel{M}}} \redbboxt \godel{M} \subst{\boxe{x}}{\godelv{V}}$.
+So, we have that $\raiseemb{\boxi{\godelv{V}}} \boxi{\lamb{x}{\godel{M}}} \redbboxt \godel{M} \subst{\boxe{x}}{\godelv{V}}$.
 More generally, \cref{def:redbboxts} defines the relation $\redbboxts$.
 
 \begin{definition}
   \label{def:redbboxts}
   \textbf{Gödel's two-step reduction relation \boldmath${\redbboxts}$}.
   \begin{align*}
-    \raiseemb{\boxi{N}} \boxi{\lambda{x}{M}} \redbboxts M \subst{\boxe{x}}{N}\quad \quad (\redbboxts)
+    \raiseemb{\boxi{N}} \boxi{\lamb{x}{M}} \redbboxts M \subst{\boxe{x}}{N}\quad \quad (\redbboxts)
   \end{align*}
 \end{definition}
 

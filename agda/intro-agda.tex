@@ -24,7 +24,6 @@ The keyword \textsf{Set} in the type signature indicates the type of type. This 
   \label{ex:agda-data-type}
   \textbf{Natural numbers as a data type in Agda:}
   \input{agda-code/data-type-ex.tex}
-  This example shows how the natural numbers can be defined in Agda by using an inductive data type with the constructors \textsf{zero} and \textsf{suc}.
 \end{example}
 
 
@@ -38,7 +37,6 @@ Note that the parameter $A$ occurs before the colon, indicating that it is a typ
   \label{ex:agda-parametrized-data-type}
   \textbf{List as a parameterised data type in Agda:}:
   \input{agda-code/data-type-par-ex.tex}
-  This example shows how a list can be defined in Agda by using a parameterised data type with the constructors \textsf{[]} and \textsf{\_::\_}.
 \end{example}
 
 Functions in Agda are defined using pattern matching, similar to Haskell. 
@@ -55,7 +53,6 @@ The first argument can be put on the left side of the constructor and the second
   \label{ex:agda-function}
   \textbf{Function that doubles a natural number in Agda:}
   \input{agda-code/function-double-ex.tex}
-  This example shows how a function can be defined in Agda by using pattern matching on the natural numbers.
 \end{example}
 
 \Cref{ex:agda-dependent-data-type} presents a dependent data type, which is a vector that has a length that is encoded in its type.
@@ -66,7 +63,6 @@ Dependent types differ from parameterised types in that they can vary between co
 The constructor $\_::\_$ in \cref{ex:agda-dependent-data-type} is also an example of a dependent function.
 That is, the return type of $\_::\_$ depends on the value of the implicit argument $n$. The argument $n$ is implicit, denoted by the curly braces around it.
 
-
 We see that $[]$ constructs a vector of length zero, resulting in type $\mbox{\textsf{Vector} } A \mbox{ \textsf{zero}}$, 
 while the constructor $\_::\_$ constructs a vector of length $n+1$, resulting in type $\mbox{\textsf{Vector }} A \mbox{ \textsf{(suc} } n)$.
 Note that the implicit argument $n$ can be inferred from the input type $\mbox{\textsf{Vector} } A \ n$.
@@ -75,11 +71,10 @@ Note that the implicit argument $n$ can be inferred from the input type $\mbox{\
   \label{ex:agda-dependent-data-type}
   \textbf{Vector as a dependent data type in Agda:}
   \input{agda-code/data-type-dep-ex.tex}
-  This example shows how a vector can be defined in Agda by using a dependent data type with the constructors \textsf{[]} and \textsf{\_::\_}.
 \end{example}
 
 \subsection{Hole-Based Programming}
-Agda is made to be used with the Emacs text editor, and the combination of Agda and Emacs provides a way to construct definitions and proofs interactively \cite{Norell2007, AgdaDocs, agda-emacs-mode}, which is called hole-based programming.
+Agda is designed to be used with the Emacs, and the combination provides a way to construct definitions and proofs interactively \cite{agda-emacs-mode, AgdaDocs, Norell2007}, which is called hole-based programming.
 Terms can be constructed step by step, using question marks as placeholders. These turn into holes, indicating incomplete definitions.
 It is best to show this with an example. Note that we could use more holes in \cref{ex:agda-hole-based-programming},
 but we feel like this example is sufficient for understanding the concept of hole-based programming.
@@ -103,24 +98,25 @@ but we feel like this example is sufficient for understanding the concept of hol
   \input{agda-code/hbp-plus-4.tex}
   Inside the first hole, we press \emacs{C-c C-,}. This gives us information about the type of the hole and all the variables in scope,
   which are the variables that we can use to fill in the hole. We get something like the following output:
-  \begin{verbatim}
-    Goal: ℕ
+  \begin{lstlisting}
+    Goal: $\mathbb{N}$
     _________________________
-    x₁ : ℕ
-  \end{verbatim}
+    $x_1$ : $\mathbb{N}$
+  \end{lstlisting}
   This tells us we need to produce a natural number and that we can use the variable $x_1$ inside this hole.
   Since we have that $0 + x_1 = x_1$, we fill in the hole with $x_1$, which can be done by typing $x_1$ inside the hole and pressing \emacs{C-c C-space}.
   The hole will be filled in and Agda will check if the type of the hole is correct. Pressing \emacs{C-c C-f} will move the cursor forward to the next hole.
   \input{agda-code/hbp-plus-5.tex}
   Typing \emacs{C-c C-,} in this second hole gives us the type of the next hole. The output will be similar to the following:
-  \begin{verbatim}
-    Goal: ℕ
+  \begin{lstlisting}
+    Goal: $\mathbb{N}$
     _________________________
-    x₁ : ℕ
-    x : ℕ
-  \end{verbatim}
-  The goal is to produce a natural number, which is the result of an addition. Since one of the arguments is $\textsf{suc } x$, we know the result is not zero.
-  The result should a natural number that uses the \textsf{suc} constructor. We fill in the hole with \textsf{suc ?} and type \emacs{C-c C-space}.
+    $x_1$ : $\mathbb{N}$
+    $x$ : $\mathbb{N}$
+  \end{lstlisting}
+  The goal is to produce a natural number, which is the result of an addition. Since one of the arguments is $\textsf{suc } x$, we know the result is not zero, 
+  and thus we use the \textsf{suc} constructor.
+  We fill in the hole with \textsf{suc ?} and type \emacs{C-c C-space}.
   We closed a hole and made a new hole, which is the argument of the \textsf{suc} constructor. We now have the following code:
   \input{agda-code/hbp-plus-6.tex}
   We can fill in the last hole with $\textsf{plus } x \ x_1$ and press \emacs{C-c C-space} to close the hole.
@@ -129,5 +125,5 @@ but we feel like this example is sufficient for understanding the concept of hol
 \end{example}
 
 \Cref{ex:agda-hole-based-programming} shows how to use the commands \emacs{C-c C-l}, \emacs{C-c C-c}, \emacs{C-c C-f}, \emacs{C-c C-space}, and \emacs{C-c C-,} to interactively develop a function in Agda.
-However, there many more commands available in Agda to help with hole-based programming.
+However, there are many more commands available in Agda to help with hole-based programming.
 For a complete list of commands, we refer to the Agda documentation about Emacs Mode \cite{agda-emacs-mode}.

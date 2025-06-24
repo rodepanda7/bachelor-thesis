@@ -59,7 +59,7 @@ In \cref{ex:well-typedness}, we show that \lterm $(\bi(\lamb{x}{\bi x}))$ is wel
 
 \begin{example}
   \label{ex:well-typedness}
-  \textbf{Well-typedness of \boldmath$(\bi(\lamb{x}{\bi x}))(\bi \bi)$}
+  \textbf{Well-typedness of \boldmath$\bi(\lamb{x}{\bi x})$}
   \small
   \begin{prooftree}  
     \def\extraVskip{5pt}
@@ -78,7 +78,7 @@ In \cref{ex:well-typedness}, we show that \lterm $(\bi(\lamb{x}{\bi x}))$ is wel
         \RightLabel{Id}
         \UnaryInfC{$\judgement{x : A}{x : A}$}
         \RightLabel{\impliese}
-        \BinaryInfC{$\judgement{x : A}{\bi x : A \fa A}$}
+        \BinaryInfC{$\judgement{x : A}{\bi x : A}$}
       \RightLabel{\impliesi}
       \UnaryInfC{$\judgement{}{\lamb{x}{\bi x} : A \fa A}$}
       \RightLabel{\impliese}

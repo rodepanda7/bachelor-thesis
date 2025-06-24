@@ -87,8 +87,8 @@ We discuss this in more detail after we define substitution.
 Keeping the definitions of free and bound variables in mind, we now define substitution.
 In this thesis, substitution is denoted as $P \subst{x}{Q}$ and is defined inductively on $P$ (see \cref{def:substitution}).
 Essentially, it replaces all free occurrences of the variable $x$ in the \lterm $P$ by \lterm $Q$.
-We chose not to use the original notation of substitution by Curry, Feys, and Craig in \cite{CurryFeysCraig1958}, which is $[Q/x]P$,
-as we think the notation $P \subst{x}{Q}$ is more clear and intuitive.  
+The original notation of the substitution by Curry, Feys, and Craig in \cite{CurryFeysCraig1958}, denoting the substitution of $Q$ for $x$ in $P$, is given by $[Q/x]P$.
+However, we chose not to use this original notation, as we think that $P \subst{x}{Q}$ for substituting $Q$ for $x$ in $P$ is clearer and more intuitive.  
 We adopt the definition of substitution from \cite{PLOTKIN1975125}, defined by Plotkin. 
 
 \begin{definition}

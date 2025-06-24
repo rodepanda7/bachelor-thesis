@@ -93,7 +93,7 @@ We repeat the proposition here for convenience:
   For all \lterm $M$ and $N$, if $M \rednb N$ in \lan, then $\girard{M} \redbbox \girard{N}$.
 \end{center}
 \Cref{proof:girard-preservation-red} shows the Agda proof of this proposition.
-Note that we use the helper lemma \cref{lem:girard-pres-subst} to prove this proposition.
+Note that we use the helper \cref{lem:girard-pres-subst} to prove this proposition.
 
 \begin{proofthm}
   \label{proof:girard-preservation-red}
@@ -151,7 +151,7 @@ We repeat the proposition here for convenience:
 \begin{center}
   For all \lterms $M$ and $N$, if $M \redvb N$ in \lan, then $\godel{M} \redbboxts \godel{N}$.
 \end{center}
-The proof of this proposition is similar to \cref{proof:godel-preservation-red} and is given in \cref{proof:godel-preservation-red}.
+The proof of this proposition is similar to \cref{proof:gogel-preservation-2step-red} and is given in \cref{proof:godel-preservation-red}.
 We use the helper lemma $\textsf{pres-rename-red-}\leadsto \beta_{b2}$ that is similar to \textsf{pres-rename-red-2} but for the $\redbboxts$ reduction rule.
 The proof of this lemma can be found in \texttt{proofs/valueProofs.agda}.
 

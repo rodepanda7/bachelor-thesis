@@ -20,6 +20,8 @@ Without \#, $10$ could be confused with two indices $1$ and $0$ that occur next 
 These integers represent the "distance" to the corresponding $\lambda$. 
 \Cref{ex:deBruijn-closed} gives representations of \lterms without free variables, using de Bruijn indices.
 These terms are said to be closed.
+Note that identical indices does not mean that the variables are the same. The \lterm $\lamb{}{\#0}\lamb{}{\#0}$ in \cref{ex:deBruijn-closed} demonstrates this.
+In addition, variables that are the same can have different indices, which we demonstrate later.
 
 \begin{example}
   \label{ex:deBruijn-closed}
@@ -33,18 +35,25 @@ These terms are said to be closed.
 \end{example}
 
 Representing open \lterms (\lterms with free variables) using de Bruijn indices is a little more complex. 
-First, we represent the \lterm with de Bruijn indices, ignoring the free variables.
-Then, we give each free variable a unique index, that is larger than the largest index of the bound variables.
-\Cref{ex:deBruijn-open} demonstrates this.
+First, we represent the \lterm with de Bruijn indices, ignoring all free variables. The idea here is that we wrap the entire \lterm inside an imaginary $\lambda$ that binds the first free variable, 
+and we give it an index the same way as we do for bound variables.
+We keep adding these imaginary $\lambda$s until we have no more free variables left if we consider this wrapped \lterm.
+\Cref{ex:deBruijn-open} illustrates this, with the final \lterm being more complex. It is the same example that de Bruijn presented in his paper \cite{DEBRUIJN1972381}. 
+
+The last term in \cref{ex:deBruijn-open} may need some explanation.
+We first wrap the \lterm with three imaginary $\lambda$s, corresponding to $z$, $w$ and $y$ respectively. 
+The $\lambda$ that binds $z$ is the outermost $\lambda$.
+The indices \#2 and \#3 both refer to $w$, because index 3 is one $\lambda$ deeper, and
+de Bruijn indices can be seen as the distance between the corresponding $\lambda$ and the variable.
 \begin{example}
   \label{ex:deBruijn-open}
   Open \lterms represented with \textbf{de Bruijn indices}:
   \begin{flalign*}
-    & x\lamb{y}{y}                                 \equiv x\lamb{}{0}      \equiv \#1\lamb{}{\#0}          & \\
-    & x\lamb{y}{x}                                 \equiv x\lamb{}{x}      \equiv \#1\lamb{}{\#1}          & \\
-    & \lamb{x}{\lamb{t}{x t (\lamb{s}{w})}wy}      \equiv \lamb{}{\lamb{}{\#1} \#0 (\lamb{}{w}) wy} \equiv \lamb{}{\lamb{}{\#1} \#0 (\lamb{}{\#4}) \#3\#2} &   
+    & x\lamb{y}{y}                                                    \equiv x\lamb{}{\#0}      \equiv \#0\lamb{}{\#0}          & \\
+    & x\lamb{y}{x}                                                    \equiv x\lamb{}{x}        \equiv \#0\lamb{}{\#1}          & \\
+    & \lamb{x}({\lamb{t}({x t (\lamb{u}{u t z})(\lamb{s}{w})})wy})    \equiv \lamb{}({\lamb{}({\#1 \#0 (\lamb{}{\#0 \#1 z})(\lamb{}{w})})wy}) & \\
+    &                                                                 \equiv \lamb{}({\lamb{}({\#1 \#0 (\lamb{}{\#0 \#1 \#5})(\lamb{}{\#3})})\#2\#1}) &   
   \end{flalign*} 
-  The last \lterm in this example is a little more complex and is the example that de Bruijn gave in his paper \cite{DEBRUIJN1972381}
 \end{example}
 
 In the formalisation, we will represent de Bruijn indices similar to how natural numbers are represented in Agda.
@@ -89,7 +98,7 @@ We now define de Bruijn indices that refer to the variables in the context.
 They can be seen as a proof that some type is in the context. If $A$ occurs in the context, 
 then $A \in \Gamma$ denotes that $A$ is in the context $\Gamma$, and de Bruijn index is the proof of this.
 It gives the location in the context where the type occurs. 
-The de Bruijn index \textsf{Z} refers the most recently introduced variable in the context, which appears on the right most position of the context.
+The de Bruijn index \textsf{Z} refers to the most recently introduced variable in the context, which appears on the right most position of the context.
 The de Bruijn index \textsf{S Z} refers to the second most recently introduced variable, and so on.
 
 \begin{definition}
@@ -144,14 +153,14 @@ which is to distinguish between the constructors of the standard \lc and \lab.
 \subsection{Substitution}
 The next challenge in the formalisation is a correct definition of substitution.
 This definition appeared to be the most complex part of the formalisation, and it caused the most problems with the proofs later in this thesis.
-The definition of substitution is similar to the definition that is used in the chapter "De Bruijn indices" in the PLFA book \cite{plfa22.08}.
+The definition of substitution is similar to the definition that is used in the chapter ``De Bruijn indices'' in the PLFA book \cite{plfa22.08}.
 It is based on the definition by Conor McBride \cite{BENTON2012}, which gives a similar definition of substitution in Rocq.
 
 We only give the definition of substitution in Agda of \lterms in \lab, since the definition of substitution in the standard \lc is exactly the same as the definition in \cite{plfa22.08}.
 \Cref{def:substitution:lab} gives the definition of parallel substitution, which is the substitution of a list of variables by a list of \lterms.
 Then we define single substitution in \cref{def:single:substitution:lab}, which might be more familiar and is the substitution of a single \lterm by another \lterm.
 
-In general, substitution is about replacing variables by \lterms. With  parallel substitution, a multiple variables are replaced by other \lterms. 
+In general, substitution is about replacing variables by \lterms. With  parallel substitution, multiple variables are replaced by other \lterms. 
 So, substitution can be seen as a function, taking a map from variables in one context to \lterms in another context
 and a \lterm as arguments, and returning a new \lterm with the variables replaced by the corresponding \lterms.
 
@@ -170,7 +179,7 @@ An example of this is given in \cref{ex:rename:agda}.
 
 The rename lemma is defined in terms of \textsf{extb}, which works similarly to \textsf{extsb}, but is only used for extending the context.
 The function \textsf{extb} takes a map from variables in one contex to variables in another context and returns a map from variables in the first context extended with a type to variables in the second context extended with a type.
-Again, this type will be the the input type of the $\lambda$ abstraction in \textsf{renameb}.
+Again, this type will be the input type of the $\lambda$ abstraction in \textsf{renameb}.
 Thus, the definition of simultaneous substitution is based on the definitions of \textsf{extsb}, \textsf{renameb} and \textsf{extb}.
 
 \begin{example}
@@ -218,7 +227,7 @@ where the use of \textsf{renameb} is required. Recall that \raiseembn was define
 The term $M$ outside the function (in $\raiseemb{M}$) has a different context than the term $M$ inside the function of \raiseembn ($\lamb{z}{\boxe{z}M}$).
 We attempt to give a typing derivation in \cref{fig:modal-implication}. We assume that term $M$ has type \textsf{B'} which can be derived from $\Gamma$.
 However, we are stuck in the derivation since we do not have rules to discard assumptions. 
-We see that we need to proof $\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{M : B'}$ instead of $\judgement{\Gamma}{M : B'}$.
+We see that we need to prove $\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{M : B'}$ instead of $\judgement{\Gamma}{M : B'}$.
 
 \begin{figure}[H]
   \small
@@ -237,7 +246,7 @@ We see that we need to proof $\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{
     \RightLabel{\impliesi}
     \UnaryInfC{$\judgement{\Gamma}{\lamb{z}{\boxe{z}M} : \boxt{(\boxt{B} \fa B')} \fa B'}$} % Conclusion
   \end{prooftree}
-  \caption{The attempt of the typing derivation of $\lamb{z}{\boxe{z}M}$}
+  \caption{Attempt of the typing derivation of $\lamb{z}{\boxe{z}M}$}
   \label{fig:modal-implication}
 \end{figure}
 
@@ -259,7 +268,7 @@ We achieve this by renaming with the function \textsf{Sb} as shown below. The re
   \textsf{rename (Sb } \{\square B = \boxt{(\boxt{B} \fa \boxt{B'})}\}) \ M
 \]
 
-Here, we need to give the implicit argument since \textsf{Sb} needs to know what to the resulting context will be.
+Here, we need to give the implicit argument since \textsf{Sb} needs to know what the resulting context will be.
 Now, we incorporate this into the definition of \raiseembn. 
 Note that Agda can automatically infer the implicit arguments of \textsf{Sb} in the definition of \textsf{raise}.
 
