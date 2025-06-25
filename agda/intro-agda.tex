@@ -25,8 +25,6 @@ The keyword \textsf{Set} in the type signature indicates the type of type. This 
   \textbf{Natural numbers as a data type in Agda:}
   \input{agda-code/data-type-ex.tex}
 \end{example}
-
-
 Data types in Agda can also have parameters. 
 This makes them more flexible and allows for the creation of more complex data types.
 \Cref{ex:agda-parametrized-data-type} shows such a data type, which is a list that can hold elements of any type \(A\).
@@ -38,7 +36,6 @@ Note that the parameter $A$ occurs before the colon, indicating that it is a typ
   \textbf{List as a parameterised data type in Agda:}:
   \input{agda-code/data-type-par-ex.tex}
 \end{example}
-
 Functions in Agda are defined using pattern matching, similar to Haskell. 
 Each function has a type signature that defines the type of the function and its arguments.
 After the type signature, a number of equations follows, defining the function for each pattern,
@@ -54,7 +51,6 @@ The first argument can be put on the left side of the constructor and the second
   \textbf{Function that doubles a natural number in Agda:}
   \input{agda-code/function-double-ex.tex}
 \end{example}
-
 \Cref{ex:agda-dependent-data-type} presents a dependent data type, which is a vector that has a length that is encoded in its type.
 In this example, we see that the type of a vector depends on a natural number, which is different for both constructors.
 The dependent type occurs after the colon, which is $\mathbb{N}$ in this case. 
@@ -72,10 +68,12 @@ Note that the implicit argument $n$ can be inferred from the input type $\mbox{\
   \textbf{Vector as a dependent data type in Agda:}
   \input{agda-code/data-type-dep-ex.tex}
 \end{example}
-
 \subsection{Hole-Based Programming}
-Agda is designed to be used with the Emacs, and the combination provides a way to construct definitions and proofs interactively \cite{agda-emacs-mode, AgdaDocs, Norell2007}, which is called hole-based programming.
-Terms can be constructed step by step, using question marks as placeholders. These turn into holes, indicating incomplete definitions.
+Agda is designed to be used with the Emacs text editor, and the combination provides a way to construct definitions and proofs interactively \cite{agda-emacs-mode, AgdaDocs, Norell2007}, which is called hole-based programming.
+While basic support for hole-based programming is available in other text editors, not all features are supported.
+Visual Studio Code, for example, has some basic support, while support for Vim is more limited and experimental \cite{AgdaDocs}.
+
+In hole-based programming, terms can be constructed step by step, using question marks as placeholders. These turn into holes, indicating incomplete definitions.
 It is best to show this with an example. Note that we could use more holes in \cref{ex:agda-hole-based-programming},
 but we feel like this example is sufficient for understanding the concept of hole-based programming.
 
@@ -105,6 +103,7 @@ but we feel like this example is sufficient for understanding the concept of hol
   \end{lstlisting}
   This tells us we need to produce a natural number and that we can use the variable $x_1$ inside this hole.
   Since we have that $0 + x_1 = x_1$, we fill in the hole with $x_1$, which can be done by typing $x_1$ inside the hole and pressing \emacs{C-c C-space}.
+  We can type the subscript $1$ in Emacs by typing \textsf{$\backslash \ 1$}. Agda allows this usage for unicode characters, since Agda files are UTF-8 encoded \cite{AgdaDocs}.
   The hole will be filled in and Agda will check if the type of the hole is correct. Pressing \emacs{C-c C-f} will move the cursor forward to the next hole.
   \input{agda-code/hbp-plus-5.tex}
   Typing \emacs{C-c C-,} in this second hole gives us the type of the next hole. The output will be similar to the following:

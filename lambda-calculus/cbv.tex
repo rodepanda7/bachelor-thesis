@@ -1,4 +1,5 @@
 \section{\texorpdfstring{Call-by-value \boldmath$\lambda$-calculus}{Call-by-value Lambda Calculus}}
+\label{sec:value-calculus}
 The call-by-value \lc (\lav) is defined by Gordon Plotkin in \cite{PLOTKIN1975125} and this section defines it similarly. 
 We first define the notion of values.
 Values are \lterms that are fully evaluated. That is, values are \lterms that cannot be reduced any further and thus do not contain any function applications.
@@ -48,7 +49,7 @@ The relation $\redv$ is defined as $\bv$, closed under $\mu$ and $\nu_<$.
 	\centering
 	\begin{tabularx}{\linewidth}{|X|XXXXX|}
 		\hline
-	\textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ \\
+		\textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ \\
 		\hline
 		$\rednb$ & $\bn$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
 		\hline
@@ -61,10 +62,13 @@ The relation $\redv$ is defined as $\bv$, closed under $\mu$ and $\nu_<$.
 		$\redv$  & $\bv$ & $\checkmark$ & 						 & $\checkmark$ & \\
 		\hline
 	\end{tabularx}
-\caption{Closure Rules for Different Reduction Relations}
-\label{tab2:closure-rules}
+	\caption{Closure Rules for Different Reduction Relations}
+	\label{tab2:closure-rules}
 \end{table}
 
+Similar to call-by-name evaluation, call-by-value evaluation is defined as $\redvs$. 
+Here the star denotes the use of any number of $\redv$ steps, including zero steps.
+We also define $\redvn$ as $n$ consecutive $\redv$ steps, with $n$ being a natural number.
 Note that $\redv$ is deterministic, so there is only one way to apply $\redv$ on a \lterm.
 The choice between using $\mu$, $\nu_<$ or no closure rule for $\redv$ is deterministic. Consider the \lterm $M N$.
 

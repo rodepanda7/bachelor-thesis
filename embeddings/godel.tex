@@ -111,16 +111,16 @@ We give a small example to clarify everything. Consider the \lterm $\bi x$. It h
 
 We now discuss the properties of Gödel's translation.
 Just like Girard's translation, Gödel's translation preserves reduction and evaluation.
-To proof these properties, we again need a helper lemma that is similar to the one used for Girard's translation.
+To prove these properties, we again need a helper lemma that is similar to the one used for Girard's translation.
 The helper lemma, \cref{lem:godel-pres-subst}, states that Gödel's translation preserves and reflects substitution.
 The lemma is divided into two parts - one concerning substitution within values, and the other dealing with substitution in any \lterm.
 
 \begin{lemma}
   \label{lem:godel-pres-subst}
   \textbf{Preservation and Reflection of substitution} under Gödel's translation.
-  For all \lterms $M$, values $V$, $W$, and variables $x$, it holds that
+  For all \lterms $M$, values $V$, $W$, and variables $x$:
   \[
-    \godel{M}\subst{\godelv{V}}{\boxe{x}} \equiv \godel{(M \subst{V}{x})} \mbox{ and } \godelv{W}\subst{\godelv{V}}{\boxe{x}} \equiv \godelv{(W \subst{V}{x})}
+    \godel{M}\subst{\boxe{x}}{\godelv{V}} \equiv \godel{(M \subst{x}{V})} \mbox{ and } \godelv{W}\subst{\boxe{x}}{\godelv{V}} \equiv \godelv{(W \subst{x}{V})}
   \]
 \end{lemma}
 
@@ -128,12 +128,14 @@ Preservation of reduction of Gödel's translation is slightly more complicated t
 This is because Gödel's translation makes use of the \raiseembn abbreviation, which swaps two terms.
 However, this swapping takes an extra step while reducing a \lterm.
 Thus, \cref{prop:godel-preservation-red} states that if a \lterm $M$ in \lav reduces to $N$ in one step, then $\godel{M}$ reduces to $\godel{N}$ in \lab in two steps.
+We use the notation $\redbboxt$ for two steps reduction steps of $\redbbox$.
 
 \begin{proposition}
   \label{prop:godel-preservation-red}
   \textbf{Preservation of reduction} under Gödel's translation.
-  \center
-  For all \lterms $M$ and $N$, if $M \rednb N$ in \lav, then $\godel{M} \redbboxt \godel{N}$.
+  For all \lterms $M$ and $N$:
+  \center 
+  if $M \rednb N$ in \lav, then $\godel{M} \redbboxt \godel{N}$.
 \end{proposition}
 
 The two steps that are taken next to each other are always similar and can be merged together into one step.
@@ -169,8 +171,9 @@ This is done in \cref{prop:godel-preservation-red2s}.
 \begin{proposition}
   \label{prop:godel-preservation-red2s}
   \textbf{Preservation of reduction} under Gödel's translation with $\redbboxts$ reduction rule.
-  \center
-  For all \lterms $M$ and $N$, if $M \redvb N$ in \lav, then $\godel{M} \redbboxts \godel{N}$.
+  For all \lterms $M$ and $N$: 
+  \center 
+  if $M \redvb N$ in \lav, then $\godel{M} \redbboxts \godel{N}$.
 \end{proposition}
 
 Preservation of evaluation is more difficult to prove than preservation of reduction.
@@ -185,6 +188,7 @@ However, a less formal proof of this proposition is given by José Espírito San
 \begin{proposition}
   \label{prop:godel-preservation-eval}
   \textbf{Preservation of evaluation} under Gödel's translation.
-  \center
-  For all \lterms $M$ and values $V$, if $M \redv V$ in \lav, then $\godel{M} \redbv \godel{V}$.
+  For all \lterms $M$ and values $V$: 
+  \center  
+  if $M \redv V$ in \lav, then $\godel{M} \redbv \godel{V}$.
 \end{proposition}
