@@ -27,7 +27,7 @@ Therefore, we define $FV$ and $BV$ for $x$, $\lamb{x}{M}$ and $M N$.
 
 Let us now explain $FV$.
 The variable $x$ in the \lterm $x$ is free. All free variables in an abstraction are those that are not the parameter of the abstraction.
-For an application $M N$, all free variables are all free variables of \lterm $M$ and \lterm $N$.
+All free variables in an application $M N$ are all free variables of $M$ plus the free variables of $N$.
 
 \begin{definition}
 	\label{def:bound-variable}
@@ -48,7 +48,7 @@ For an application $M N$, the bound variables are all bound variables of both \l
 We give two examples to illustrate the definitions of free and bound variables.
 We show that \lterm $\lamb{x}{yx}$ has one free variable, $y$ and one bound variable $x$.
 \begin{example}
-	\label{ex:free-variable}
+	\label{ex:free-bound-variable}
 	\textbf{FV}
 	\begin{eqnarray*}
 		FV(\lamb{x}{yx}) &=& FV(y x) \backslash \{x\} \\
@@ -57,11 +57,6 @@ We show that \lterm $\lamb{x}{yx}$ has one free variable, $y$ and one bound vari
 		&=& \{x, y\} \backslash \{x\} \\
 		&=& \{y\}
 	\end{eqnarray*}
-\end{example}
-
-\begin{example}
-	\label{ex:bound-variable}
-	\textbf{BV}
 	\begin{eqnarray*}
 		BV(\lamb{x}{xy}) &=& BV(xy) \cup \{x\} \\
 		&=& (BV(x) \cup BV(y)) \cup \{x\} \\
@@ -105,9 +100,9 @@ We adopt the definition of substitution from \cite{PLOTKIN1975125}, defined by P
 	with $z$ a variable defined by:
 	\begin{enumerate}
 		\item%1
-		If $x \notin FV(N)$ or $y \notin FV(M)$ then $z = y$
+		If $x \notin FV(Q)$ or $y \notin FV(M)$ then $z = y$
 		\item%2
-		Otherwise, $z$ can be any variable such that $z \notin FV(N)$ or $z \notin FV(M)$
+		Otherwise, $z$ can be any variable such that $z \notin FV(Q)$ or $z \notin FV(M)$
 	\end{enumerate}
 \end{definition}
 
@@ -133,14 +128,10 @@ We adopt the definition of substitution from \cite{PLOTKIN1975125}, defined by P
 
 
 The collection of variables is infinite, so the variable $z$ always exists. Choosing a fresh variable for $z$ always satisfies condition two.
-It might not be clear why we need to use the variable $z$ and one might expect the rule in \cref{def:simple-substitution} is sufficient.
-\begin{definition}
-	\label{def:simple-substitution}
-	\textbf{Incorrect Substitution Rule}
-	\begin{align*}
-		(\lamb{y}{M}) \subst{x}{Q} &= \lamb{z}{M \subst{x}{Q}} \text{ if } (x \neq y)
-	\end{align*}
-\end{definition}
+It might not be clear why we need to use the variable $z$ and one might expect the following rule is sufficient.
+\begin{align*}
+	(\lamb{y}{M}) \subst{x}{Q} &= \lamb{z}{M \subst{x}{Q}} \text{ if } (x \neq y)
+\end{align*}
 
 However, the following example illustrates why the more complicated rule is necessary.
 Consider the substitution $(\lamb{y}{xy})\subst{x}{y}$. The free variable of \lterm $\lamb{y}{xy}$ is $x$ and the bound variable is $y$.
@@ -199,7 +190,7 @@ We use the definition of \br discussed in \cite{barendregt1992lambda} and \cref{
 
 
 A \lterm of the form $(\lamb{x}{M})N$ can be reduced by substituting $x$ by $N$ in $M$. 
-However, without additional rules, we cannot apply \br to subterms.
+In order to apply \br to subterms, we define closure rules.
 We use closure rules similar to how Espírito Santo, Pinto, and Uustalu use them in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 Closure rules are also discussed in \cite{barendregt1992lambda} and \cite{PLOTKIN1975125}.
 For example, the following reduction would not be possible: $\lamb{x}{(\lamb{y}{y})x} \red \lamb{x}{x}$.
@@ -248,4 +239,4 @@ For instance, we need to use the $\mu$ and $\xi$ rule in the last example of the
 
 We see that \br is a non-deterministic relation, which means that there can be multiple ways to reduce a term.
 However, sometimes we would only like to reduce a term in one way and have a deterministic relation.
-To achieve this, we can define subrelations that do not allow all closure rules.
+To achieve this, we can define subrelations that do not allow all closure rules, which we see in \cref{sec:call-by-name,sec:value-calculus}.
