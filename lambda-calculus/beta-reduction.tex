@@ -15,7 +15,7 @@ Therefore, we define $FV$ and $BV$ for $x$, $\lamb{x}{M}$ and $M N$.
 
 \begin{definition}
 	\label{def:free-variable}
-	\textbf{FB} \\
+	\textbf{Free Variables} are given by the function $FV$ as follows:  \\
 	\[
 	\begin{aligned}
 		& FV(x)           & &= \{x\} \\
@@ -31,7 +31,7 @@ All free variables in an application $M N$ are all free variables of $M$ plus th
 
 \begin{definition}
 	\label{def:bound-variable}
-	\textbf{BV} \\
+	\textbf{Bound Variables} are given by the function $BV$ as follows:  \\
 	\[
 		\begin{aligned}
 			& BV(x)           & &= \emptyset \\
@@ -49,7 +49,7 @@ We give two examples to illustrate the definitions of free and bound variables.
 We show that \lterm $\lamb{x}{yx}$ has one free variable, $y$ and one bound variable $x$.
 \begin{example}
 	\label{ex:free-bound-variable}
-	\textbf{FV}
+	\textbf{Free and Bound variables} of \lterm $\lamb{x}{yx}$ are found by the following calculations:
 	\begin{eqnarray*}
 		FV(\lamb{x}{yx}) &=& FV(y x) \backslash \{x\} \\
 		&=& (FV(x) \cup FV(y)) \backslash \{x\} \\
@@ -89,7 +89,7 @@ We adopt the definition of substitution from \cite{PLOTKIN1975125}, defined by P
 
 \begin{definition}
 	\label{def:substitution}
-	\textbf{Substitution}
+	\textbf{Substitution} in the \lc:
 		\begin{align*}
 			x \subst{x}{Q}             &= Q \\
 			y \subst{x}{Q}             &= y \text{ if } (x \neq y) \\
@@ -153,7 +153,7 @@ We define the relation $P \aeqr P'$ inductively on $P$ and $P'$ in \cref{def:alp
 
 \begin{definition}
 	\label{def:alpha-equivalence}
-	\textbf{\boldmath${\alpha}$-equivalence}
+	\textbf{\boldmath${\alpha}$-equivalence} of \lterms:
 	\[
 	\begin{aligned}
 		& x \aeqr y                      & &  \text{ if } x = y \\
@@ -166,7 +166,7 @@ We define the relation $P \aeqr P'$ inductively on $P$ and $P'$ in \cref{def:alp
 The last rule states that abstractions $\lamb{x}{M}$ and $\lamb{y}{M'}$ are equivalent if $M$ and $M'$ are equivalent after substituting $y$ for $x$ in $M'$.
 However, $x$ should be equal to $y$ or $x$ should not be a free variable in $M'$. 
 \begin{example}
-	Consider the following:
+	\textbf{\boldmath${\alpha}$-equivalence} of \lterms. Here, we demonstrate \aeq of abstractions:
 	\begin{itemize}
 		\item 
 		$\lamb{x}{zx}$ is equivalent to $\lamb{y}{zy}$, since $zy\subst{y}{x} = zx \aeqr zx$ and $x$ is not a free variable in $zy$.
@@ -182,7 +182,7 @@ We use the definition of \br discussed in \cite{barendregt1992lambda} and \cref{
 
 \begin{definition}
 	\label{def:beta-reduction}
-	\textbf{\boldmath${\beta}$-reduction}
+	\textbf{\boldmath${\beta}$-reduction} in \lc:
 	\begin{align*}
 		(\lamb{x}{M})N \red M \subst{x}{N} \quad \quad (\beta)
 	\end{align*}
@@ -198,7 +198,7 @@ Therefore, in \cref{def:closure-rules}, we define the following closure rules: $
 
 \begin{definition}
 	\label{def:closure-rules}
-	\textbf{Closure rules for \boldmath${\beta}$-reduction} \\
+	\textbf{Closure rules for \boldmath${\beta}$-reduction:} \\
 		\begin{tabularx}{\textwidth}{YYY}
 			\begin{prooftree}
 				\AxiomC{$M \rightarrow M'$} % Conclusion
@@ -228,7 +228,7 @@ For instance, we need to use the $\mu$ and $\xi$ rule in the last example of the
 
 \begin{example}
 	\label{ex:beta-reduction}
-	\textbf{Usage of Closure Rules}
+	\textbf{Usage of Closure Rules:}
 	\begin{align*}
 		(\underline{\bi \bi})(\bi \bi) 							&\redb \bi (\bi \bi) 							 & &\beta \text{ with } \mu \text{ rule } \\
 		(\bi \bi)(\underline{\bi \bi}) 							&\redb (\bi \bi) \bi 							 & &\beta \text{ with } \nu \text{ rule } \\

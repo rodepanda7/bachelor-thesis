@@ -7,7 +7,7 @@ We define values in \cref{def:values} as all \lterms that are either a variable 
 
 \begin{definition}
 	\label{def:values}
-	\textbf{Values in \boldmath${\lambda_v}$}
+	\textbf{Values in \boldmath${\lambda_v}$} are given via:
 	\begin{align*}
 		\begin{grammar}{
 			\pr{$V$}{$x \gors \lambda x.M$}
@@ -21,7 +21,7 @@ The \br rule is defined in \cref{def:call-by-value-reduction}.
 
 \begin{definition}
 	\label{def:call-by-value-reduction}
-	\textbf{\boldmath${\beta_v}$-reduction}	
+	\textbf{\boldmath${\beta_v}$-reduction} in \lav:	
 	\begin{align*}
 		(\lamb{x}{M})V \red M \subst{x}{V} \quad \quad (\bv) 
 	\end{align*}
@@ -32,7 +32,7 @@ In call-by-value evaluation, we first reduce the left \lterm of a function appli
 
 \begin{definition}
 	\label{def:nu-less}
-	\textbf{\boldmath$\nu_<$}	
+	\textbf{The closure rule \boldmath$\nu_<$:}	
 	\begin{prooftree}
 		\def\extraVskip{5pt}
 		\AxiomC{$N \red N'$}
@@ -86,7 +86,7 @@ Again, the \bre that is reduced is underlined.
 % EXPLAIN THIS REDUCTION MORE. MAKE SURE THAT THE READER UNDERSTANDS THIS EXAMPLE.
 \begin{example}
 	\label{ex:call-by-value}
-	\textbf{Cbv evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$}
+	\textbf{Cbv evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
 	\begin{eqnarray*}
 		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
 		&\redv& \underline{(\lamb{x}{\bi x}) \bi} \\

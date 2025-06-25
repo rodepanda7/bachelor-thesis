@@ -13,7 +13,7 @@ Zena et al. \cite{AriolaFelleisen1997} define a call-by-need calculus, but for s
 
 \begin{definition}
 	\label{def:call-by-name-reduction}
-	\textbf{\boldmath${\beta_n}$-reduction}
+	\textbf{\boldmath${\beta_n}$-reduction} in \lan:
 	\begin{align*}
 		(\lamb{x}{M})N \red M \subst{x}{N} \quad \quad (\bn)
 	\end{align*}
@@ -54,7 +54,7 @@ Note that $\redn$ is deterministic, so there is always only one way to apply $\r
 
 \begin{example}
 	\label{ex:call-by-name}
-	\textbf{Cbn evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$}
+	\textbf{Cbn evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
 	\begin{eqnarray*}
 		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redn& \underline{(\lamb{x}{\bi x}) (\bi \bi)} \\
 		&\redn& \underline{\bi (\bi \bi)} \\

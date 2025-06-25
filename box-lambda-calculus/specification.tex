@@ -24,7 +24,7 @@ The type $X$ denotes the base type. Note that functions types are of the form $B
 
 \begin{definition}
   \label{def:typesb}
-  \textbf{Types of \boldmath${\la_b}$}
+  \textbf{Types of \boldmath${\la_b}$} are given via the following grammar:
 	\begin{align*}
     \begin{grammar}{
       \pr{$A$}{$X \gors B \fa A \gors B$}
@@ -43,7 +43,7 @@ The type $X$ is the base type.
 
 \begin{example}
   \label{ex:typesb}
-  \textbf{Types in \boldmath${\la_b}$}
+  \textbf{Types in \boldmath${\la_b}$:}
   \begin{align*}
     & X \\
     & \boxt{(B \fa A)} \\
@@ -61,7 +61,7 @@ In this thesis, we use $M$, $N$, $P$, and $Q$ for arbitrary terms in \lab.
 
 \begin{definition}
   \label{def:lab}
-  \textbf{Terms in \boldmath${\la_b}$}
+  \textbf{Terms in \boldmath${\la_b}$} are given by:
   \begin{align*}    
     \begin{grammar}{
       \pr{$M, N, P, Q$}{$\boxe{x} \gors \lambda x.M \gors M N \gors \boxi{N}$}
@@ -72,7 +72,7 @@ In this thesis, we use $M$, $N$, $P$, and $Q$ for arbitrary terms in \lab.
 
 \begin{example}
   \label{ex:termsb}
-  \textbf{Terms in \boldmath${\la_b}$}
+  \textbf{Terms in \boldmath${\la_b}$:}
   \begin{align*}
     & \boxe{x} \\
     & \lamb{x}{\boxe{x}} \\
@@ -90,7 +90,7 @@ It is important that the argument $N$ is a boxed term, which is why we denote it
 
 \begin{definition}
   \label{def:typing-rulesb}
-  \textbf{Typing rules of \boldmath${\la_b}$}
+  \textbf{Typing rules of \boldmath${\la_b}$} are defined as follows:
   \begin{prooftree}
     \def\extraVskip{5pt}
     \AxiomC{\phantom{A}}
@@ -127,7 +127,7 @@ If the argument was not boxed, we would not be able to apply the abstraction $\l
 
 \begin{example}
   \label{ex:typingb}
-  \textbf{Well-typedness of \boldmath$(\lamb{x}{\boxe{x}}) \boxi{\lamb{y}{\boxe{y}}}$}
+  \textbf{Well-typedness of \boldmath$(\lamb{x}{\boxe{x}}) \boxi{\lamb{y}{\boxe{y}}}$.} The typing derivation of \lterm $(\lamb{x}{\boxe{x}}) \boxi{\lamb{y}{\boxe{y}}}$ is given by the tree below.
   \small
   \begin{prooftree}
     \def\extraVskip{5pt}
@@ -155,9 +155,9 @@ If the argument was not boxed, we would not be able to apply the abstraction $\l
 Since variables always occur inside $\varepsilon$, we need to redefine free and bound variables and substitution.
 For \lab, we have: 
 
-\begin{definition}[Free and Bound Variables]
+\begin{definition}
   \label{def:fv}
-  The free and bound variables of a term $M$ are defined by:
+  \textbf{Free and Bound Variables} in \lab are defined as follows:
   \begin{align*}
     & FV_b(\boxe{x})    & &= \{x\}                          & & BV(\boxe{x})    & &= \emptyset \\
     & FV_b(\lamb{x}{M}) & &= FV(M) \backslash \{x\}         & & BV(\lamb{x}{M}) & &= BV(M) \cup \{x\} \\
@@ -165,9 +165,9 @@ For \lab, we have:
   \end{align*}
 \end{definition}
 
-\begin{definition}[Substitution in \lab]
+\begin{definition}
   \label{def:subst}
-  The substitution of some \lterm $Q$ for an unboxed variable $\boxe{x}$ in some \lterm is defined as follows:
+  \textbf{Substitution in \lab} of some \lterm $Q$ for an unboxed variable $\boxe{x}$ in some \lterm is defined by:
   \[
 \begin{aligned}
 	& \boxe{x} \subst{\boxe{x}}{Q}            & &= Q \\
@@ -189,14 +189,15 @@ with $z$ a variable defined by:
 
 With this new \lc, it may not be completely clear that substitution preserves well-typedness.
 We can prove that substitution preserves well-typedness in \lab.
-\begin{proposition}[Preservation of well-typedness]
+\begin{proposition}
+  \textbf{Preservation of well-typedness in \boldmath${\la_b}$:}
   \[
     \mbox{If } \judgement{\Gamma, x : \boxt{A}}{M : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{M \subst{\boxe{x}}{Q} : A'}
   \]
 \end{proposition}
 
 \begin{proofthm}
-  We prove by structural induction on the term $M$ that this substitution preserves well-typedness.
+  \textbf{Preservation of well-typedness in \boldmath${\la_b}$}. We prove by structural induction on the term $M$ that this substitution preserves well-typedness.
   \begin{enumerate}
     \item%1 
     We now prove:
@@ -266,9 +267,9 @@ With this definition of substitution, we define the reduction rule for \lab in \
 In \lab, the arguments of abstractions are always boxed, so we can only apply abstractions to boxed terms.
 Since variables only occur insides $\varepsilon$, we can replace those, including $\varepsilon$, with the corresponding unboxed term.
 
-\begin{definition}[$\bb$]
+\begin{definition}
   \label{def:beta}
-  In \lab, $\beta$ reduction is defined as follows:
+  \textbf{\boldmath${\beta}$-reduction} in \lab is defined as follows:
   \begin{align*}
     (\lamb{x}{M})\boxi{N} \red M \subst{\boxe{x}}{N} \quad \quad (\bb)
   \end{align*}
@@ -279,7 +280,7 @@ We call this rule $\zeta$, and \cref{def:closure} defines it.
 
 \begin{definition}
   \label{def:closure}
-  \textbf{\boldmath${\zeta}$}
+  \textbf{The closure rule \boldmath${\zeta}$.} This rule allows reduction under boxed terms in \lab.
   \begin{prooftree}
     \def\extraVskip{5pt}
     \AxiomC{$M \redbbox N$}

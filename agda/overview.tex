@@ -31,9 +31,11 @@ Both files also contain all helper lemmas necessary to prove the propositions.
 \label{sec:helper-lemmas}
 This subsection goes over the two main helper lemmas needed to prove the main propositions about Girard's and Gödel's embedding.
 In general, the lemma \textsf{pres-subst} states that the order of embedding and substitution does not matter.
-\Cref{lem:pres-subst} shows the corresponding Agda proof of this lemma for Girard's embedding.
-We do not give the full proof, since it is quite long and involves going through the chained definition of substitution, traversing \textsf{extsb}, \textsf{renameb} and \textsf{extb}.
-\Cref{lem:pres-subst-godel} shows the proof of \textsf{pres-subst} for Gödel's embedding. This lemma consists of two parts, one for substitution in values and one for substitution in \lterms in general.
+\Cref{lem:pres-subst} shows the corresponding Agda statement of this lemma for Girard's embedding.
+We do not show the proof to make this thesis more readable, but it can be found in the Agda formalisation in \texttt{proofs/nameProofs.agda}.
+Besides, the full proof is quite long and involves going through the chained definition of substitution, traversing \textsf{extsb}, \textsf{renameb} and \textsf{extb}.
+\Cref{lem:pres-subst-godel} shows the statement of \textsf{pres-subst} for Gödel's embedding in Agda. This lemma consists of two parts, one for substitution in values and one for substitution in \lterms in general.
+The complete proof of this can be found in the Agda formalisation in \texttt{proofs/valueProofs.agda}.
 
 \begin{lemma}
   \label{lem:pres-subst}

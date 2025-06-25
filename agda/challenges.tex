@@ -25,7 +25,7 @@ In addition, variables that are the same can have different indices, which we de
 
 \begin{example}
   \label{ex:deBruijn-closed}
-  Closed \lterms represented with \textbf{de Bruijn indices}:
+  \textbf{De Bruijn indices for closed \lterms:}
   \begin{align*}
     \lamb{x}{x}                                  &\equiv \lamb{}{\#0}                         \\
     \lamb{x}{\lamb{y}{x}}                        &\equiv \lamb{}{\lamb{}{\#1}}                \\
@@ -47,7 +47,7 @@ The indices \#2 and \#3 both refer to $w$, because index 3 is one $\lambda$ deep
 the de Bruijn indices can be seen as the distance between the corresponding $\lambda$ and the variable.
 \begin{example}
   \label{ex:deBruijn-open}
-  Open \lterms represented with \textbf{de Bruijn indices}:
+  \textbf{De Bruijn indices for open \lterms:}
   \begin{align*}
     x\lamb{y}{y}                                                    &\equiv x\lamb{}{\#0}      \equiv \#0\lamb{}{\#0}           \\
     x\lamb{y}{x}                                                    &\equiv x\lamb{}{x}        \equiv \#0\lamb{}{\#1}           
@@ -133,7 +133,7 @@ and that we provide evidence for this type when constructing the \lterm.
 
 \begin{example}
   \label{ex:terms-agda}
-  \textbf{\boldmath${\lambda}$-terms in Agda:}
+  \textbf{\boldmath${\lambda}$-terms in Agda.}
   In this example, we show how to construct \lterms in Agda. 
   We also show in comments to what \lterms they correspond if they are written in the traditional style.
   \input{agda-code/calcExamples1.tex}
@@ -281,7 +281,7 @@ Note that Agda can automatically infer the implicit arguments of \textsf{Sb} in 
 
 \begin{definition}
   \label{def:raise:agda}
-  \textbf{\textsf{raise}} in Agda
+  \textbf{\textsf{raise}} in Agda:
   \input{agda-code/embedCBVIntoCBB1.tex}
 \end{definition}
 

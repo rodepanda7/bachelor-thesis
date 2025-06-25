@@ -31,21 +31,20 @@ The embedding $\godel{(\cdot)}$ and $\godelv{(\cdot)}$ are mutually inductively 
 That is, we define $\godel{(\cdot)}$ in terms of $\godelv{(\cdot)}$ and vice versa.
 We also give the translation of \lterm $\bi x$ in \cref{ex:gödel-translation}.
 
-\begin{figure}[h]
-  \centering
+\begin{definition}[h]
+  \label{fig:gödel-translation}
+  \textbf{Gödel's translation} $\godel{(\cdot)}$ from \lav to \lab is defined as follows:
   \begin{align*}
     \godel{A}   & = \boxt{\godelv{A}}                                        & \godel{V}             & = \boxi{\godelv{V}} \\
     &                                                                        & \godel{(M N)} & = \raiseemb{\godel{N}}\godel{M} \\\\
     \godelv{X}  & = X                                                        & \godelv{x}             & = \boxe{x} \\
     \godelv{(A_1 \fa A_2)} & = \boxt{\godelv{A_1}} \fa \boxt{\godelv{A_2}}   & \godelv{(\lamb{x}{M})} & = \lamb{x}{\godel{M}}
   \end{align*}
-  \caption{Gödel's translation from \lav to \lab.}
-  \label{fig:gödel-translation}
-\end{figure}
+\end{definition}
 
 \begin{example}
   \label{ex:gödel-translation}
-  \textbf{\boldmath${\godel{(\bi x)}}$}
+  \textbf{Gödel's translation of \boldmath${\bi x}$:}
   \begin{align*}
     \godel{(\bi x)} &= \raiseemb{\godel{x}} \godel{(\lamb{x}{x})}  \\
                     &= \raiseemb{\boxi{\godelv{x}}} \boxi{\godelv{(\lamb{x}{x})}}  \\
@@ -94,7 +93,7 @@ We give a small example to clarify everything. Consider the \lterm $\bi x$. It h
 
 \begin{example}
   \label{ex:gödel-translation-bv}
-  \textbf{\boldmath${\godel{(\bi x)}}$}
+  \textbf{\boldmath${\godel{(\bi x)}}$ evaluated by $\redbv$:}
   \begin{align*}
     \godel{(\bi x)} &= \raiseemb{\godel{x}} \godel{(\lamb{x}{x})}  \\
                     &= \raiseemb{\boxi{\godelv{x}}} \boxi{\godelv{(\lamb{x}{x})}}  \\
@@ -117,7 +116,7 @@ The lemma is divided into two parts - one concerning substitution within values,
 
 \begin{lemma}
   \label{lem:godel-pres-subst}
-  \textbf{Preservation and Reflection of substitution} under Gödel's translation.
+  \textbf{Preservation and reflection of substitution} under Gödel's translation.
   For all \lterms $M$, values $V$, $W$, and variables $x$:
   \[
     \godel{M}\subst{\boxe{x}}{\godelv{V}} \equiv \godel{(M \subst{x}{V})} \mbox{ and } \godelv{W}\subst{\boxe{x}}{\godelv{V}} \equiv \godelv{(W \subst{x}{V})}

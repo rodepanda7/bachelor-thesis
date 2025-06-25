@@ -18,20 +18,19 @@ Thus, $\girard{M}$ is the translation of a term $M$ from the \lan to the \lab, a
 The translation is inductively defined in \cref{fig:girard-translation} for both terms and types.
 We also give the translation of \lterm $\bi x$ in \cref{ex:girard-translation}.
 
-\begin{figure}[h]
-  \centering
+\begin{definition}
+  \label{fig:girard-translation}
+  \textbf{Girard's translation} $\girard{(\cdot)}$ from \lan to \lab is defined as follows:
   \begin{align*}
     \girard{X}                 & = X                                          & \girard{x}             & = \boxe{x} \\
     \girard{(A_1 \fa A_2)}     & = \boxt{\girard{A_1}} \fa \girard{A_2}       & \girard{(\lamb{x}{M})} & = \lamb{x}{\girard{M}} \\
                                &                                              & \girard{(M N)}         & = \girard{M} \boxi{\girard{N}}
   \end{align*}
-  \caption{Girard's translation from \lan to \lab.}
-  \label{fig:girard-translation}
-\end{figure}
+\end{definition}
 
 \begin{example}
   \label{ex:girard-translation}
-  \textbf{\boldmath${\girard{(\bi x)}}$}
+  \textbf{Girard's translation of \boldmath${\bi x}$:}
   \begin{align*}
     \girard{(\bi x)} &= \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
                      &= (\lamb{x}{\girard{x}}) \boxi{\girard{x}} \\
@@ -61,7 +60,7 @@ We give a small example to clarify everything. Consider the \lterm $\bi x$. It h
 
 \begin{example}
   \label{ex:girard-translation-bn}
-  \textbf{\boldmath${\girard{(\bi x)}}$ under $\redbn$}
+  \textbf{\boldmath${\girard{(\bi x)}}$ evaluated by $\redbn$:}
   \begin{eqnarray*}
     \girard{(\bi x)} &=& \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
     &=& (\lamb{x}{\girard{x}}) \boxi{\girard{x}} \\
@@ -87,7 +86,7 @@ The proof of this helper lemma is rather complex, because of the definition of s
 
 \begin{lemma}
   \label{lem:girard-pres-subst}
-  \textbf{Preservation of substitution} under Girard's translation. For all \lterms $M$, $N$ and $x$:
+  \textbf{Preservation and reflection of substitution} under Girard's translation. For all \lterms $M$, $N$ and $x$:
   \[
     \girard{M}\subst{\girard{N}}{\boxe{x}} \equiv \girard{(M \subst{N}{x})}
   \]
