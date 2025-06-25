@@ -1,7 +1,7 @@
 \section{\texorpdfstring{Specification of \boldmath${\la_b}$}{ Specification of the call-by-box lambda calculus}}
 
 \subsection{Intuitionistic logic \textsf{IS4}}
-Intuitionistic logic \textsf{IS4} is a non-classical logic that is based on the idea of constructive proof.
+Intuitionistic modal logic \textsf{IS4} is a non-classical logic that is based on the idea of constructive proof.
 Unlike classical logic, intuitionistic logic does not allow for the law of excluded middle, which states that for every proposition $P$,
 the statement $P \lor \neg P$ is assumed \cite{Heyting1930, sep-intuitionistic-logic-development}.
 In intuitionistic logic, a proposition is only considered true if it can be constructively proven.
@@ -10,11 +10,13 @@ This is why programming languages and proofs in systems like Agda and Rocq are b
 Since \lc is the foundation of functional programming, it corresponds with intuitionistic logic via the Curry-Howard correspondence,
 where programs are equivalent to proofs and types to propositions \cite{Howard1980}.
 
-The intuitionistic modal logic \textsf{IS4} is an extension of intuitionistic logic that introduces \emph{modal operator} $\square$.
-The \labox calculus is a fragment of \textsf{IS4} that, besides the usual \lterms, also uses box ($\mathsf{box}$) and unbox ($\varepsilon$) operators 
+The intuitionistic modal logic \textsf{IS4} is an extension of intuitionistic logic that introduces the \emph{modal operator} $\square$.
+The term calculus \labox is a fragment of \textsf{IS4} that, besides the usual \lterms, also uses box ($\mathsf{box}$) and unbox ($\varepsilon$) operators 
 and is strong enough to interpret both call-by-name (\textsf{cbn}) and call-by-value (\textsf{cbv}) lambda calculi \cite{espritosanto_et_al:LIPIcs:2019:10525}.
-The box is like a little container that delays a computation, making it possible to simulate both \textsf{cbn} and \textsf{cbv} evaluation strategies. 
-In this thesis, we formalize the \emph{boxed lambda calculus} in Agda, denoted as \lab, which is as a refinement of the simpler \labox calculus.
+The box is like a container that delays a computation, making it possible to simulate both \textsf{cbn} and \textsf{cbv} evaluation strategies.
+Espírito Santo et al. refined this calculus to a simpler calculus, which they call the \emph{call-by-box \lc} (\lab). 
+This refinement has simpler typing rules and only one \br rule.
+In this thesis, we formalize \lab in Agda.
 
 \subsection{\texorpdfstring{Terms and Types of \boldmath${\la_b}$}{ Terms and Types of the boxed lambda calculus}}
 We now define the types of the \lab calculus as is done in \cite{espritosanto_et_al:LIPIcs:2019:10525}. We indicate the types of \lab with $A$ and $B$, representing types and boxed types respectively.
@@ -79,7 +81,7 @@ In this thesis, we use $M$, $N$, $P$, and $Q$ for arbitrary terms in \lab.
   \end{align*}
 \end{example}
 
-The typing rules of \lab are defined in \cref{def:typing-rules} \cite{espritosanto_et_al:LIPIcs:2019:10525}. The $\square$-I rule states that if $M$ is of type $A$, then $\boxi{M}$ is of type $\boxt{A}$.
+The typing rules of \lab are defined in \cref{def:typing-rulesb} and are identical to the typing rules in \cite{espritosanto_et_al:LIPIcs:2019:10525}. The $\square$-I rule states that if $M$ is of type $A$, then $\boxi{M}$ is of type $\boxt{A}$.
 The Id$_\square$ rule is the identity rule for boxed variables, which states that if we know that $x$ is a variable of type $\boxt{A}$, we can conclude that $\boxe{x}$ is of type $A$.
 The only way to add variables to the context is by using the \impliesi rule. These variables are always boxed, since they are the parameters of abstractions.
 Due to the grammar of \lab, all variables in \lab occur inside the unboxing operator $\varepsilon$ and thus the Id$_\square$ rule covers all cases.
@@ -148,7 +150,7 @@ If the argument was not boxed, we would not be able to apply the abstraction $\l
 \end{example}
 
 
-\section{\texorpdfstring{Substitution and Free and Bound variables in ${\la_b}$}{ Substitution and Free and Bound variables in the boxed lambda calculus}}
+\section{\texorpdfstring{Substitution in ${\la_b}$}{ Substitution in the boxed lambda calculus}}
 
 Since variables always occur inside $\varepsilon$, we need to redefine free and bound variables and substitution.
 For \lab, we have: 
@@ -185,8 +187,7 @@ with $z$ a variable defined by:
 \end{enumerate}
 \end{definition}
 
-
-With this new lambda calculus, it may not be completely clear that substitution preserves well-typedness.
+With this new \lc, it may not be completely clear that substitution preserves well-typedness.
 We can prove that substitution preserves well-typedness in \lab.
 \begin{proposition}[Preservation of well-typedness]
   \[

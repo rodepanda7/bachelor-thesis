@@ -2,8 +2,8 @@
 \section{Gödel's Embedding}
 \label{sec:godel-embedding}
 
-In this section, we present Gödel's embedding, introduced by Kurt Gödel.
-Gödel introduced this embedding as a method to translate intuitionistic logic into modal logic \textsf{S4} \cite{troelstra1933f, godel1933interpretation}.
+In this section, we present Gödel's embedding, introduced by Gödel in \cite{godel1933interpretation}.
+Gödel introduced this embedding as a method to translate intuitionistic logic into modal logic \textsf{S4} \cite{troelstra1933f,godel1933interpretation}.
 More specifically, an embedding to represent intuitionistic logic in a modal framework, where box modality, $\square$ is used to indicate provability.
 That is, $\square P$ can be read as $P$ is provable \cite{troelstra1933f}.
 
@@ -19,7 +19,7 @@ The intuition behind Gödel's embedding is that boxes are used to represent valu
 
 In the model embedding of \lav into \lab, we make use of an abbreviation, which we call \raiseembn similar to \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 The idea of \raiseembn is to swap two \lterms, while removing a box of one \lterm. 
-Its use will become clear later in this section when we give some examples.
+Its use becomes clear later in this section when we give some examples.
 We define \raiseembn as follows:
 \begin{flalign*}
   \hspace{20pt} \raiseemb{M} := \lamb{z}{\boxe{z}M} &&
@@ -135,7 +135,7 @@ We use the notation $\redbboxt$ for two steps reduction steps of $\redbbox$.
   \textbf{Preservation of reduction} under Gödel's translation.
   For all \lterms $M$ and $N$:
   \center 
-  if $M \rednb N$ in \lav, then $\godel{M} \redbboxt \godel{N}$.
+  If $M \rednb N$ in \lav, then $\godel{M} \redbboxt \godel{N}$.
 \end{proposition}
 
 The two steps that are taken next to each other are always similar and can be merged together into one step.
@@ -173,7 +173,7 @@ This is done in \cref{prop:godel-preservation-red2s}.
   \textbf{Preservation of reduction} under Gödel's translation with $\redbboxts$ reduction rule.
   For all \lterms $M$ and $N$: 
   \center 
-  if $M \redvb N$ in \lav, then $\godel{M} \redbboxts \godel{N}$.
+  If $M \redvb N$ in \lav, then $\godel{M} \redbboxts \godel{N}$.
 \end{proposition}
 
 Preservation of evaluation is more difficult to prove than preservation of reduction.
@@ -190,5 +190,5 @@ However, a less formal proof of this proposition is given by José Espírito San
   \textbf{Preservation of evaluation} under Gödel's translation.
   For all \lterms $M$ and values $V$: 
   \center  
-  if $M \redv V$ in \lav, then $\godel{M} \redbv \godel{V}$.
+  If $M \redv V$ in \lav, then $\godel{M} \redbv \godel{V}$.
 \end{proposition}

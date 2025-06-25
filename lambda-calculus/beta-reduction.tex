@@ -1,9 +1,9 @@
 \section{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
 To include a notion of computation to the \lc, we discuss \br.
-This notion of computation was introduced by Alonzo Church in \cite{original-lambda-calc} and
+This notion of computation was introduced by Church in \cite{original-lambda-calc} and
 the definition of \br we use is by \cite{barendregt1992lambda}.
 This reduction relation is the only way to simplify terms in the \lc.
-So with \br, we can apply an abstraction to an argument.
+With \br, we apply a $\lambda$ abstraction to a \lterm (argument) by replacing the bound variable of the abstraction with that argument.
 To do this, we give definitions of substitution, free and bound variables similar to the definitions in \cite{barendregt1992lambda}.
 
 \subsection{Free and Bound Variables}
@@ -72,10 +72,10 @@ We show that \lterm $\lamb{x}{yx}$ has one free variable, $y$ and one bound vari
 
 % MAYBE KEEP $\lamb{x}{(\lamb{x}{x})x}$ EXAMPLE
 
-The following example will demonstrate that using two different variables with the same name in a \lterm is quite tricky: $(\lamb{x}{x})x$.
+The following example demonstrates that using two different variables with the same name in a \lterm is quite tricky: $(\lamb{x}{x})x$.
 By the definitions of $FV$ and $BV$, we can reason that $FV((\lamb{x}{x})x) = \{x\}$ and $BV((\lamb{x}{x})x) = \{x\}$.
 While these sets are the same, they do not refer to the same $x$.
-This is quite confusing, and we prefer to write $(\lamb{y}{y})x$ instead, where $y$ is a new "fresh" variable with a different name.
+This is quite confusing, and we prefer to write $(\lamb{y}{y})x$ instead, where $y$ is a new ``fresh'' variable with a different name.
 We now have $FV((\lamb{y}{y})x) = \{x\}$ and $BV((\lamb{y}{y})x) = \{y\}$.
 These \lterms are equivalent by the notion of \aeq, which states that \lterms that differ only by the names of bound variables are considered the same.
 We discuss this in more detail after we define substitution.
@@ -95,13 +95,13 @@ We adopt the definition of substitution from \cite{PLOTKIN1975125}, defined by P
 \begin{definition}
 	\label{def:substitution}
 	\textbf{Substitution}
-		\begin{flalign*}
-			& x \subst{x}{Q}             = Q &\\
-			& y \subst{x}{Q}             = y \text{ if } (x \neq y) & \\
-			& (M N) \subst{x}{Q}         = M \subst{x}{Q} N \subst{x}{Q} & \\
-			& (\lamb{x}{M}) \subst{x}{Q} = \lamb{x}{M} & \\
-			& (\lamb{y}{M}) \subst{x}{Q} = \lamb{z}{M \subst{y}{z}\subst{x}{Q}} \text{ if } (x \neq y) &
-		\end{flalign*}
+		\begin{align*}
+			x \subst{x}{Q}             &= Q \\
+			y \subst{x}{Q}             &= y \text{ if } (x \neq y) \\
+			(M N) \subst{x}{Q}         &= M \subst{x}{Q} N \subst{x}{Q} \\
+			(\lamb{x}{M}) \subst{x}{Q} &= \lamb{x}{M} \\
+			(\lamb{y}{M}) \subst{x}{Q} &= \lamb{z}{M \subst{y}{z}\subst{x}{Q}} \text{ if } (x \neq y) 
+		\end{align*}
 	with $z$ a variable defined by:
 	\begin{enumerate}
 		\item%1
@@ -132,7 +132,7 @@ We adopt the definition of substitution from \cite{PLOTKIN1975125}, defined by P
 
 
 
-The variable $z$ always exists. Choosing a fresh variable for $z$ always satisfies condition two.
+The collection of variables is infinite, so the variable $z$ always exists. Choosing a fresh variable for $z$ always satisfies condition two.
 It might not be clear why we need to use the variable $z$ and one might expect the rule in \cref{def:simple-substitution} is sufficient.
 \begin{definition}
 	\label{def:simple-substitution}
@@ -155,7 +155,7 @@ Following the more complex rule, we get:
 
 \subsection{\texorpdfstring{\boldmath${\alpha}$-equivalence}{Alpha-equivalence}}
 Here, we define \aeq. We use the definition by Plotkin in \cite{PLOTKIN1975125}. 
-The idea is that renaming bound variables does not change the meaning of a \lterm.
+The idea is that renaming bound variables does not change a \lterm.
 For example, the \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ are equivalent ($\lamb{x}{x} \aeqr \lamb{y}{y}$), since renaming all bound variables can result in identical \lterms.
 The \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ represent the same idea.
 We define the relation $P \aeqr P'$ inductively on $P$ and $P'$ in \cref{def:alpha-equivalence}.
@@ -200,7 +200,7 @@ We use the definition of \br discussed in \cite{barendregt1992lambda} and \cref{
 
 A \lterm of the form $(\lamb{x}{M})N$ can be reduced by substituting $x$ by $N$ in $M$. 
 However, without additional rules, we cannot apply \br to subterms.
-We use closure rules similar to how José Espírito Santo, Luís Pinto, and Tarmo Uustalu use them in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+We use closure rules similar to how Espírito Santo, Pinto, and Uustalu use them in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 Closure rules are also discussed in \cite{barendregt1992lambda} and \cite{PLOTKIN1975125}.
 For example, the following reduction would not be possible: $\lamb{x}{(\lamb{y}{y})x} \red \lamb{x}{x}$.
 Therefore, in \cref{def:closure-rules}, we define the following closure rules: $\mu$, $\nu$ and $\xi$.

@@ -26,7 +26,7 @@ The relation $\rednb$ is the call-by-name reduction relation, which allows reduc
 Weak reduction, $\redw$, is defined as $\bn$ closed under $\mu$ and $\nu$. The only restriction of $\redw$ is that it cannot reduce under $\la$'s.
 Weak reduction will be used later to define a deterministic relation that supports cbn and cbv evaluation in a different \lc.
 We also define the relation $\redn$ as $\bn$ closed under $\mu$.
-So the relation $\redn$ cannot evaluate the argument of a function, since the $\nu$ rule is not allowed with $\redn$.
+This relation $\redn$ cannot evaluate the argument of a function, since the $\nu$ rule is not allowed with $\redn$.
 Call-by-name evaluation is thus defined as $\redns$. 
 
 \Cref{tab1:closure-rules} shows the closure rules for the different reduction relations we have defined thus far.

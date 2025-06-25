@@ -26,24 +26,28 @@ These are two very different approaches and depending on the context, one may be
 
 Cbn is more efficient when some arguments are not used inside a function, as it avoids unnecessary computation.
 However, if an argument is used multiple times, cbv is preferable, as it avoids recomputing the argument each time it is used.
-Therefore, a \lc that can express both cbn and cbv is ideal. 
-It allows for the creation of a programming language or proof assistant that is more flexible in evaluation strategies.
+Lazy evaluation, which is used in Haskell, is an optimisation of cbn, where computations are shared.
+In contrast to cbn, lazy evaluation avoids recomputing an argument multiple times, as it stores and reuses the result of the computation.
+Although lazy evaluation might seem like a good compromise, cbv is sometimes more preferable because it is more predictable. 
+Therefore, a \lc that can express both lazy evaluation and cbv is ideal. 
+This thesis focuses on the unification of cbn and cbv, and not on lazy evaluation, as it is more complex.
+A unifying framework allows for the creation of a programming language or proof assistant that are more flexible in evaluation strategies.
 While cbv can be simulated in Haskell, it requires some workarounds and support for cbv is not built into the language.  
 
-Many approaches of unifying cbn and cbv have been proposed. 
-Thomas Ehrhard and Giulio Guerrieri \cite{EhrhardGuerrieri2016} proposed a linear logic approach,
+Many approaches of unifying cbn and cbv have been proposed. Ehrhard and Guerrieri \cite{EhrhardGuerrieri2016} proposed a linear logic approach,
 just like the one by Maraist et al. \cite{MARAIST1999175},
-while John Hatcliff and Olivier Danvy \cite{HATCLIFF_DANVY_1997} proposed a thunk-based approach.
+while Hatcliff and Danvy \cite{HATCLIFF_DANVY_1997} proposed a thunk-based approach.
 However, we focus on the modal approach, introduced by Espírito Santo et al. \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 This approach is based on the modal \lc \labox, which is a fragment of Bierman and de Paiva's intuitionistic modal logic (\textsf{IS4}) \cite{BiermanPaiva2000}.
 The proposed call-by-box \lc (\lab) is a refinement of \labox, which has simpler typing rules and a more straightforward reduction strategy.
+
 This thesis aims to formalise this approach in Agda, which is a dependently typed programming language and proof assistant.
 Although \lab is discussed in the literature, it has not yet been formalised in a proof assistant before.
 Given the extra complexity of the \lab in comparison to the standard \lc, 
 it is important to formalise it to ensure that the properties of \lab are correct and machine-checked.
-Therefore, the main research question of this thesis is as follows:
+Therefore, the main contribution of this thesis is as follows:
 \begin{quote}
-  How can the unification of call-by-name and call-by-value using modal logic be formalised in Agda?
+  A formalisation of the unification of call-by-name and call-by-value using modal logic in Agda?
 \end{quote} 
 
 In \lab, cbn and cbv can be simulated by using Girard's and Gödel's embeddings, respectively.
@@ -51,9 +55,9 @@ These are embeddings from the standard \lc to \lab, preserving both reduction an
 Besides \lab, this thesis also formalises both embeddings, and we prove the following in Agda:
 
 \begin{itemize}
-  \item Girard's embedding preserves reduction.
-  \item Girard's embedding preserves evaluation.
-  \item Gödel's embedding preserves reduction.
+  \item Girard's embedding preserves reduction. \cref{prop:girard-preservation-red}
+  \item Girard's embedding preserves evaluation. \cref{prop:girard-preservation-eval}
+  \item Gödel's embedding preserves reduction. \cref{prop:godel-preservation-red,prop:godel-preservation-red2s}
 \end{itemize}
 
 We did not formally prove that Gödel's embedding preserves evaluation, 

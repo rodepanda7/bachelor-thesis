@@ -43,7 +43,7 @@ where functions can be recursive. \Cref{ex:agda-function} shows such a function,
 
 Functions can also be higher order, taking other functions as arguments or returning functions as results.
 Function application of function $F$ to argument $x$ is written as $F \ x$ in Agda.
-Infix functions are denoted with underscores, such as $\_::\_$ in \cref{ex:agda-parametrized-data-type}, where it is the constructor for the list data type.
+Infix functions are denoted with underscores, such as \textsf{\_∷\_} in \cref{ex:agda-parametrized-data-type}, where it is the constructor for the list data type.
 The first argument can be put on the left side of the constructor and the second argument on the right side, such as in $x :: xs$.
 
 \begin{example}
@@ -56,11 +56,11 @@ In this example, we see that the type of a vector depends on a natural number, w
 The dependent type occurs after the colon, which is $\mathbb{N}$ in this case. 
 Dependent types differ from parameterised types in that they can vary between constructors, whereas parameterised types use a single type parameter shared by all constructors.
 
-The constructor $\_::\_$ in \cref{ex:agda-dependent-data-type} is also an example of a dependent function.
-That is, the return type of $\_::\_$ depends on the value of the implicit argument $n$. The argument $n$ is implicit, denoted by the curly braces around it.
+The constructor \textsf{\_∷\_} in \cref{ex:agda-dependent-data-type} is also an example of a dependent function.
+That is, the return type of \textsf{\_∷\_} depends on the value of the implicit argument $n$. The argument $n$ is implicit, denoted by the curly braces around it.
 
 We see that $[]$ constructs a vector of length zero, resulting in type $\mbox{\textsf{Vector} } A \mbox{ \textsf{zero}}$, 
-while the constructor $\_::\_$ constructs a vector of length $n+1$, resulting in type $\mbox{\textsf{Vector }} A \mbox{ \textsf{(suc} } n)$.
+while the constructor \textsf{\_∷\_} constructs a vector of length $n+1$, resulting in type $\mbox{\textsf{Vector }} A \mbox{ \textsf{(suc} } n)$.
 Note that the implicit argument $n$ can be inferred from the input type $\mbox{\textsf{Vector} } A \ n$.
 
 \begin{example}
@@ -83,17 +83,21 @@ but we feel like this example is sufficient for understanding the concept of hol
   This example defines the function \textsf{plus} that adds two natural numbers.
   It defines the function with a question mark, which we can fill in later. The type signature is already given.
   \input{agda-code/hbp-plus-1.tex}
+  \unskip\noindent
   Pressing the keys \emacs{C-c C-l} (while pressing the control key, typing c and then typing l) loads the file and transforms the question mark into a hole.
   \input{agda-code/hbp-plus-2.tex}
+  \unskip\noindent
   We can now let Agda give the arguments of the plus function by pressing \emacs{C-c C-c}. The following prompt is shown:
   \begin{verbatim}
     pattern variables to case (empty for split on result):
   \end{verbatim}
   Since we do not have any arguments yet, we can press enter.
   \input{agda-code/hbp-plus-3.tex}
+  \unskip\noindent
   Now, we would like to do a case distinction on the first argument. We let Agda do this by pressing \emacs{C-c C-c} again.
   The same prompt will be shown as before, but now we type the first argument $x$.
   \input{agda-code/hbp-plus-4.tex}
+  \unskip\noindent
   Inside the first hole, we press \emacs{C-c C-,}. This gives us information about the type of the hole and all the variables in scope,
   which are the variables that we can use to fill in the hole. We get something like the following output:
   \begin{lstlisting}
@@ -106,6 +110,7 @@ but we feel like this example is sufficient for understanding the concept of hol
   We can type the subscript $1$ in Emacs by typing \textsf{$\backslash \ 1$}. Agda allows this usage for unicode characters, since Agda files are UTF-8 encoded \cite{AgdaDocs}.
   The hole will be filled in and Agda will check if the type of the hole is correct. Pressing \emacs{C-c C-f} will move the cursor forward to the next hole.
   \input{agda-code/hbp-plus-5.tex}
+  \unskip\noindent
   Typing \emacs{C-c C-,} in this second hole gives us the type of the next hole. The output will be similar to the following:
   \begin{lstlisting}
     Goal: $\mathbb{N}$
@@ -118,6 +123,7 @@ but we feel like this example is sufficient for understanding the concept of hol
   We fill in the hole with \textsf{suc ?} and type \emacs{C-c C-space}.
   We closed a hole and made a new hole, which is the argument of the \textsf{suc} constructor. We now have the following code:
   \input{agda-code/hbp-plus-6.tex}
+  \unskip\noindent
   We can fill in the last hole with $\textsf{plus } x \ x_1$ and press \emacs{C-c C-space} to close the hole.
   The final code looks like this:
   \input{agda-code/hbp-plus-7.tex}

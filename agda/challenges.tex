@@ -1,16 +1,16 @@
 \section{Challenges of the Formalisation}
-This sections discusses the challenges of the formalisation of \lab in Agda.
+This section discusses the challenges of the formalisation of \lab in Agda.
 The main challenge is dealing with variables and substitution.
 For variables, we used de Bruijn indices, which are a way to represent variables without names.
 The definition of substitution is based on the definition of substitution in the PLFA book \cite{plfa22.08},
-and is based on the definition by Conor McBride \cite{BENTON2012}.
+and is based on the definition by McBride \cite{BENTON2012}.
 The formalisation of \lab in Agda is restricted to well-typed terms, which avoids handling ill-typed terms.
 Another challenge is explicit weakening and renaming, which is needed to handle the contexts of \lterms correctly.
 Two \lterms with slightly different contexts are not the same, and we need to take this into consideration in the formalisation.
 
 \subsection{De Bruijn Indices}
-De Bruijn indices, introduced by Nicolaas Govert de Bruijn, are a method to eliminate the need for variable names in the \lc \cite{DEBRUIJN1972381}.
-This is useful because now all \lterms that are \aeqt look the same. 
+De Bruijn indices, introduced by De Bruijn, are a method to eliminate the need for variable names in the \lc \cite{DEBRUIJN1972381}.
+This is useful because now all \lterms that are \aeqt are the same. 
 We do not have to worry about variables with the same name that refer to different variables, or about variable capture, simplifying the formalisation in Agda.
 The definition of substitution becomes simpler because of this.
 This subsection first explains the concept of de Bruijn indices, and then shows how they are implemented in the formalisation.
@@ -26,12 +26,12 @@ In addition, variables that are the same can have different indices, which we de
 \begin{example}
   \label{ex:deBruijn-closed}
   Closed \lterms represented with \textbf{de Bruijn indices}:
-  \begin{flalign*}
-    & \lamb{x}{x}                                  \equiv \lamb{}{\#0}                        & \\
-    & \lamb{x}{\lamb{y}{x}}                        \equiv \lamb{}{\lamb{}{\#1}}               & \\
-    & \lamb{x}{\lamb{y}{y}}                        \equiv \lamb{}{\lamb{}{\#0}}               & \\
-    & \lamb{x}{x}\lamb{y}{y}                       \equiv \lamb{}{\#0}\lamb{}{\#0}            &
-  \end{flalign*}
+  \begin{align*}
+    \lamb{x}{x}                                  &\equiv \lamb{}{\#0}                         \\
+    \lamb{x}{\lamb{y}{x}}                        &\equiv \lamb{}{\lamb{}{\#1}}                \\
+    \lamb{x}{\lamb{y}{y}}                        &\equiv \lamb{}{\lamb{}{\#0}}                \\
+    \lamb{x}{x}\lamb{y}{y}                       &\equiv \lamb{}{\#0}\lamb{}{\#0}            
+  \end{align*}
 \end{example}
 
 Representing open \lterms (\lterms with free variables) using de Bruijn indices is a little more complex. 
@@ -48,12 +48,14 @@ the de Bruijn indices can be seen as the distance between the corresponding $\la
 \begin{example}
   \label{ex:deBruijn-open}
   Open \lterms represented with \textbf{de Bruijn indices}:
-  \begin{flalign*}
-    & x\lamb{y}{y}                                                    \equiv x\lamb{}{\#0}      \equiv \#0\lamb{}{\#0}          & \\
-    & x\lamb{y}{x}                                                    \equiv x\lamb{}{x}        \equiv \#0\lamb{}{\#1}          & \\
-    & \lamb{x}({\lamb{t}({x t (\lamb{u}{u t z})(\lamb{s}{w})})wy})    \equiv \lamb{}({\lamb{}({\#1 \#0 (\lamb{}{\#0 \#1 z})(\lamb{}{w})})wy}) & \\
-    &                                                                 \equiv \lamb{}({\lamb{}({\#1 \#0 (\lamb{}{\#0 \#1 \#5})(\lamb{}{\#3})})\#2\#1}) &   
-  \end{flalign*} 
+  \begin{align*}
+    x\lamb{y}{y}                                                    &\equiv x\lamb{}{\#0}      \equiv \#0\lamb{}{\#0}           \\
+    x\lamb{y}{x}                                                    &\equiv x\lamb{}{x}        \equiv \#0\lamb{}{\#1}           
+  \end{align*}
+  \begin{align*}
+    \lamb{x}({\lamb{t}({x t (\lamb{u}{u t z})(\lamb{s}{w})})wy})    &\equiv \lamb{}({\lamb{}({\#1 \#0 (\lamb{}{\#0 \#1 z})(\lamb{}{w})})wy}) \\
+                                                                    &\equiv \lamb{}({\lamb{}({\#1 \#0 (\lamb{}{\#0 \#1 \#5})(\lamb{}{\#3})})\#2\#1})    
+  \end{align*} 
 \end{example}
 
 In the formalisation, we will represent de Bruijn indices similar to how natural numbers are represented in Agda.
@@ -69,10 +71,10 @@ because ill-typed terms do not have a normal form.
 Evaluation is only defined for well-typed terms, and thus the restriction to well-typed terms makes sense.
 
 The formalisation uses an intrinsically typed approach where terms are defined together with their types.
-So \lterms in the formalisation are automatically associated with a type, and we can only construct well-typed terms.
+In the formalisation, \lterms are automatically associated with a type, and we can only construct well-typed terms.
 This approach is also referred to as Church style typing, and was introduced by Alonzo Church in \cite{ALONZOCHURCH1940}.
 
-The formalisation is based on the representation proposed by Thorsten AltenKirch and Bernhard Reus in \cite{THORSTENALTENKIRCH1999}.
+The formalisation is based on the representation proposed by AltenKirch and Reus in \cite{THORSTENALTENKIRCH1999}.
 We briefly go over the types and \lterms in the formalisation, and how they are defined. 
 \Cref{def:types:agda} gives the formal definition of types in the \lc. 
 
@@ -84,7 +86,7 @@ We briefly go over the types and \lterms in the formalisation, and how they are 
 
 Terms in the \lc are defined together with a context, which can be seen as a list of Types.
 We do not need to name the variables in the context, because we use de Bruijn indices to refer to them.
-So, the context is a list of types, where each type corresponds to a variable in the context.
+The context is a list of types, where each type corresponds to a variable in the context.
 \Cref{def:context:agda} gives the formal definition of contexts in the \lc.
 This construction looks somewhat similar to the list data type that we gave as example in \cref{ex:agda-parametrized-data-type}.
 
@@ -154,7 +156,7 @@ which is to distinguish between the constructors of the standard \lc and \lab.
 The next challenge in the formalisation is a correct definition of substitution.
 This definition appeared to be the most complex part of the formalisation, and it caused the most problems with the proofs later in this thesis.
 The definition of substitution is similar to the definition that is used in the chapter ``De Bruijn indices'' in the PLFA book \cite{plfa22.08}.
-It is based on the definition by Conor McBride \cite{BENTON2012}, which gives a similar definition of substitution in Rocq.
+It is based on the definition by McBride \cite{BENTON2012}, which gives a similar definition of substitution in Rocq.
 
 We only give the definition of substitution in Agda of \lterms in \lab, since the definition of substitution in the standard \lc is exactly the same as the definition in \cite{plfa22.08}.
 \Cref{def:substitution:lab} gives the definition of parallel substitution, which is the substitution of a list of variables by a list of \lterms.
@@ -170,14 +172,19 @@ This is where the extension lemma \textsf{extsb} comes in.
 It is a function from a map from variables in one context to \lterms in another context,
 to a map from variables in the first context extended with a type to \lterms in the second context extended with a type.
 The type that is used for extending the context is the input type of the $\lambda$ abstraction.
+We can think of \textsf{extsb} as a way apply some mapping function to the body of a $\lambda$ abstraction,
+while keeping the parameter of the abstraction untouched.
 
 The extension lemma is defined in terms of \textsf{renameb}, which is used to construct a \lterm with an extended context.
+We can think of \textsf{renameb} as a function that ``renames'' variables. We can change the context and adjust the de Bruijn indices accordingly.
+In de case of subsitution, we ``rename'' the \lterm by adding the input parameter of the $\lambda$ abstraction to the context and by increasing all de Bruijn indices by one.
 The \textsf{renameb} function takes a function from variables in one context to variables in another context,
 and returns a function from \lterms in the first context to \lterms in the second context.
 For example, \textsf{renameb Sb $M$} renames $M$ by applying the function \textsf{Sb} to the variables in $M$.
 An example of this is given in \cref{ex:rename:agda}.
 
 The rename lemma is defined in terms of \textsf{extb}, which works similarly to \textsf{extsb}, but is only used for extending the context.
+We can think of \textsf{extb} as a way to extend the context. Given a map from one context to another, it extends the map by adding some \lterm to the context.
 The function \textsf{extb} takes a map from variables in one contex to variables in another context and returns a map from variables in the first context extended with a type to variables in the second context extended with a type.
 Again, this type will be the input type of the $\lambda$ abstraction in \textsf{renameb}.
 Thus, the definition of simultaneous substitution is based on the definitions of \textsf{extsb}, \textsf{renameb} and \textsf{extb}.
