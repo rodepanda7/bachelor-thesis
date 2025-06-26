@@ -17,7 +17,7 @@ This subsection first explains the concept of de Bruijn indices and then shows h
 
 The \lterms that use de Bruijn indices do not use variable names, but integers. We precede the integers with \# to prevent confusion if the index is higher than 9.
 Without \#, $10$ could be confused with two indices $1$ and $0$ that occur next to each other. 
-These integers represent the "distance" to the corresponding $\lambda$. 
+These integers represent the ``distance'' to the corresponding $\lambda$. 
 \Cref{ex:deBruijn-closed} gives representations of \lterms without free variables, using de Bruijn indices.
 These terms are said to be closed.
 Note that identical indices do not mean that the variables are the same. The \lterm $\lamb{}{\#0}\lamb{}{\#0}$ in \cref{ex:deBruijn-closed} demonstrates this.
@@ -34,11 +34,11 @@ In addition, variables that are the same can have different indices, which we de
   \end{align*}
 \end{example}
 
-Representing open \lterms (\lterms with free variables) using de Bruijn indices is a little more complex. 
-First, we represent the \lterm with de Bruijn indices, ignoring all free variables. The idea here is that we wrap the entire \lterm inside an imaginary $\lambda$ that binds the first free variable, 
+Representing open \lterms (\lterms with free variables) using de Bruijn indices is slightly more complex. 
+First, we represent the \lterm with the de Bruijn indices, ignoring all free variables. The idea here is that we wrap the entire \lterm inside an imaginary $\lambda$ that binds the first free variable, 
 and we give it an index the same way as we do for bound variables.
 We keep adding these imaginary $\lambda$s until we have no more free variables left if we consider this wrapped \lterm.
-\Cref{ex:deBruijn-open} illustrates this, with the final \lterm being more complex. It is the same example that de Bruijn presented in his paper \cite{DEBRUIJN1972381}. 
+\Cref{ex:deBruijn-open} illustrates this, with the final \lterm being more complex. It is the same example that De Bruijn presented in his paper \cite{DEBRUIJN1972381}. 
 
 The last term in \cref{ex:deBruijn-open} may need some explanation.
 We first wrap the \lterm with three imaginary $\lambda$s, corresponding to $z$, $w$ and $y$ respectively. 
@@ -58,8 +58,8 @@ the de Bruijn indices can be seen as the distance between the corresponding $\la
   \end{align*} 
 \end{example}
 
-In the formalisation, we will represent de Bruijn indices similar to how natural numbers are represented in Agda.
-De Bruijn index 0 is represented as \textsf{Z}, de Bruijn index 1 as \textsf{S Z}, de Bruijn index 2 as \textsf{S (S Z)}, and so on.
+In the formalisation, we represent de Bruijn indices similar to how natural numbers are represented in Agda.
+The de Bruijn index 0 is represented as \textsf{Z}, the de Bruijn index 1 as \textsf{S Z}, the de Bruijn index 2 as \textsf{S (S Z)}, and so on.
 
 
 \subsection{Well-typed Terms}
@@ -147,7 +147,7 @@ which is to distinguish between the constructors of the standard \lc and \lab.
   \textbf{\boldmath${\lambda_b}$ in Agda.}
   This definition gives the data types for types, contexts and $\lambda$-terms of $\lambda_b$ in Agda.
   \textsf{BOX A} is a convenient abbreviation for \textsf{Box ($\square$ A)}.
-  The definition of the \lterms is based on the typing rules of \lab, which are given in \cref{def:typing-rules}.
+  The definition of the \lterms is based on the typing rules of \lab, which are given in \cref{def:typing-rulesb}.
   \input{agda-code/boxCalc1.tex}
 \end{definition} 
 
@@ -172,13 +172,13 @@ An abstraction adds a new variable to the context, and we need a way to use the 
 This is where the extension lemma \textsf{extsb} comes in.
 It is a function from a map from variables in one context to \lterms in another context,
 to a map from variables in the first context extended with a type to \lterms in the second context extended with a type.
-The type that is used for extending the context is the input type of the $\lambda$ abstraction.
-We can think of \textsf{extsb} as a way to apply some mapping function to the body of a $\lambda$ abstraction
+The type that is used for extending the context is the input type of the $\lambda$-abstraction.
+We can think of \textsf{extsb} as a way to apply some mapping function to the body of a $\lambda$-abstraction
 while keeping the parameter of the abstraction untouched.
 
 The extension lemma is defined in terms of \textsf{renameb}, which is used to construct a \lterm with an extended context.
 We can think of \textsf{renameb} as a function that ``renames'' variables. We can change the context and adjust the de Bruijn indices accordingly.
-In de case of substitution, we ``rename'' the \lterm by adding the input parameter of the $\lambda$ abstraction to the context and by increasing all de Bruijn indices by one.
+In de case of substitution, we ``rename'' the \lterm by adding the input parameter of the $\lambda$-abstraction to the context and by increasing all de Bruijn indices by one.
 The \textsf{renameb} function takes a function from variables in one context to variables in another context,
 and returns a function from \lterms in the first context to \lterms in the second context.
 For example, \textsf{renameb Sb $M$} renames $M$ by applying the function \textsf{Sb} to the variables in $M$.
@@ -187,7 +187,7 @@ An example of this is given in \cref{ex:rename:agda}.
 The rename lemma is defined in terms of \textsf{extb}, which works similarly to \textsf{extsb}, but is only used for extending the context.
 We can think of \textsf{extb} as a way to extend the context. Given a map from one context to another, it extends the map by adding some \lterm to the context.
 The function \textsf{extb} takes a map from variables in one context to variables in another context and returns a map from variables in the first context extended with a type to variables in the second context extended with a type.
-Again, this type will be the input type of the $\lambda$ abstraction in \textsf{renameb}.
+Again, this type will be the input type of the $\lambda$-abstraction in \textsf{renameb}.
 Thus, the definition of simultaneous substitution is based on the definitions of \textsf{extsb}, \textsf{renameb} and \textsf{extb}.
 
 \begin{example}

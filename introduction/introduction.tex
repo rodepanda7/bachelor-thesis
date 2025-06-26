@@ -20,21 +20,21 @@
 
 One of the simplest, yet most powerful, models of computation is the \lc.  
 It serves as the foundation of many programming languages and proof assistants, such as Haskell and Agda.
-The two main well-known evaluation strategies for the \lc\ are \emph{call-by-name} (cbn) and \emph{call-by-value} (cbv). 
+The two main well-known evaluation strategies for the \lc\ are \emph{call-by-name} (\textsf{cbn}) and \emph{call-by-value} (\textsf{cbv}). 
 Call-by-name does not evaluate an argument to a value until it is needed, while call-by-value evaluates an argument to a value before passing it to a function.
 These are two very different approaches and depending on the context, one may be more suitable than the other.
 
-Cbn is more efficient when some arguments are not used inside a function, as it avoids unnecessary computation.
-However, if an argument is used multiple times, cbv is preferable, as it avoids recomputing the argument each time it is used.
-Lazy evaluation, which is used in Haskell, is an optimisation of cbn, where computations are shared.
-In contrast to cbn, lazy evaluation avoids recomputing an argument multiple times, as it stores and reuses the result of the computation.
-Although lazy evaluation might seem like a good compromise, cbv is sometimes preferable because it is more predictable. 
-Therefore, a \lc that can express both lazy evaluation and cbv is ideal. 
-This thesis focuses on the unification of cbn and cbv, and not on lazy evaluation, as it is more complex.
+\textsf{Cbn} is more efficient when some arguments are not used inside a function, as it avoids unnecessary computation.
+However, if an argument is used multiple times, \textsf{cbv} is preferable, as it avoids recomputing the argument each time it is used.
+Lazy evaluation, which is used in Haskell, is an optimisation of \textsf{cbn}, where computations are shared.
+In contrast to \textsf{cbn}, lazy evaluation avoids recomputing an argument multiple times, as it stores and reuses results of computations.
+Although lazy evaluation might seem like a good compromise, \textsf{cbv} is sometimes preferable because it is more predictable. 
+Therefore, a \lc that can express both lazy evaluation and \textsf{cbv} is ideal. 
+This thesis focuses on the unification of \textsf{cbn} and \textsf{cbv}, and not on lazy evaluation, as it is more complex.
 A unifying framework allows for the creation of a programming language or proof assistant that is more flexible in evaluation strategies.
-While cbv can be simulated in Haskell, it requires some workarounds and support for cbv is not built into the language.  
+While \textsf{cbv} can be simulated in Haskell, it requires some workarounds and support for \textsf{cbv} is not built into the language.  
 
-Many approaches to unifying cbn and cbv have been proposed. Ehrhard and Guerrieri \cite{EhrhardGuerrieri2016} proposed a linear logic approach,
+Many approaches to unifying \textsf{cbn} and \textsf{cbv} have been proposed. Ehrhard and Guerrieri \cite{EhrhardGuerrieri2016} proposed a linear logic approach,
 just like the one by Maraist et al., \cite{MARAIST1999175},
 while Hatcliff and Danvy \cite{HATCLIFF_DANVY_1997} proposed a thunk-based approach.
 However, we focus on the modal approach, introduced by Espírito Santo et al. \cite{espritosanto_et_al:LIPIcs:2019:10525}.
@@ -47,10 +47,10 @@ Given the extra complexity of the \lab in comparison to the standard \lc,
 it is important to formalise it to ensure that the properties of \lab are correct and machine-checked.
 Therefore, the main contribution of this thesis is as follows:
 \begin{quote}
- A formalisation of the unification of call-by-name and call-by-value using modal logic in Agda?
+ A formalisation of the unification of call-by-name and call-by-value using modal logic in Agda.
 \end{quote} 
 
-In \lab, cbn and cbv can be simulated by using Girard's and Gödel's embeddings, respectively.
+In \lab, \textsf{cbn} and \textsf{cbv} can be simulated by using Girard's and Gödel's embeddings, respectively.
 These are embeddings from the standard \lc to \lab, preserving both reduction and evaluation. 
 Besides \lab, this thesis also formalises both embeddings, and we prove the following in Agda:
 
@@ -61,7 +61,7 @@ Besides \lab, this thesis also formalises both embeddings, and we prove the foll
 \end{itemize}
 
 We did not formally prove that Gödel's embedding preserves evaluation, 
-but a less formal proof is given by \cite{espritosanto_et_al:LIPIcs:2019:10525}
+but a less formal proof is given by \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 
 We now give a brief overview of the chapters in this thesis.
 \Cref{chap:lambda-calculus} introduces the \lc, with substitution, \br and evaluation relations.

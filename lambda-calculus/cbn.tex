@@ -4,7 +4,7 @@
 \label{sec:call-by-name}
 
 In this section, we discuss the call-by-name \lc (\lan). 
-The reduction rule that is used in this calculus is the same as the $\beta$ reduction rule.
+The reduction rule that is used in this calculus is the same as the \br rule.
 However, we name the rule $\bn$ (\cref{def:call-by-name-reduction}) to make it clear that it is the reduction rule of \lan.
 While call-by-name avoids evaluating the argument of a function, arguments are re-evaluated every time they are used in the body of the function.
 Lazy evaluation (call-by-need) stores the evaluation of each argument, so it does not have to re-evaluate the same argument every time it is used.
@@ -25,13 +25,13 @@ The relations we define in this thesis are all similar to the relations discusse
 We define the relation $\rednb$ as $\bn$ closed under $\mu$, $\nu$ and $\xi$.
 The relation $\rednb$ is the call-by-name reduction relation, which allows for the reduction of \lterms under all term formers.
 Weak reduction, $\redw$, is defined as $\bn$ closed under $\mu$ and $\nu$. The only restriction of $\redw$ is that it cannot reduce \lterms under $\la$'s.
-Weak reduction becomes relevant when unifying cbn and cbv.
+Weak reduction becomes relevant when unifying \textsf{cbn} and \textsf{cbv}.
 We also define the relation $\redn$ as $\bn$ closed under $\mu$.
 This relation $\redn$ cannot evaluate the argument of a function, since the $\nu$ rule is not allowed with $\redn$.
 Call-by-name evaluation is thus defined as $\redns$. 
 
 \Cref{tab1:closure-rules} shows the closure rules for the different reduction relations we have defined thus far.
-In \cref{ex:call-by-name}, we give the complete cbn evaluation of \lterm $(\bi(\lamb{x}{\bi x}))(\bi \bi)$.
+In \cref{ex:call-by-name}, we give the complete \textsf{cbn} evaluation of \lterm $(\bi(\lamb{x}{\bi x}))(\bi \bi)$.
 The \bre that is reduced is underlined in each step.
 Note that $\redn$ is deterministic, so there is always only one way to apply $\redn$ on a \lterm.
 
@@ -54,7 +54,7 @@ Note that $\redn$ is deterministic, so there is always only one way to apply $\r
 
 \begin{example}
   \label{ex:call-by-name}
-  \textbf{Cbn evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
+  \textbf{\textsf{Cbn} evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
   \begin{eqnarray*}
  (\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redn& \underline{(\lamb{x}{\bi x}) (\bi \bi)} \\
     &\redn& \underline{\bi (\bi \bi)} \\

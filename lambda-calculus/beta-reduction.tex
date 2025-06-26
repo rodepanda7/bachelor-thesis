@@ -1,14 +1,14 @@
 \section{\texorpdfstring{\boldmath${\beta}$-Reduction}{Beta Reduction}}
 To include a notion of computation to the \lc, we discuss \br.
 This notion of computation was introduced by Church in \cite{original-lambda-calc} and
-the definition of \br we use is by \cite{barendregt1992lambda}.
+the definition of \br we use is taken from \cite{barendregt1992lambda}.
 This reduction relation is the only way to simplify terms in the \lc.
-With \br, we apply a $\lambda$ abstraction to a \lterm (argument) by replacing the bound variable of the abstraction with that argument.
-To do this, we give definitions of substitution, free and bound variables similar to the definitions in \cite{barendregt1992lambda}.
+With \br, we apply a $\lambda$-abstraction to a \lterm (argument) by replacing the bound variable of the abstraction with that argument.
+To do this, we define substitution, as well as free and bound variables, following \cite{barendregt1992lambda}.
 
 \subsection{Free and Bound Variables}
-Let us first define free and bound variables \cite{PLOTKIN1975125, barendregt1992lambda}.
-Let $P$ be any term in the \lc, $FV(P)$ be the set that contains all free variables in $P$ and $FB$ be the set that contains all bound variables in $P$.
+Let us first define free and bound variables. The definition we use is taken from \cite{PLOTKIN1975125, barendregt1992lambda}.
+Let $P$ be any term in the \lc, $FV(P)$ be the set that contains all free variables in $P$ and $BV$ be the set that contains all bound variables in $P$.
 We define both $FV$ and $BV$ inductively on $P$ by \cref{def:free-variable} and \cref{def:bound-variable}.
 Since $P$ can only be a variable, an abstraction or a function application, $P$ can only be of the form $x$, $\lamb{x}{M}$ and $M N$.
 Therefore, we define $FV$ and $BV$ for $x$, $\lamb{x}{M}$ and $M N$.
@@ -45,7 +45,7 @@ The variable $x$ in the \lterm $x$ is a free variable, and the set of bound vari
 An abstraction $\lamb{x}{M}$ binds the variable $x$. So the set of bound variables in an abstraction is the set of bound variables in $M$ plus the variable $x$.
 For an application $M N$, the bound variables are all bound variables of both \lterm $M$ and \lterm $N$.
   
-We give two examples to illustrate the definitions of free and bound variables.
+\Cref{ex:free-bound-variable} illustrates how $FV$ and $BV$ work.
 We show that \lterm $\lamb{x}{yx}$ has one free variable, $y$ and one bound variable $x$.
 \begin{example}
   \label{ex:free-bound-variable}
@@ -84,7 +84,7 @@ In this thesis, substitution is denoted as $P \subst{x}{Q}$ and is defined induc
 Essentially, it replaces all free occurrences of the variable $x$ in the \lterm $P$ by \lterm $Q$.
 The original notation of the substitution by Curry, Feys, and Craig in \cite{CurryFeysCraig1958}, denoting the substitution of $Q$ for $x$ in $P$, is given by $[Q/x]P$.
 However, we chose not to use this original notation, as we think that $P \subst{x}{Q}$ for substituting $Q$ for $x$ in $P$ is clearer and more intuitive.
-This alternative notation was used by Hanne Riis Nielson and Flemming Nielson in \cite{wiley}. 
+This alternative notation was used by Nielson and Nielson in \cite{wiley}. 
 We adopt the definition of substitution from \cite{PLOTKIN1975125}, defined by Plotkin. 
 
 \begin{definition}
@@ -135,9 +135,9 @@ It might not be clear why we need to use the variable $z$ and one might expect t
 
 However, the following example illustrates why the more complicated rule is necessary.
 Consider the substitution $(\lamb{y}{xy})\subst{x}{y}$. The free variable of \lterm $\lamb{y}{xy}$ is $x$ and the bound variable is $y$.
-If we use the simple rule above, we get that $(\lamb{y}{xy})\subst{x}{y} = \lamb{y}{yy}$, the meaning of the \lterm changes. 
-However, the free variable we substituted, is not free anymore. The variable $y$ is not a free variable in the term that we substituted $y$ in.
-Therefore, we change the bound variable $y$ in $\lamb{y}{xy}$ to a new variable $z$. We can pick $z$ as $z$ is not a free variable in $xy$.
+If we use the simple rule above, we get that $(\lamb{y}{xy})\subst{x}{y} = \lamb{y}{yy}$, and the meaning of the \lterm changes. 
+We see that the free variable we substituted, is not free anymore. The variable $y$ is not a free variable in the term that we substituted $y$ in.
+To solve this, we change the bound variable $y$ in $\lamb{y}{xy}$ to a new variable $z$. We can pick $z$ because $z$ is not a free variable in $xy$.
 Following the more complex rule, we get: 
 \begin{eqnarray*}
  (\lamb{y}{xy})\subst{x}{y} &=& \lamb{z}{(xy)\subst{y}{z}\subst{x}{y}} \\
@@ -147,7 +147,7 @@ Following the more complex rule, we get:
 \subsection{\texorpdfstring{\boldmath${\alpha}$-equivalence}{Alpha-equivalence}}
 Here, we define \aeq. We use the definition by Plotkin in \cite{PLOTKIN1975125}. 
 The idea is that renaming bound variables does not change a \lterm.
-For example, the \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ are equivalent ($\lamb{x}{x} \aeqr \lamb{y}{y}$) since renaming all bound variables can result in identical \lterms.
+For example, the \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ are equivalent ($\lamb{x}{x} \aeqr \lamb{y}{y}$) since renaming all bound variables results in identical \lterms.
 The \lterms $\lamb{x}{x}$ and $\lamb{y}{y}$ represent the same idea.
 We define the relation $P \aeqr P'$ inductively on $P$ and $P'$ in \cref{def:alpha-equivalence}.
 
@@ -171,7 +171,7 @@ However, $x$ should be equal to $y$ or $x$ should not be a free variable in $M'$
     \item 
     $\lamb{x}{zx}$ is equivalent to $\lamb{y}{zy}$, since $zy\subst{y}{x} = zx \aeqr zx$ and $x$ is not a free variable in $zy$.
     \item
-    $\lamb{z}{zx}$ is not equivalent to $\lamb{y}{zy}$, since $z$ is a free variable in $zy$ and $x$ is not equal to $y$.
+    $\lamb{z}{zx}$ is \textbf{not} equivalent to $\lamb{y}{zy}$, since $z$ is a free variable in $zy$ and $x$ is not equal to $y$.
   \end{itemize}
 \end{example}
 
@@ -193,7 +193,7 @@ A \lterm of the form $(\lamb{x}{M})N$ can be reduced by substituting $x$ by $N$ 
 To apply \br to subterms, we define closure rules.
 We use closure rules similar to how Espírito Santo, Pinto, and Uustalu use them in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 Closure rules are also discussed in \cite{barendregt1992lambda} and \cite{PLOTKIN1975125}.
-For example, the following reduction would not be possible: $\lamb{x}{(\lamb{y}{y})x} \red \lamb{x}{x}$.
+For example, without the use of closure rules, the following reduction would not be possible: $\lamb{x}{(\lamb{y}{y})x} \red \lamb{x}{x}$.
 Therefore, in \cref{def:closure-rules}, we define the following closure rules: $\mu$, $\nu$ and $\xi$.
 
 \begin{definition}
@@ -223,7 +223,7 @@ Therefore, in \cref{def:closure-rules}, we define the following closure rules: $
 
 Now, we define $\redb$ as $\beta$ closed under $\mu$, $\nu$ and $\xi$. 
 So with $\redb$ we can use \br on all subterms if the subterm is of the form $(\lamb{x}{M})N$. A subterm of the form $(\lamb{x}{M})N$ is called a \bre.
-In one reduction, we may need to use multiple rules. The \bre that is reduced is underlined.
+In one reduction, we may need to use multiple closure rules. \Cref{ex:beta-reduction} illustrates the usage of closure rules and the \bre that is reduced is underlined.
 For instance, we need to use the $\mu$ and $\xi$ rule in the last example of the following reductions: 
 
 \begin{example}
@@ -237,6 +237,6 @@ For instance, we need to use the $\mu$ and $\xi$ rule in the last example of the
   \end{align*}
 \end{example}
 
-We see that \br is a non-deterministic relation, which means that there can be multiple ways to reduce a term.
+We see that $\redb$ is a non-deterministic relation, which means that there can be multiple ways to reduce a term.
 However, sometimes we would only like to reduce a term in one way and have a deterministic relation.
-To achieve this, we can define subrelations that do not allow all closure rules, which we see in \cref{sec:call-by-name,sec:value-calculus}.
+To achieve this, we define subrelations that do not allow all closure rules, which we see in \cref{sec:call-by-name,sec:value-calculus}.

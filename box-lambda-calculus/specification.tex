@@ -1,22 +1,26 @@
-\section{\texorpdfstring{Specification of \boldmath${\la_b}$}{ Specification of the call-by-box lambda calculus}}
 
-\subsection{Intuitionistic logic \textsf{IS4}}
+\section{Intuitionistic logic \textsf{IS4}}
 Intuitionistic modal logic \textsf{IS4} is a non-classical logic that is based on the idea of constructive proof.
 Unlike classical logic, intuitionistic logic does not allow for the law of excluded middle, which states that for every proposition $P$,
 the statement $P \lor \neg P$ is assumed \cite{Heyting1930, sep-intuitionistic-logic-development}.
 In intuitionistic logic, a proposition is only considered true if it can be constructively proven.
 That is, a proposition is true if we can explicitly construct a proof, much like writing a program.
 This is why programming languages and proofs in systems like Agda and Rocq are based on intuitionistic logic.
-Since \lc is the foundation of functional programming, it corresponds with intuitionistic logic via the Curry-Howard correspondence,
+Since the \lc is the foundation of functional programming, it corresponds with intuitionistic logic via the Curry-Howard correspondence,
 where programs are equivalent to proofs and types to propositions \cite{Howard1980}.
 
 The intuitionistic modal logic \textsf{IS4} is an extension of intuitionistic logic that introduces the \emph{modal operator} $\square$.
 The term calculus \labox is a fragment of \textsf{IS4} that, besides the usual \lterms, also uses box ($\mathsf{box}$) and unbox ($\varepsilon$) operators 
-and is strong enough to interpret both call-by-name (\textsf{cbn}) and call-by-value (\textsf{cbv}) lambda calculi \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+and is strong enough to interpret both \textsf{cbn} and \textsf{cbv} \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 The box is like a container that delays a computation, making it possible to simulate both \textsf{cbn} and \textsf{cbv} evaluation strategies.
-Espírito Santo et al. refined this calculus to a simpler calculus, which they call the \emph{call-by-box \lc} (\lab). 
+Espírito Santo et al. refined this calculus to a simpler calculus, which they call the \emph{call-by-box} \lc (\lab). 
 This refinement has simpler typing rules and only one \br rule.
 In this thesis, we formalize \lab in Agda.
+
+\section{\texorpdfstring{Specification of \boldmath${\la_b}$}{ Specification of the call-by-box lambda calculus}}
+This section introduces the call-by-box \lc (\lab). 
+We first give the types, terms, and typing rules of \lab.
+Then, we define the substitution and reduction relations, after which we define the evaluation relations.
 
 \subsection{\texorpdfstring{Terms and Types of \boldmath${\la_b}$}{ Terms and Types of the boxed lambda calculus}}
 We now define the types of the \lab calculus as is done in \cite{espritosanto_et_al:LIPIcs:2019:10525}. We indicate the types of \lab with $A$ and $B$, representing types and boxed types respectively.
@@ -38,7 +42,7 @@ The type $X$ denotes the base type. Note that function types are of the form $B 
 \end{definition}
 
 
-We give some examples of types in \lab. Note that $A$ can be any type that is not boxed, while $B$ can be any type that is boxed. 
+We give some examples of types in \lab. Note that $A$ can be any type, while $B$ can be any boxed type. 
 The type $X$ is the base type. 
 
 \begin{example}
@@ -123,7 +127,7 @@ It is important that the argument $N$ is a boxed term, which is why we denote it
 
 We now demonstrate these typing rules with \cref{ex:typingb}, where we show that the term $(\lamb{x}{\boxe{x}}) \boxi{\lamb{y}{\boxe{y}}}$ is well-typed. 
 Note that the argument $\boxi{\lamb{y}{\boxe{y}}}$ is boxed. 
-If the argument was not boxed, we would not be able to apply the abstraction $\lamb{x}{\boxe{x}}$ to it.
+If the argument was not boxed, we would not be able to apply it to the abstraction $\lamb{x}{\boxe{x}}$.
 
 \begin{example}
   \label{ex:typingb}
@@ -153,15 +157,15 @@ If the argument was not boxed, we would not be able to apply the abstraction $\l
 \section{\texorpdfstring{Substitution in ${\la_b}$}{ Substitution in the boxed lambda calculus}}
 
 Since variables always occur inside $\varepsilon$, we need to redefine free and bound variables and substitution.
-For \lab, we have: 
+\Cref{def:fv} defines the free and bound variables in \lab and \cref{def:subst} gives the definition of substitution in \lab.
 
 \begin{definition}
   \label{def:fv}
   \textbf{Free and Bound Variables} in \lab are defined as follows:
   \begin{align*}
-    & FV_b(\boxe{x})    & &= \{x\}                          & & BV(\boxe{x})    & &= \emptyset \\
-    & FV_b(\lamb{x}{M}) & &= FV(M) \backslash \{x\}         & & BV(\lamb{x}{M}) & &= BV(M) \cup \{x\} \\
-    & FV_b(M N)         & &= FV(M) \cup FV(N)               & & BV(M N)         & &= BV(M) \cup BV(N)
+    & FV_b(\boxe{x})    & &= \{x\}                          & & BV_b(\boxe{x})    & &= \emptyset \\
+    & FV_b(\lamb{x}{M}) & &= FV_b(M) \backslash \{x\}       & & BV_b(\lamb{x}{M}) & &= BV_b(M) \cup \{x\} \\
+    & FV_b(M N)         & &= FV_b(M) \cup FV_b(N)           & & BV_b(M N)         & &= BV_b(M) \cup BV_b(N)
   \end{align*}
 \end{definition}
 
@@ -183,7 +187,7 @@ With $z$ a variable defined by:
   \item%1
  If $x \notin FV_b(Q)$ or $y \notin FV_b(M)$ then $z = y$
   \item%2
- Otherwise, $z$ can be any variable such that $z \notin FV(Q)$ or $z \notin FV(M)$
+ Otherwise, $z$ can be any variable such that $z \notin FV_b(Q)$ or $z \notin FV_b(M)$
 \end{enumerate}
 \end{definition}
 
@@ -237,16 +241,16 @@ We can prove that substitution preserves well-typedness in \lab.
     \item%5
  We now prove:
     \[
- \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\lamb{x}{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\lamb{x}{M} \subst{\boxe{x}}{Q} : A'}
+ \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\lamb{x}{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{(\lamb{x}{M}) \subst{\boxe{x}}{Q} : A'}
     \]
  We have that $\lamb{x}{M} \subst{\boxe{x}}{Q} = \lamb{x}{M}$, since $x$ is a bound variable in $\lamb{x}{M}$.
  It immediately follows that $\judgement{\Gamma}{\lamb{x}{M} \subst{\boxe{x}}{Q} : A'}$.
     \item%6
  We now prove:
     \[
- \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\lamb{y}{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\lamb{y}{M} \subst{\boxe{x}}{Q} : A'}
+ \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\lamb{y}{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{(\lamb{y}{M}) \subst{\boxe{x}}{Q} : A'}
     \]
- Let $x \neq y$, $A' = B \fa A''$, $y$ be of type $\boxit{B}$ and $M$ be of type $A''$.
+ Let $x \neq y$, $A' = B \fa A''$, $y$ be of type $B$ and $M$ be of type $A''$.
  By induction, we get the following with $z$ a fresh variable defined by the rules in \cref{def:subst}:
     \[
  \judgement{\Gamma}{M \subst{\boxe{y}}{\boxe{z}} : A''} \mbox{ and } \judgement{\Gamma}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q} : A''}
@@ -254,11 +258,11 @@ We can prove that substitution preserves well-typedness in \lab.
 
  From $\judgement{\Gamma}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q} : A''}$ it follows that \\
     $\judgement{\Gamma}{\lamb{y}{M} \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q} : B \fa A''}$, since $y$ is op type $B$.
- From this, the following statement follows: 
-    \[
- \lamb{y}{M} \subst{\boxe{x}}{Q} = \lamb{z}{(M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q})}
-    \] 
- Now, we conclude $\judgement{\Gamma}{\lamb{y}{M} \subst{\boxe{x}}{Q} : A'}$. $\square$
+ By the definition of substitution, we also know the following: 
+  \[
+    (\lamb{y}{M}) \subst{\boxe{x}}{Q} = \lamb{y}{(M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q})}
+  \] 
+  Now, we conclude $\judgement{\Gamma}{(\lamb{y}{M}) \subst{\boxe{x}}{Q} : A'}$. $\square$
   \end{enumerate}
   % \renewcommand{\qedsymbol}{}
 \end{proofthm}
@@ -275,7 +279,7 @@ Since variables only occur insides $\varepsilon$, we can replace those, includin
   \end{align*}
 \end{definition}
 
-For completeness, we need to define a new closure rule. This new rule only applies to the \lab, and allows reduction under boxed terms.
+For completeness, we need to define a new closure rule. This new rule only applies to \lab, and allows for reduction under boxed terms.
 We call this rule $\zeta$, and \cref{def:closure} defines it.
 
 \begin{definition}
@@ -289,14 +293,14 @@ We call this rule $\zeta$, and \cref{def:closure} defines it.
   \end{prooftree}
 \end{definition}
 
-The relations defined here are from \cite{espritosanto_et_al:LIPIcs:2019:10525} and form the reduction and evaluation relations of \lab.
+The relations we define here are taken from \cite{espritosanto_et_al:LIPIcs:2019:10525} and are the reduction and evaluation relations of \lab.
 The relation $\redbbox$ allows reduction under all term formers, including boxes. 
 We also define three other relations: $\bb$ closed under $\mu$ and $\nu$, $\bb$ closed under $\mu$ and $\bb$ closed under $\nu$.
 We call them $\redwe$, $\redbn$ and $\redbv$ respectively. \Cref{tab3:closure-rules} is an overview of all relations.  
 The relation $\redwe$ is weak since values do not reduce.
 That is, abstractions and terms of the form $\boxe{x}$ do not reduce.
 The relation $\redwe$ is also external as boxes do not reduce. This relation is called call-by-box (cbb) evaluation.
-We will see after defining the embeddings that $\redwe$ collapses to $\redbn$ in Girard's embedding and that $\redwe$ collapses to $\redbv$ in Gödel's embedding.  
+We see after defining the embeddings that $\redwe$ collapses to $\redbn$ in Girard's embedding and that $\redwe$ collapses to $\redbv$ in Gödel's embedding.  
 
 \begin{table}[htbp]
 \centering

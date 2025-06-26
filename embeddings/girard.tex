@@ -1,7 +1,7 @@
 % \section{\texorpdfstring{Embedding of \boldmath${\la_n}$ into \boldmath${\la_b}$}{Embedding of call-by-name lambda calculus into the call-by-box lambda calculus}}
 \section{Girard's embedding}
 In this section, we present Girard's embedding, which is a method to translate intuitionistic logic into linear logic \cite{GIRARD19871}.
-Jean-Yves Girard introduced this embedding to represent intuitionistic logic in a linear framework, where resources are managed explicitly.
+Girard introduced this embedding to represent intuitionistic logic in a linear framework, where resources are managed explicitly.
 Linear logic can be seen as a refinement of classical logic, where assumptions - or resources - are managed explicitly \cite{Troelstra1992}.
 In particular, linear logic distinguishes between assumptions that should be used exactly once and those that can be used any number of times \cite{Troelstra1992}, including zero times.
 However, this thesis does not focus on linear logic, but on the way Girard's embedding can be used to represent the call-by-name \lc in the modal call-by-box \lc, \lab.
@@ -14,7 +14,7 @@ These resources can be used as many times as needed, hence the connection with G
 \label{sec:name-embedding}
 
 The model embedding of the \lan into the \lab is given by Girard's translation, denoted as $\girard{(\cdot)}$.
-Thus, $\girard{M}$ is the translation of a term $M$ from the \lan to the \lab, and $\girard{A}$ is the translation of a type $A$ from the \lan to the \lab.
+Thus, $\girard{M}$ is the translation of a term $M$ from \lan to the \lab, and $\girard{A}$ is the translation of a type $A$ from \lan to the \lab.
 The translation is inductively defined in \cref{fig:girard-translation} for both terms and types.
 We also give the translation of \lterm $\bi x$ in \cref{ex:girard-translation}.
 
@@ -75,8 +75,8 @@ We now discuss the properties of Girard's translation.
 Girard's translation preserves the reduction and evaluation relations of \lan.
 Preservation of reduction is the first proposition and is defined by \cref{prop:girard-preservation-red}.
 More specifically, it states that if a \lterm $M$ reduces to $N$ in \lan, then $\girard{M}$ reduces to $\girard{N}$ in \lab.
-The proof of this proposition is rather simple and is given in the chapter about the Agda formalisation, \cref{sec:proofs-main-propositions},
-though it requires a helper lemma, \cref{lem:girard-pres-subst}, which states that Girard's translation preserves and reflects substitution.
+The proof of this proposition is rather simple and is given in the formalisation in Agda.
+However, the proof requires the use of a helper lemma, \cref{lem:girard-pres-subst}, which states that Girard's translation preserves and reflects substitution.
 The proof of this helper lemma is rather complex, because of the definition of substitution.
 % We now discuss the properties of Gödel's translation.
 % Just like Girard's translation, Gödel's translation preserves reduction and evaluation.

@@ -1,16 +1,17 @@
 \section{\texorpdfstring{Call-by-value \boldmath$\lambda$-calculus}{Call-by-value Lambda Calculus}}
 \label{sec:value-calculus}
-The call-by-value \lc (\lav) is defined by Gordon Plotkin in \cite{PLOTKIN1975125} and this section defines it similarly. 
+The call-by-value \lc (\lav) is defined by Plotkin in \cite{PLOTKIN1975125} and this section defines it similarly. 
 We first define the notion of values.
 Values are \lterms that are fully evaluated. That is, values are \lterms that cannot be reduced any further and thus do not contain any function applications.
-We define values in \cref{def:values} as all \lterms that are either a variable or an abstraction. We denote values by $V$ or $W$.
+We define values in \cref{def:values} as all \lterms that are either a variable or an abstraction. 
+In this thesis, we denote values explicitly by $V$ or $W$.
 
 \begin{definition}
   \label{def:values}
   \textbf{Values in \boldmath${\lambda_v}$} are given via:
   \begin{align*}
     \begin{grammar}{
-      \pr{$V$}{$x \gors \lambda x.M$}
+      \pr{$V$, $W$}{$x \gors \lambda x.M$}
  }
     \end{grammar}
   \end{align*}
@@ -80,13 +81,13 @@ The choice between using $\mu$, $\nu_<$ or no closure rule for $\redv$ is determ
 
 The closure rule $\nu_<$ forces evaluation from left to right, hence $<$ in the name. 
 First, the closure rule $\mu$ is used after which $\nu_<$ is used. 
-In \cref{ex:call-by-value}, we give the cbv evaluation of \lterm $(\bi(\lamb{x}{\bi x}))(\bi \bi)$.
+In \cref{ex:call-by-value}, we give the \textsf{cbv} evaluation of \lterm $(\bi(\lamb{x}{\bi x}))(\bi \bi)$.
 Again, the \bre that is reduced is underlined.
 
 % EXPLAIN THIS REDUCTION MORE. MAKE SURE THAT THE READER UNDERSTANDS THIS EXAMPLE.
 \begin{example}
   \label{ex:call-by-value}
-  \textbf{Cbv evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
+  \textbf{\textsf{Cbv} evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
   \begin{eqnarray*}
  (\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
     &\redv& \underline{(\lamb{x}{\bi x}) \bi} \\

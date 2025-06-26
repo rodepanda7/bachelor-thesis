@@ -1,10 +1,10 @@
 \section{Well-Typedness}
 
-This section discusses the concept of well-typedness in the context of lambda calculus.
+This section discusses the concept of well-typedness in the context of the \lc.
 We first discuss types, typing judgements and typing rules. We then explore how to use these rules to show that a \lterm is well-typed.
 
-Types of \lc are defined in \cref{def:types}, and are either $X$, which is the base type, or a function type, $A \fa A'$ with $A$ and $A'$ being types in \lc.
-This formulation follows from Church's ``simple typed $\lambda$ calculus'', introduced in \cite{ALONZOCHURCH1940}.
+Types of the \lc are defined in \cref{def:types}, and are either $X$, which is the base type, or a function type, $A \fa A'$ with $A$ and $A'$ being types in the \lc.
+This formulation follows from Church's ``simple typed \lc'', introduced in \cite{ALONZOCHURCH1940}.
 In this thesis, we use the Curry-style notation where we write terms without explicit types.
 This notation is formulated by Curry, and the notation used here is discussed in \cite{barendregt1992lambda}.
 
@@ -23,7 +23,7 @@ We define a context, usually denoted by $\Gamma$, by a list of variable-type pai
 A context is written as $\Gamma = x_1 : A_1, \ldots, x_n : A_n$, where each $x_i$ is a variable and each $A_i$ is a type.
 A typing judgement is of the form $\judgement{\Gamma}{M : A}$, and it means that we can derive that $M$ has type $A$ from the assumptions in context $\Gamma$.
 
-The typing rules are defined in \cref{def:typing-rules}, and are from \cite{barendregt1992lambda}. The Id rule states that if $x$ has type $A$ in the context, we can conclude that $x$ has type $A$.
+The typing rules, as presented in \cref{def:typing-rules}, are taken directly from \cite{barendregt1992lambda}. The Id rule states that if $x$ has type $A$ in the context, we can conclude that $x$ has type $A$.
 The \impliesi rule states that if we have a term $M$ of type $A'$ in the context $\Gamma, x : A$, we can conclude that from context $\Gamma$ it follows that $\lamb{x}{M}$ has type $A \fa A'$. 
 The \impliese rule states that if we have a term $M$ of type $A \fa A'$ and a term $N$ of type $A$, then the application $M N$ has type $A'$.
 
@@ -55,7 +55,7 @@ The \impliese rule states that if we have a term $M$ of type $A \fa A'$ and a te
 
 A \lterm is considered to be \emph{well-typed} if we can derive a typing judgement with the typing rules. 
 More concretely, this means that well-typed \lterms can be assigned a type. 
-In \cref{ex:well-typedness}, we show that \lterm $(\bi(\lamb{x}{\bi x}))$ is well-typed by giving the full typing derivation.
+In \cref{ex:well-typedness}, we show that the \lterm $(\bi(\lamb{x}{\bi x}))$ is well-typed by giving the full typing derivation.
 
 \begin{example}
   \label{ex:well-typedness}
@@ -86,7 +86,7 @@ In \cref{ex:well-typedness}, we show that \lterm $(\bi(\lamb{x}{\bi x}))$ is wel
   \end{prooftree}
 \end{example}
 
-In contrast to the \lterm $(\bi(\lamb{x}{\bi x}))$, the lambda term $M M$ cannot be assigned a type. 
+In contrast to the \lterm $(\bi(\lamb{x}{\bi x}))$, the \lterm $M M$ cannot be assigned a type. 
 Since $M M$ is an application, we can only apply the \impliese rule, which would give a contradiction.
 Given the \impliese rule, $M$ needs to be some kind of function with type $A \fa A'$. 
 However, given the \impliese rule, $M$ also needs to be the input of the function with type $A$.

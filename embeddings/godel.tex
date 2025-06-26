@@ -8,7 +8,7 @@ More specifically, an embedding to represent intuitionistic logic in a modal fra
 That is, $\square P$ can be read as $P$ is provable \cite{troelstra1933f}.
 
 In general, Gödel's embedding is used to represent one more restricted logical system in a stronger framework \cite{McKinseyTarski1948}.
-This thesis uses Gödel's embedding to represent the call-by-name \lc in the modal call-by-box \lc, \lab \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+This thesis uses Gödel's embedding to represent the call-by-value \lc in the modal call-by-box \lc, \lab \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 The intuition behind Gödel's embedding is that boxes are used to represent values, which are already evaluated expressions \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 
 % \section{\texorpdfstring{Embedding of \boldmath${\la_v}$ into \boldmath${\la_b}$}{Embedding of call-by-value lambda calculus into the call-by-box lambda calculus}}
@@ -182,7 +182,7 @@ Alternatively, we can also say that if a \lterm evaluates by call-by-value to a 
 then the translation of that \lterm under Gödel's embedding evaluates by call-by-box to the translation of that value under Gödel's embedding.
 
 Due to time limitations, we did not prove \cref{prop:godel-preservation-eval} in the Agda formalization.
-However, a less formal proof of this proposition is given by José Espírito Santo, Luís Pinto, and Tarmo Uustalu in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+However, a less formal proof of this proposition is given by Espírito Santo et all. in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 
 \begin{proposition}
   \label{prop:godel-preservation-eval}

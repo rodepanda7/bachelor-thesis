@@ -5,7 +5,7 @@
 % These should have been written down earlier in the thesis.
 % Therefore, conclusions can be brief and to the point.
 \section{Conclusions}
-In this thesis, we have formalised the call-by-box lambda calculus, a refined modal \lc introduced by \cite{espritosanto_et_al:LIPIcs:2019:10525}.
+In this thesis, we have formalised the call-by-box \lc, a refined modal \lc introduced by \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 We implemented the syntax, substitution, reduction and evaluation relations of \lab in Agda.
 We also formalised Girard's and Gödel's embeddings which are embeddings from the standard call-by-name \lc (\lan) and call-by-value \lc (\lav) to the shared target, the call-by-box \lc (\lab).
 For both embeddings, we have proven some properties that are preserved in \lab. We have proven the following propositions formally in Agda:
@@ -45,10 +45,10 @@ We can extend the formalisation with more properties, such as reflection of redu
 This would show that the target \lab, does not simulate any other reductions or evaluations than those of \lan and \lav.
 For example, the reflection of reduction under Girard's translation can be stated as follows: if $\girard{M} \redbbox \girard{N}$, then $M \rednb N$ in \lan.
 
-We only formalised \lab in Agda, but it could be interesting to also formalise different frameworks that can simulate both cbn and cbv,
+We only formalised \lab in Agda, but it could be interesting to also formalise different frameworks that can simulate both \textsf{cbn} and \textsf{cbv},
 such as the linear logic approach by Ehrhard and Giulio Guerrieri \cite{EhrhardGuerrieri2016} or Maraist et al. \cite{MARAIST1999175}, 
 and the thunk-based approach by Hatcliff and Danvy \cite{HATCLIFF_DANVY_1997}.
 All these formalisations could then be compared to see which is simpler, more efficient or more powerful.
 
-The boxed \lc can also be used to construct an interpreter for a programming language that supports both cbn and cbv evaluation.
+The boxed \lc can also be used to construct an interpreter for a programming language that supports both \textsf{cbn} and \textsf{cbv} evaluation.
 This is a more practical application and it could be interesting to see \lab in practice.  
