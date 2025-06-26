@@ -6,39 +6,39 @@ Values are \lterms that are fully evaluated. That is, values are \lterms that ca
 We define values in \cref{def:values} as all \lterms that are either a variable or an abstraction. We denote values by $V$ or $W$.
 
 \begin{definition}
-	\label{def:values}
-	\textbf{Values in \boldmath${\lambda_v}$} are given via:
-	\begin{align*}
-		\begin{grammar}{
-			\pr{$V$}{$x \gors \lambda x.M$}
-		}
-		\end{grammar}
-	\end{align*}
+  \label{def:values}
+  \textbf{Values in \boldmath${\lambda_v}$} are given via:
+  \begin{align*}
+    \begin{grammar}{
+      \pr{$V$}{$x \gors \lambda x.M$}
+ }
+    \end{grammar}
+  \end{align*}
 \end{definition}
 
 The main idea of \lav is that we only reduce a function application if the argument is a value.
 The \br rule is defined in \cref{def:call-by-value-reduction}.
 
 \begin{definition}
-	\label{def:call-by-value-reduction}
-	\textbf{\boldmath${\beta_v}$-reduction} in \lav:	
-	\begin{align*}
-		(\lamb{x}{M})V \red M \subst{x}{V} \quad \quad (\bv) 
-	\end{align*}
+  \label{def:call-by-value-reduction}
+  \textbf{\boldmath${\beta_v}$-reduction} in \lav:  
+  \begin{align*}
+ (\lamb{x}{M})V \red M \subst{x}{V} \quad \quad (\bv) 
+  \end{align*}
 \end{definition}
 
-We define a new closure rule, $\nu_<$ \cite{espritosanto_et_al:LIPIcs:2019:10525}, which is similar to the $\nu$ rule, but requires the left \lterm to be a value.
+We define a new closure rule, $\nu_<$ \cite{espritosanto_et_al:LIPIcs:2019:10525}, which is similar to the $\nu$ rule but requires the left \lterm to be a value.
 In call-by-value evaluation, we first reduce the left \lterm of a function application, to an abstraction, before reducing the right \lterm to a value to apply $\bv$.
 
 \begin{definition}
-	\label{def:nu-less}
-	\textbf{The closure rule \boldmath$\nu_<$:}	
-	\begin{prooftree}
-		\def\extraVskip{5pt}
-		\AxiomC{$N \red N'$}
-		\RightLabel{($\nu_<$)}
-		\UnaryInfC{$V N \red V N'$}
-	\end{prooftree}
+  \label{def:nu-less}
+  \textbf{The closure rule \boldmath$\nu_<$:} 
+  \begin{prooftree}
+    \def\extraVskip{5pt}
+    \AxiomC{$N \red N'$}
+    \RightLabel{($\nu_<$)}
+    \UnaryInfC{$V N \red V N'$}
+  \end{prooftree}
 \end{definition}
 
 We define call-by-value reduction, $\redvb$, as $\bv$ closed under $\mu$, $\nu$ and $\xi$ which allows reduction of \lterms under all term formers. 
@@ -46,24 +46,24 @@ The relation $\redv$ is defined as $\bv$, closed under $\mu$ and $\nu_<$.
 \Cref{tab2:closure-rules} shows the closure rules for all different reduction relations we have defined thus far.
 
 \begin{table}[htbp]
-	\centering
-	\begin{tabularx}{\linewidth}{|X|XXXXX|}
-		\hline
-		\textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ \\
-		\hline
-		$\rednb$ & $\bn$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
-		\hline
-		$\redn$  & $\bn$ & $\checkmark$ & 						 &  & \\
-		\hline
-		$\redw$  & $\bn$ & $\checkmark$ & $\checkmark$ & & \\
-		\hline
-		$\redvb$ & $\bv$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
-		\hline
-		$\redv$  & $\bv$ & $\checkmark$ & 						 & $\checkmark$ & \\
-		\hline
-	\end{tabularx}
-	\caption{Closure Rules for Different Reduction Relations}
-	\label{tab2:closure-rules}
+  \centering
+  \begin{tabularx}{\linewidth}{|X|XXXXX|}
+    \hline
+    \textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\nu_<}$ & $\boldsymbol{\xi}$ \\
+    \hline
+    $\rednb$ & $\bn$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+    \hline
+    $\redn$  & $\bn$ & $\checkmark$ &              &  & \\
+    \hline
+    $\redw$  & $\bn$ & $\checkmark$ & $\checkmark$ & & \\
+    \hline
+    $\redvb$ & $\bv$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+    \hline
+    $\redv$  & $\bv$ & $\checkmark$ &              & $\checkmark$ & \\
+    \hline
+  \end{tabularx}
+  \caption{Closure Rules for Different Reduction Relations}
+  \label{tab2:closure-rules}
 \end{table}
 
 Similar to call-by-name evaluation, call-by-value evaluation is defined as $\redvs$. 
@@ -73,25 +73,25 @@ Note that $\redv$ is deterministic, so there is only one way to apply $\redv$ on
 The choice between using $\mu$, $\nu_<$ or no closure rule for $\redv$ is deterministic. Consider the \lterm $M N$.
 
 \begin{enumerate}
-	\item If $M$ is an abstraction and $N$ is a value, we can only apply $\bv$ directly.
-	\item If $M$ is an abstraction and $N$ is an application, we can only apply $\nu_<$ to reduce the left \lterm.
-	\item If $M$ is an application and $N$ any \lterm, we can only apply $\mu$ to reduce the left \lterm.
+  \item If $M$ is an abstraction and $N$ is a value, we can only apply $\bv$ directly.
+  \item If $M$ is an abstraction and $N$ is an application, we can only apply $\nu_<$ to reduce the left \lterm.
+  \item If $M$ is an application and $N$ any \lterm, we can only apply $\mu$ to reduce the left \lterm.
 \end{enumerate}
 
 The closure rule $\nu_<$ forces evaluation from left to right, hence $<$ in the name. 
-First the closure rule $\mu$ is used after which $\nu_<$ is used. 
+First, the closure rule $\mu$ is used after which $\nu_<$ is used. 
 In \cref{ex:call-by-value}, we give the cbv evaluation of \lterm $(\bi(\lamb{x}{\bi x}))(\bi \bi)$.
 Again, the \bre that is reduced is underlined.
 
 % EXPLAIN THIS REDUCTION MORE. MAKE SURE THAT THE READER UNDERSTANDS THIS EXAMPLE.
 \begin{example}
-	\label{ex:call-by-value}
-	\textbf{Cbv evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
-	\begin{eqnarray*}
-		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
-		&\redv& \underline{(\lamb{x}{\bi x}) \bi} \\
-		&\redv& \underline{\bi \bi} \\
-		&\redv& \bi 
-	\end{eqnarray*}
+  \label{ex:call-by-value}
+  \textbf{Cbv evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
+  \begin{eqnarray*}
+ (\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redv& (\lamb{x}{\bi x}) (\underline{\bi \bi}) \\
+    &\redv& \underline{(\lamb{x}{\bi x}) \bi} \\
+    &\redv& \underline{\bi \bi} \\
+    &\redv& \bi 
+  \end{eqnarray*}
 \end{example}
 

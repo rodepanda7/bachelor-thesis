@@ -13,7 +13,7 @@ The intuition behind Gödel's embedding is that boxes are used to represent valu
 
 % \section{\texorpdfstring{Embedding of \boldmath${\la_v}$ into \boldmath${\la_b}$}{Embedding of call-by-value lambda calculus into the call-by-box lambda calculus}}
 
-% Research more about Girard's tranlation
+% Research more about Girard's translation
 
 \label{sec:value-embedding}
 
@@ -22,7 +22,7 @@ The idea of \raiseembn is to swap two \lterms, while removing a box of one \lter
 Its use becomes clear later in this section when we give some examples.
 We define \raiseembn as follows:
 \begin{flalign*}
-  \hspace{20pt} \raiseemb{M} := \lamb{z}{\boxe{z}M} &&
+ \hspace{20pt} \raiseemb{M} := \lamb{z}{\boxe{z}M} &&
 \end{flalign*}
 The model embedding of \lav into \lab is given by Gödel's translation, denoted as $\godel{(\cdot)}$.
 Thus, $\godel{M}$ is the translation of a term $M$ from \lav to \lab, and $\godel{A}$ is the translation of a type $A$ from the \lav to the \lab.
@@ -35,10 +35,10 @@ We also give the translation of \lterm $\bi x$ in \cref{ex:gödel-translation}.
   \label{fig:gödel-translation}
   \textbf{Gödel's translation} $\godel{(\cdot)}$ from \lav to \lab is defined as follows:
   \begin{align*}
-    \godel{A}   & = \boxt{\godelv{A}}                                        & \godel{V}             & = \boxi{\godelv{V}} \\
+ \godel{A}   & = \boxt{\godelv{A}}                                        & \godel{V}             & = \boxi{\godelv{V}} \\
     &                                                                        & \godel{(M N)} & = \raiseemb{\godel{N}}\godel{M} \\\\
-    \godelv{X}  & = X                                                        & \godelv{x}             & = \boxe{x} \\
-    \godelv{(A_1 \fa A_2)} & = \boxt{\godelv{A_1}} \fa \boxt{\godelv{A_2}}   & \godelv{(\lamb{x}{M})} & = \lamb{x}{\godel{M}}
+ \godelv{X}  & = X                                                        & \godelv{x}             & = \boxe{x} \\
+ \godelv{(A_1 \fa A_2)} & = \boxt{\godelv{A_1}} \fa \boxt{\godelv{A_2}}   & \godelv{(\lamb{x}{M})} & = \lamb{x}{\godel{M}}
   \end{align*}
 \end{definition}
 
@@ -46,7 +46,7 @@ We also give the translation of \lterm $\bi x$ in \cref{ex:gödel-translation}.
   \label{ex:gödel-translation}
   \textbf{Gödel's translation of \boldmath${\bi x}$:}
   \begin{align*}
-    \godel{(\bi x)} &= \raiseemb{\godel{x}} \godel{(\lamb{x}{x})}  \\
+ \godel{(\bi x)} &= \raiseemb{\godel{x}} \godel{(\lamb{x}{x})}  \\
                     &= \raiseemb{\boxi{\godelv{x}}} \boxi{\godelv{(\lamb{x}{x})}}  \\
                     &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\godel{x}}} \\
                     &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\boxi{\godelv{x}}}} \\
@@ -63,25 +63,25 @@ Thus, the image of Gödel's translation is a subset of \lab given by the followi
 \begin{align*}
   \begin{grammar}{
     \pr{$M$}{$\boxi{V} \gors \raiseemb{M'} M$}
-  } \quad \quad
+ } \quad \quad
   \end{grammar}
   \begin{grammar}{
     \pr{$V$}{$\boxe{x} \gors \lamb{x}{M}$}
-  }
+ }
   \end{grammar}
 \end{align*}
 
 Now, we reason that the relation $\redwe$ collapses to $\redbv$ when we consider the image of Gödel's translation.
-We do this by showing that the only closure rule that can be applied on each type of term in Gödel's image is the $\nu$ rule.
+We do this by showing that the only closure rule that can be applied to each type of term in Gödel's image is the $\nu$ rule.
 \begin{enumerate}
   \item%1
-  If a term in Gödel's image is of the form $\boxi{V}$, we cannot apply any reduction rule,
-  since we do not allow reductions under boxed terms. Besides, $V$ is a value, which cannot be reduced.
+ If a term in Gödel's image is of the form $\boxi{V}$, we cannot apply any reduction rule,
+ since we do not allow reductions under boxed terms. Besides, $V$ is a value, which cannot be reduced.
   \item%2
-  If a term in Gödel's image is of the form $\raiseemb{M'} M$, we can only apply the $\nu$ rule.
-  We have that $\raiseemb{M'} = \lamb{z}{\boxe{z}M'}$, which is a value. 
-  Thus, $\raiseemb{M'}$ cannot be reduced and the $\mu$ rule cannot be applied.
-  The only closure rule that can be applied is the $\nu$ rule.
+ If a term in Gödel's image is of the form $\raiseemb{M'} M$, we can only apply the $\nu$ rule.
+ We have that $\raiseemb{M'} = \lamb{z}{\boxe{z}M'}$, which is a value. 
+ Thus, $\raiseemb{M'}$ cannot be reduced and the $\mu$ rule cannot be applied.
+ The only closure rule that can be applied is the $\nu$ rule.
 \end{enumerate}
 
 We give a small example to clarify everything. Consider the \lterm $\bi x$. It holds that $\bi x \redv x$ in \lan. 
@@ -95,7 +95,7 @@ We give a small example to clarify everything. Consider the \lterm $\bi x$. It h
   \label{ex:gödel-translation-bv}
   \textbf{\boldmath${\godel{(\bi x)}}$ evaluated by $\redbv$:}
   \begin{align*}
-    \godel{(\bi x)} &= \raiseemb{\godel{x}} \godel{(\lamb{x}{x})}  \\
+ \godel{(\bi x)} &= \raiseemb{\godel{x}} \godel{(\lamb{x}{x})}  \\
                     &= \raiseemb{\boxi{\godelv{x}}} \boxi{\godelv{(\lamb{x}{x})}}  \\
                     &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\godel{x}}} \\
                     &= \raiseemb{\boxi{\boxe{x}}} \boxi{\lamb{x}{\boxi{\godelv{x}}}} \\
@@ -117,9 +117,9 @@ The lemma is divided into two parts - one concerning substitution within values,
 \begin{lemma}
   \label{lem:godel-pres-subst}
   \textbf{Preservation and reflection of substitution} under Gödel's translation.
-  For all \lterms $M$, values $V$, $W$, and variables $x$:
+ For all \lterms $M$, values $V$, $W$, and variables $x$:
   \[
-    \godel{M}\subst{\boxe{x}}{\godelv{V}} \equiv \godel{(M \subst{x}{V})} \mbox{ and } \godelv{W}\subst{\boxe{x}}{\godelv{V}} \equiv \godelv{(W \subst{x}{V})}
+ \godel{M}\subst{\boxe{x}}{\godelv{V}} \equiv \godel{(M \subst{x}{V})} \mbox{ and } \godelv{W}\subst{\boxe{x}}{\godelv{V}} \equiv \godelv{(W \subst{x}{V})}
   \]
 \end{lemma}
 
@@ -127,17 +127,17 @@ Preservation of reduction of Gödel's translation is slightly more complicated t
 This is because Gödel's translation makes use of the \raiseembn abbreviation, which swaps two terms.
 However, this swapping takes an extra step while reducing a \lterm.
 Thus, \cref{prop:godel-preservation-red} states that if a \lterm $M$ in \lav reduces to $N$ in one step, then $\godel{M}$ reduces to $\godel{N}$ in \lab in two steps.
-We use the notation $\redbboxt$ for two steps reduction steps of $\redbbox$.
+We use the notation $\redbboxt$ for two-step reduction steps of $\redbbox$.
 
 \begin{proposition}
   \label{prop:godel-preservation-red}
   \textbf{Preservation of reduction} under Gödel's translation.
-  For all \lterms $M$ and $N$:
+ For all \lterms $M$ and $N$:
   \center 
-  If $M \rednb N$ in \lav, then $\godel{M} \redbboxt \godel{N}$.
+ If $M \rednb N$ in \lav, then $\godel{M} \redbboxt \godel{N}$.
 \end{proposition}
 
-The two steps that are taken next to each other are always similar and can be merged together into one step.
+The two steps that are taken next to each other are always similar and can be merged into one step.
 Let us reason about this. 
 
 Let us say that \lterm $P$ in \lav reduces to \lterm $Q$. We have that $P$ is of the form $(\lamb{x}{M}) V$ and thus $Q$ is of the form $M \subst{x}{V}$.
@@ -147,7 +147,7 @@ In Gödel's image, we have the following:
 \]
 
 \begin{align*}
-  \raiseemb{\boxi{\godelv{V}}} \boxi{\lamb{x}{\godel{M}}} 
+ \raiseemb{\boxi{\godelv{V}}} \boxi{\lamb{x}{\godel{M}}} 
                   &\equiv (\lamb{z}{\boxe{z}\boxi{\godelv{V}}}) \boxi{\lamb{x}{\godel{M}}}   \\
                   &\redbbox (\lamb{x}{\godel{M}})\boxi{\godelv{V}}  \\
                   &\redbbox \godel{M} \subst{\boxe{x}}{\godelv{V}} \\
@@ -160,7 +160,7 @@ More generally, \cref{def:redbboxts} defines the relation $\redbboxts$.
   \label{def:redbboxts}
   \textbf{Gödel's two-step reduction relation \boldmath${\redbboxts}$}.
   \begin{align*}
-    \raiseemb{\boxi{N}} \boxi{\lamb{x}{M}} \redbboxts M \subst{\boxe{x}}{N}\quad \quad (\redbboxts)
+ \raiseemb{\boxi{N}} \boxi{\lamb{x}{M}} \redbboxts M \subst{\boxe{x}}{N}\quad \quad (\redbboxts)
   \end{align*}
 \end{definition}
 
@@ -170,15 +170,15 @@ This is done in \cref{prop:godel-preservation-red2s}.
 \begin{proposition}
   \label{prop:godel-preservation-red2s}
   \textbf{Preservation of reduction} under Gödel's translation with $\redbboxts$ reduction rule.
-  For all \lterms $M$ and $N$: 
+ For all \lterms $M$ and $N$: 
   \center 
-  If $M \redvb N$ in \lav, then $\godel{M} \redbboxts \godel{N}$.
+ If $M \redvb N$ in \lav, then $\godel{M} \redbboxts \godel{N}$.
 \end{proposition}
 
 Preservation of evaluation is more difficult to prove than preservation of reduction.
 \Cref{prop:girard-preservation-eval} states that if a \lterm $M$ evaluates to a value $V$ in \lav in any number of $\redv$ steps, 
 then $\godel{M}$ evaluates to $\godel{V}$ in \lab using any number of $\redbv$ steps.
-Alternatively, we can also say that if a \lterm  evaluates by call-by-value to a value, 
+Alternatively, we can also say that if a \lterm evaluates by call-by-value to a value, 
 then the translation of that \lterm under Gödel's embedding evaluates by call-by-box to the translation of that value under Gödel's embedding.
 
 Due to time limitations, we did not prove \cref{prop:godel-preservation-eval} in the Agda formalization.
@@ -187,7 +187,7 @@ However, a less formal proof of this proposition is given by José Espírito San
 \begin{proposition}
   \label{prop:godel-preservation-eval}
   \textbf{Preservation of evaluation} under Gödel's translation.
-  For all \lterms $M$ and values $V$: 
+ For all \lterms $M$ and values $V$: 
   \center  
-  If $M \redv V$ in \lav, then $\godel{M} \redbv \godel{V}$.
+ If $M \redv V$ in \lav, then $\godel{M} \redbv \godel{V}$.
 \end{proposition}

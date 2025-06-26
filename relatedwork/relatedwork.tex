@@ -21,7 +21,7 @@ A formalisation of a linear logic-based λ-calculus in Rocq is provided by Zhao,
 with the implementation on GitHub \cite{ZdancewicLinearityRepo}.
 
 The next approach we discuss uses thunks to unify cbn and cbv.
-Thunks can be seen as wrappers around some expression that delay the evaluation until it is needed.
+Thunks can be seen as wrappers around an expression that delays the evaluation until it is needed.
 Continuous-Passing Style (CPS) translations are also a technique to unify cbn and cbv.
 CPS translations are a way to rewrite a program such that all functions take an extra argument, which is the continuation function.
 This continuation function is called with the result of the function, and it indicates the next step in the computation.

@@ -40,7 +40,7 @@ The complete proof of this can be found in the Agda formalisation in \texttt{pro
 \begin{lemma}
   \label{lem:pres-subst}
   \textbf{Preservation of single substitution in Girard's embedding.}
-  This lemma is defined in \texttt{proofs/nameProofs.agda}
+ This lemma is defined in \texttt{proofs/nameProofs.agda}
   \small
   \input{agda-code/nameProofs1.tex}
 \end{lemma}
@@ -48,7 +48,7 @@ The complete proof of this can be found in the Agda formalisation in \texttt{pro
 \begin{lemma}
   \label{lem:pres-subst-godel}
   \textbf{Preservation of single substitution in Gödel's embedding.}
-  This lemma is defined in \texttt{proofs/valueProofs.agda}
+ This lemma is defined in \texttt{proofs/valueProofs.agda}
   \small
   \input{agda-code/valueProofs6.tex}
 \end{lemma}
@@ -93,7 +93,7 @@ The first proposition, \cref{prop:girard-preservation-red}, states that Girard's
 That is, if we have a \lterm $M$ and we reduce it to $N$ in \lan, then the translation of $M$ under Girard's embedding also reduces to the translation of $N$ under Girard's embedding. 
 We repeat the proposition here for convenience:
 \begin{center}
-  For all \lterm $M$ and $N$, if $M \rednb N$ in \lan, then $\girard{M} \redbbox \girard{N}$.
+ For all \lterm $M$ and $N$, if $M \rednb N$ in \lan, then $\girard{M} \redbbox \girard{N}$.
 \end{center}
 \Cref{proof:girard-preservation-red} shows the Agda proof of this proposition.
 Note that we use the helper \cref{lem:girard-pres-subst} to prove this proposition.
@@ -112,12 +112,12 @@ then the translation of $M$ under Girard's embedding also evaluates to the trans
 Again, we repeat the proposition here for convenience:
 
 \begin{center}
-  For all \lterm $M$ and $N$, if $M \redn N$ in \lan, then $\girard{M} \redbn \girard{N}$.
+ For all \lterm $M$ and $N$, if $M \redn N$ in \lan, then $\girard{M} \redbn \girard{N}$.
 \end{center}
 
 \Cref{proof:girard-preservation-eval} shows the Agda proof of this proposition.
 The proof is similar to \cref{proof:girard-preservation-red}.
-The only difference is that we have less cases for the evaluation relation $\redn$ and thus the proof is shorter.
+The only difference is that we have fewer cases for the evaluation relation $\redn$ and thus the proof is shorter.
 
 \begin{proofthm}
   \label{proof:girard-preservation-eval}
@@ -133,7 +133,7 @@ The first proposition of Gödel's embedding we proved is \cref{prop:godel-preser
 It states if a \lterm $M$ in \lav reduces to $N$ in one step, then $\godel{M}$ reduces to $\godel{N}$ in \lab in two steps.
 We repeat the proposition here for convenience:
 \begin{center}
-  For all \lterms $M$ and $N$, if $M \rednb N$ in \lav, then $\godel{M} \redbboxt \godel{N}$.
+ For all \lterms $M$ and $N$, if $M \rednb N$ in \lav, then $\godel{M} \redbboxt \godel{N}$.
 \end{center}
 \Cref{proof:godel-preservation-red} shows the Agda proof of this proposition.
 Note that it makes use of the helper lemma \textsf{pres-rename-red-2},
@@ -152,7 +152,7 @@ The last proposition we proved is \cref{prop:godel-preservation-red}.
 It states that if $M \redvb N$ in \lav, then $\godel{M} \redbboxts \godel{N}$.
 We repeat the proposition here for convenience:
 \begin{center}
-  For all \lterms $M$ and $N$, if $M \redvb N$ in \lan, then $\godel{M} \redbboxts \godel{N}$.
+ For all \lterms $M$ and $N$, if $M \redvb N$ in \lan, then $\godel{M} \redbboxts \godel{N}$.
 \end{center}
 The proof of this proposition is similar to \cref{proof:gogel-preservation-2step-red} and is given in \cref{proof:godel-preservation-red}.
 We use the helper lemma $\textsf{pres-rename-red-}\leadsto \beta_{b2}$ that is similar to \textsf{pres-rename-red-2} but for the $\redbboxts$ reduction rule.

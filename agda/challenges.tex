@@ -13,14 +13,14 @@ De Bruijn indices, introduced by De Bruijn, are a method to eliminate the need f
 This is useful because now all \lterms that are \aeqt are the same. 
 We do not have to worry about variables with the same name that refer to different variables, or about variable capture, simplifying the formalisation in Agda.
 The definition of substitution becomes simpler because of this.
-This subsection first explains the concept of de Bruijn indices, and then shows how they are implemented in the formalisation.
+This subsection first explains the concept of de Bruijn indices and then shows how they are implemented in the formalisation.
 
 The \lterms that use de Bruijn indices do not use variable names, but integers. We precede the integers with \# to prevent confusion if the index is higher than 9.
 Without \#, $10$ could be confused with two indices $1$ and $0$ that occur next to each other. 
 These integers represent the "distance" to the corresponding $\lambda$. 
 \Cref{ex:deBruijn-closed} gives representations of \lterms without free variables, using de Bruijn indices.
 These terms are said to be closed.
-Note that identical indices does not mean that the variables are the same. The \lterm $\lamb{}{\#0}\lamb{}{\#0}$ in \cref{ex:deBruijn-closed} demonstrates this.
+Note that identical indices do not mean that the variables are the same. The \lterm $\lamb{}{\#0}\lamb{}{\#0}$ in \cref{ex:deBruijn-closed} demonstrates this.
 In addition, variables that are the same can have different indices, which we demonstrate later.
 
 \begin{example}
@@ -65,7 +65,7 @@ De Bruijn index 0 is represented as \textsf{Z}, de Bruijn index 1 as \textsf{S Z
 \subsection{Well-typed Terms}
 
 This subsection discusses the restriction to well-typed terms in the formalisation of \lab.
-The restriction to well-typed terms is important because it avoids all complications that arise from ill typed terms. 
+The restriction to well-typed terms is important because it avoids all complications that arise from ill-typed terms. 
 In particular, in the context of evaluation, it makes sense to restrict to well-typed terms, 
 because ill-typed terms do not have a normal form.
 Evaluation is only defined for well-typed terms, and thus the restriction to well-typed terms makes sense.
@@ -88,7 +88,7 @@ Terms in the \lc are defined together with a context, which can be seen as a lis
 We do not need to name the variables in the context, because we use de Bruijn indices to refer to them.
 The context is a list of types, where each type corresponds to a variable in the context.
 \Cref{def:context:agda} gives the formal definition of contexts in the \lc.
-This construction looks somewhat similar to the list data type that we gave as example in \cref{ex:agda-parametrized-data-type}.
+This construction looks somewhat similar to the list data type that we gave as an example in \cref{ex:agda-parametrized-data-type}.
 
 \begin{definition}
   \label{def:context:agda}
@@ -97,10 +97,10 @@ This construction looks somewhat similar to the list data type that we gave as e
 \end{definition}
 
 We now define de Bruijn indices that refer to the variables in the context.
-They can be seen as a proof that some type is in the context. If $A$ occurs in the context, 
+They can be seen as proof that some type is in the context. If $A$ occurs in the context, 
 then $A \in \Gamma$ denotes that $A$ is in the context $\Gamma$, and de Bruijn index is the proof of this.
 It gives the location in the context where the type occurs. 
-The de Bruijn index \textsf{Z} refers to the most recently introduced variable in the context, which appears on the right most position of the context.
+The de Bruijn index \textsf{Z} refers to the most recently introduced variable in the context, which appears on the rightmost position of the context.
 The de Bruijn index \textsf{S Z} refers to the second most recently introduced variable, and so on.
 
 \begin{definition}
@@ -116,7 +116,7 @@ $\Gamma \vdash A$ denotes the \lterms that have type $A$ in the context $\Gamma$
 With the constructors \textsf{'}, $\lambdabar$ and $\cdot$, we can construct \lterms.
 We cannot use the $\lambda$ for $\lambdabar$ because it is already used in Agda for making functions.
 The \textsf{'} constructor is used to construct \lterms that are variables if we can provide evidence that the variable is in the context.
-Abstractions are constructed with the $\lambdabar$ constructor, which takes a context with more than one variable,
+Abstractions are constructed with the $\lambdabar$ constructor, which takes a context with more than one variable
 and creates a new \lterm that has one less variable in the context. This new \lterm is the abstraction of the original \lterm.
 The $\cdot$ constructor is used to construct applications of \lterms.
 Given a \lterm that has a function type and an argument of the input type of the function type, $\cdot$ constructs a new \lterm of the return type of the function type.
@@ -135,7 +135,7 @@ and that we provide evidence for this type when constructing the \lterm.
   \label{ex:terms-agda}
   \textbf{\boldmath${\lambda}$-terms in Agda.}
   In this example, we show how to construct \lterms in Agda. 
-  We also show in comments to what \lterms they correspond if they are written in the traditional style.
+  We also show in comments what \lterms they correspond to if they are written in the traditional style.
   \input{agda-code/calcExamples1.tex}
 \end{example}
 
@@ -152,6 +152,7 @@ which is to distinguish between the constructors of the standard \lc and \lab.
 \end{definition} 
 
 
+
 \subsection{Substitution}
 The next challenge in the formalisation is a correct definition of substitution.
 This definition appeared to be the most complex part of the formalisation, and it caused the most problems with the proofs later in this thesis.
@@ -162,22 +163,22 @@ We only give the definition of substitution in Agda of \lterms in \lab, since th
 \Cref{def:substitution:lab} gives the definition of parallel substitution, which is the substitution of a list of variables by a list of \lterms.
 Then we define single substitution in \cref{def:single:substitution:lab}, which might be more familiar and is the substitution of a single \lterm by another \lterm.
 
-In general, substitution is about replacing variables by \lterms. With  parallel substitution, multiple variables are replaced by other \lterms. 
+In general, substitution is about replacing variables by \lterms. With parallel substitution, multiple variables are replaced by other \lterms. 
 So, substitution can be seen as a function, taking a map from variables in one context to \lterms in another context
 and a \lterm as arguments, and returning a new \lterm with the variables replaced by the corresponding \lterms.
 
 For the definition of parallel substitution, we need to have an extension lemma, which is needed when we encounter an abstraction.
-An abstraction adds a new variable to the context, and we need a way to use the substitution function on the new context.
+An abstraction adds a new variable to the context, and we need a way to use the substitution function in the new context.
 This is where the extension lemma \textsf{extsb} comes in.
 It is a function from a map from variables in one context to \lterms in another context,
 to a map from variables in the first context extended with a type to \lterms in the second context extended with a type.
 The type that is used for extending the context is the input type of the $\lambda$ abstraction.
-We can think of \textsf{extsb} as a way apply some mapping function to the body of a $\lambda$ abstraction,
+We can think of \textsf{extsb} as a way to apply some mapping function to the body of a $\lambda$ abstraction
 while keeping the parameter of the abstraction untouched.
 
 The extension lemma is defined in terms of \textsf{renameb}, which is used to construct a \lterm with an extended context.
 We can think of \textsf{renameb} as a function that ``renames'' variables. We can change the context and adjust the de Bruijn indices accordingly.
-In de case of subsitution, we ``rename'' the \lterm by adding the input parameter of the $\lambda$ abstraction to the context and by increasing all de Bruijn indices by one.
+In de case of substitution, we ``rename'' the \lterm by adding the input parameter of the $\lambda$ abstraction to the context and by increasing all de Bruijn indices by one.
 The \textsf{renameb} function takes a function from variables in one context to variables in another context,
 and returns a function from \lterms in the first context to \lterms in the second context.
 For example, \textsf{renameb Sb $M$} renames $M$ by applying the function \textsf{Sb} to the variables in $M$.
@@ -185,21 +186,21 @@ An example of this is given in \cref{ex:rename:agda}.
 
 The rename lemma is defined in terms of \textsf{extb}, which works similarly to \textsf{extsb}, but is only used for extending the context.
 We can think of \textsf{extb} as a way to extend the context. Given a map from one context to another, it extends the map by adding some \lterm to the context.
-The function \textsf{extb} takes a map from variables in one contex to variables in another context and returns a map from variables in the first context extended with a type to variables in the second context extended with a type.
+The function \textsf{extb} takes a map from variables in one context to variables in another context and returns a map from variables in the first context extended with a type to variables in the second context extended with a type.
 Again, this type will be the input type of the $\lambda$ abstraction in \textsf{renameb}.
 Thus, the definition of simultaneous substitution is based on the definitions of \textsf{extsb}, \textsf{renameb} and \textsf{extb}.
 
 \begin{example}
   \label{ex:rename:agda}
   \textbf{Renaming in Agda.}
-  Renaming $\textsf{t}_1$ with \textsf{Sb} results in $\textsf{t}_2$.
+ Renaming $\textsf{t}_1$ with \textsf{Sb} results in $\textsf{t}_2$.
   \input{agda-code/boxExamples2.tex}
 \end{example}
 
 \begin{definition}
   \label{def:substitution:lab}
   \textbf{Parallel substitution in Agda of \boldmath${\lambda_b}$.} 
-  We define Parallel substitution in terms of \textsf{extsb}, \textsf{renameb} and \textsf{extb}. 
+ We define Parallel substitution in terms of \textsf{extsb}, \textsf{renameb} and \textsf{extb}. 
   \input{agda-code/boxCalc2.tex}
 \end{definition}
 
@@ -211,7 +212,7 @@ Single substitution of the \lterm that occurs most recently in the context of $M
 \begin{definition}
   \label{def:single:substitution:lab}
   \textbf{Single substitution in Agda of \boldmath${\lambda_b}$.}
-  Single substitution is defined in terms of parallel substitution, using the function \textsf{fb} that replaces the most recent variable in the context with the \lterm that is substituted.
+ Single substitution is defined in terms of parallel substitution, using the function \textsf{fb} that replaces the most recent variable in the context with the \lterm that is substituted.
   \input{agda-code/boxCalc3.tex}
 \end{definition}
 
@@ -220,7 +221,7 @@ Single substitution of the \lterm that occurs most recently in the context of $M
 \begin{example}
   \label{ex:substitution:lab}
   \textbf{Single substitution in Agda of \boldmath${\lambda_b}$.}
-  This example shows that $\textsf{t}_1 \ [ \textsf{ t}_2 \ ]\textsf{b} \equiv \textsf{ t}_3$
+ This example shows that $\textsf{t}_1 \ [ \textsf{ t}_2 \ ]\textsf{b} \equiv \textsf{ t}_3$
   \input{agda-code/boxExamples1.tex}
 \end{example}
 
@@ -229,7 +230,7 @@ Weakening and renaming becomes something to take into consideration in the forma
 are not exactly the same. An example to demonstrate this is the formal definition of \raiseembn in Agda,
 where the use of \textsf{renameb} is required. Recall that \raiseembn was defined as follows:
 \begin{flalign*}
-  \hspace{20pt} \raiseemb{M} := \lamb{z}{\boxe{z}M} &&
+ \hspace{20pt} \raiseemb{M} := \lamb{z}{\boxe{z}M} &&
 \end{flalign*}
 The term $M$ outside the function (in $\raiseemb{M}$) has a different context than the term $M$ inside the function of \raiseembn ($\lamb{z}{\boxe{z}M}$).
 We attempt to give a typing derivation in \cref{fig:modal-implication}. We assume that term $M$ has type \textsf{B'} which can be derived from $\Gamma$.
@@ -257,7 +258,7 @@ We see that we need to prove $\judgement{\Gamma , z : \boxt{(\boxt{B} \fa B')}}{
   \label{fig:modal-implication}
 \end{figure}
 
-Though we cannot immediately conclude following below, it does make sense that this is the case.
+Though we cannot immediately conclude the statement below, it does make sense that this is the case.
 \[
 \judgement{\Gamma}{M : B'} \mbox{ implies } \judgement{\Gamma , z : \boxt{(\boxt{B} \fa \boxt{B'})}}{M : \boxt{B'}}
 \]
@@ -272,7 +273,7 @@ We use \textsf{renameb} in such a way that it returns a \lterm of the type $\jud
 We achieve this by renaming with the function \textsf{Sb} as shown below. The resulting type is $\judgement{\Gamma \ ,\textsf{b} \ \boxt{(\boxt{B} \fa \boxt{B'})}}{\boxt{B'}}$
 
 \[
-  \textsf{rename (Sb } \{\square B = \boxt{(\boxt{B} \fa \boxt{B'})}\}) \ M
+ \textsf{rename (Sb } \{\square B = \boxt{(\boxt{B} \fa \boxt{B'})}\}) \ M
 \]
 
 Here, we need to give the implicit argument since \textsf{Sb} needs to know what the resulting context will be.
@@ -284,6 +285,7 @@ Note that Agda can automatically infer the implicit arguments of \textsf{Sb} in 
   \textbf{\textsf{raise}} in Agda:
   \input{agda-code/embedCBVIntoCBB1.tex}
 \end{definition}
+
 
 
 %CONG

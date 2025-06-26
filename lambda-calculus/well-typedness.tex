@@ -11,10 +11,10 @@ This notation is formulated by Curry, and the notation used here is discussed in
 \begin{definition}
   \label{def:types}
   \textbf{Types of \boldmath${\lambda}$-calculus} are defined via:
-	\begin{align*}
+  \begin{align*}
     \begin{grammar}{
       \pr{$A$}{$X \gors A \fa A'$}
-    }
+ }
     \end{grammar}
   \end{align*}
 \end{definition}
@@ -90,4 +90,4 @@ In contrast to the \lterm $(\bi(\lamb{x}{\bi x}))$, the lambda term $M M$ cannot
 Since $M M$ is an application, we can only apply the \impliese rule, which would give a contradiction.
 Given the \impliese rule, $M$ needs to be some kind of function with type $A \fa A'$. 
 However, given the \impliese rule, $M$ also needs to be the input of the function with type $A$.
-This results in a contradiction, since $M$ cannot be both of type $A \fa A'$ and type $A$. 
+This results in a contradiction, as $M$ cannot be both of type $A \fa A'$ and type $A$. 

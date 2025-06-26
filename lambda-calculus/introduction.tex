@@ -14,7 +14,7 @@
 % benoem nog een duidelijk voorbeeld voor value
 
 This chapter provides a detailed and formal description of the \lc, defined by Church in \cite{original-lambda-calc}. 
-We define a formal grammar of the \lc in the same way as \cite{espritosanto_et_al:LIPIcs:2019:10525}, and give examples of some terms in the \lc.
+We define a formal grammar of the \lc in the same way as \cite{espritosanto_et_al:LIPIcs:2019:10525} and give examples of some terms in the \lc.
 We mostly follow the notation of \lterms in \cite{HindleySeldin2008}.
 Only for substitution, we use a different notation, which we discuss later in \cref{sec:substitution}.
 Then we explain \br, the only way to reduce \lterms \cite{original-lambda-calc}, after which we define call-by-name evaluation and call-by-value evaluation \cite{PLOTKIN1975125}.
@@ -23,20 +23,20 @@ Then we explain \br, the only way to reduce \lterms \cite{original-lambda-calc},
 The grammar of the lambda calculus is as follows:
 
 \begin{definition}
-	\label{def:lambda-calculus}
-	\textbf{\boldmath${\lambda}$-calculus.} Terms of the \lc are given by: \\
-	\begin{grammar}{
-			\pr{$M, N, P, Q$}{$x \gors \lambda x.M \gors M N$}
-		}
-	\end{grammar}
+  \label{def:lambda-calculus}
+  \textbf{\boldmath${\lambda}$-calculus.} Terms of the \lc are given by: \\
+  \begin{grammar}{
+      \pr{$M, N, P, Q$}{$x \gors \lambda x.M \gors M N$}
+ }
+  \end{grammar}
 \end{definition}
 
 \vspace{10pt}
 Terms are denoted by $M, N, P$ or $Q$ and can either be of the form $x$, $\lambda x.M$ or $M N$:
 \begin{itemize}[noitemsep]
-	\item $x$ is a variable, which is a symbol that represents an input. Variables are undetermined, and they represent other terms.
-	\item $\lambda x.M$ is an abstraction. An abstraction is an anonymous function, where $x$ is the parameter and $M$ is the body of the function.
-	\item $M N$ is a function application, where $M$ and $N$ are terms.
+  \item $x$ is a variable, which is a symbol that represents an input. Variables are undetermined, and they represent other terms.
+  \item $\lambda x.M$ is an abstraction. An abstraction is an anonymous function, where $x$ is the parameter and $M$ is the body of the function.
+  \item $M N$ is a function application, where $M$ and $N$ are terms.
 \end{itemize}
 
 The \lterm $\lambda x. x$ is an abstraction. This specific abstraction is called the identity function and has one input parameter, namely $x$, and returns the input $x$.

@@ -6,8 +6,8 @@ Linear logic can be seen as a refinement of classical logic, where assumptions -
 In particular, linear logic distinguishes between assumptions that should be used exactly once and those that can be used any number of times \cite{Troelstra1992}, including zero times.
 However, this thesis does not focus on linear logic, but on the way Girard's embedding can be used to represent the call-by-name \lc in the modal call-by-box \lc, \lab.
 
-In general, Girard's embedding is not limited to linear logic. It is more general technique to represent one logical system in a different framework \cite{TroelstraVanDalen1988}.
-The embedding can be used to represent one logical system in another framework that has a way to manage resources or assumptions.
+In general, Girard's embedding is not limited to linear logic. It is a more general technique to represent one logical system in a different framework \cite{TroelstraVanDalen1988}.
+The embedding can be used to represent one logical system in another framework that has a way of managing resources or assumptions.
 In the context of \lan, parameters of functions can be seen as resources that are consumed when the function is applied \cite{MARAIST1999175}.
 These resources can be used as many times as needed, hence the connection with Girard's embedding and linear logic.
 
@@ -22,8 +22,8 @@ We also give the translation of \lterm $\bi x$ in \cref{ex:girard-translation}.
   \label{fig:girard-translation}
   \textbf{Girard's translation} $\girard{(\cdot)}$ from \lan to \lab is defined as follows:
   \begin{align*}
-    \girard{X}                 & = X                                          & \girard{x}             & = \boxe{x} \\
-    \girard{(A_1 \fa A_2)}     & = \boxt{\girard{A_1}} \fa \girard{A_2}       & \girard{(\lamb{x}{M})} & = \lamb{x}{\girard{M}} \\
+ \girard{X}                 & = X                                          & \girard{x}             & = \boxe{x} \\
+ \girard{(A_1 \fa A_2)}     & = \boxt{\girard{A_1}} \fa \girard{A_2}       & \girard{(\lamb{x}{M})} & = \lamb{x}{\girard{M}} \\
                                &                                              & \girard{(M N)}         & = \girard{M} \boxi{\girard{N}}
   \end{align*}
 \end{definition}
@@ -32,7 +32,7 @@ We also give the translation of \lterm $\bi x$ in \cref{ex:girard-translation}.
   \label{ex:girard-translation}
   \textbf{Girard's translation of \boldmath${\bi x}$:}
   \begin{align*}
-    \girard{(\bi x)} &= \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
+ \girard{(\bi x)} &= \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
                      &= (\lamb{x}{\girard{x}}) \boxi{\girard{x}} \\
                      &= (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}}.
   \end{align*}
@@ -44,15 +44,15 @@ Therefore, the image of Girard's translation is a subset of the \lab given by th
 
 \vspace{10pt}
 \begin{grammar}{
-		\pr{$M, N$}{$\boxe{x} \gors \lambda x.M \gors M \boxi{N}$}
-	}
+    \pr{$M, N$}{$\boxe{x} \gors \lambda x.M \gors M \boxi{N}$}
+ }
 \end{grammar}
 \vspace{10pt}
 
 We can reason that the relation $\redwe$ collapses to $\redbn$ when we consider the image of Girard's translation.
 Since application in Girard's image is always of the form $M \boxi{N}$, the right-hand side of the application can never be reduced without the use of the $\zeta$ rule.
 In $\redwe$, the only closure rules allowed are $\mu$ and $\nu$. 
-It is clear that the $\nu$ rule can never be applied in Girard's image as it is not possible to reduce under boxed terms.
+The $\nu$ rule can never be applied in Girard's image as it is not possible to reduce under boxed terms.
 Thus, the only closure rule that can be applied is the $\mu$ rule, and $\redwe$ collapses to $\redbn$ in Girard's image.
 
 We give a small example to clarify everything. Consider the \lterm $\bi x$. It holds that $\bi x \redn x$ in \lan. 
@@ -62,7 +62,7 @@ We give a small example to clarify everything. Consider the \lterm $\bi x$. It h
   \label{ex:girard-translation-bn}
   \textbf{\boldmath${\girard{(\bi x)}}$ evaluated by $\redbn$:}
   \begin{eqnarray*}
-    \girard{(\bi x)} &=& \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
+ \girard{(\bi x)} &=& \girard{(\lamb{x}{x})} \boxi{\girard{x}} \\
     &=& (\lamb{x}{\girard{x}}) \boxi{\girard{x}} \\
     &=& (\lamb{x}{\boxe{x}}) \boxi{\boxe{x}} \\
     &\redbn& \boxe{x} \subst{\boxe{x}}{\boxe{x}} \\
@@ -80,7 +80,7 @@ though it requires a helper lemma, \cref{lem:girard-pres-subst}, which states th
 The proof of this helper lemma is rather complex, because of the definition of substitution.
 % We now discuss the properties of Gödel's translation.
 % Just like Girard's translation, Gödel's translation preserves reduction and evaluation.
-% To proof these properties, we again need a helper lemma that is similar to the one used for Girard's translation.
+% To prove these properties, we again need a helper lemma that is similar to the one used for Girard's translation.
 % The helper lemma, \cref{lem:godel-pres-subst}, states that Gödel's translation preserves and reflects substitution.
 % The lemma is divided into two parts - one concerning substitution within values, and the other dealing with substitution in any \lterm.
 
@@ -88,16 +88,16 @@ The proof of this helper lemma is rather complex, because of the definition of s
   \label{lem:girard-pres-subst}
   \textbf{Preservation and reflection of substitution} under Girard's translation. For all \lterms $M$, $N$ and $x$:
   \[
-    \girard{M}\subst{\girard{N}}{\boxe{x}} \equiv \girard{(M \subst{N}{x})}
+ \girard{M}\subst{\girard{N}}{\boxe{x}} \equiv \girard{(M \subst{N}{x})}
   \]
 \end{lemma}
 
 \begin{proposition}
   \label{prop:girard-preservation-red}
   \textbf{Preservation of reduction} under Girard's translation.
-  For all \lterm $M$ and $N$:
+ For all \lterm $M$ and $N$:
   \center 
-  If $M \rednb N$ in \lan, then $\girard{M} \redbbox \girard{N}$.
+ If $M \rednb N$ in \lan, then $\girard{M} \redbbox \girard{N}$.
 \end{proposition}
 
 The second proposition about Girard's translation is \cref{prop:girard-preservation-eval}.
@@ -109,5 +109,5 @@ From this proposition, it easily follows that if $M$ evaluates to $N$ by call-by
   \label{prop:girard-preservation-eval}
   \textbf{Preservation of evaluation} under Girard's translation.
   \center
-  For all \lterm $M$ and $N$, if $M \redn N$ in \lan, then $\girard{M} \redbn \girard{N}$.
+ For all \lterm $M$ and $N$, if $M \redn N$ in \lan, then $\girard{M} \redbn \girard{N}$.
 \end{proposition}

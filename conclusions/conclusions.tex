@@ -2,7 +2,7 @@
 % In this chapter you present all conclusions that can be drawn from the
 % preceding chapters.
 % It should not introduce new experiments, theories, investigations, etc.:
-% these should have been written down earlier in the thesis.
+% These should have been written down earlier in the thesis.
 % Therefore, conclusions can be brief and to the point.
 \section{Conclusions}
 In this thesis, we have formalised the call-by-box lambda calculus, a refined modal \lc introduced by \cite{espritosanto_et_al:LIPIcs:2019:10525}.
@@ -24,10 +24,10 @@ They were the most complex to prove, but they are fundamental for the proofs abo
 
 We also saw that the formal definition of \raiseembn in Gödel's embedding is more complex than the less formal definition due to the use of the rename function.
 This rename function made proofs about Gödel's embedding significantly more complex than those about Girard's embedding,
-which is one reason why we did not prove preservation of evaluation for Gödel's embedding formally. 
+which is one reason why we did not prove the preservation of evaluation for Gödel's embedding formally. 
 
-In conclusion, this thesis provides a formal inplementation for \lab in Agda. 
-It contains the syntax, substitution, reduction and evaluation relations as well as some proofs about Girard's and Gödel's embeddings.
+In conclusion, this thesis provides a formal implementation for \lab in Agda. 
+It contains the syntax, substitution, reduction and evaluation relations as well as some proofs of Girard's and Gödel's embeddings.
 The formalisation could serve as a basis for further research into the unification of call-by-name and call-by-value evaluation strategies in a modal setting,
 and could also serve as a foundation for future programming languages or proof assistants that natively support both evaluation strategies.
 
@@ -43,7 +43,7 @@ It would make the formalisation more complete and could be useful for future res
 
 We can extend the formalisation with more properties, such as reflection of reduction and evaluation under Girard's and Gödel's embeddings.
 This would show that the target \lab, does not simulate any other reductions or evaluations than those of \lan and \lav.
-For example, reflection of reduction under Girard's translation can be stated as follows: if $\girard{M} \redbbox \girard{N}$, then $M \rednb N$ in \lan.
+For example, the reflection of reduction under Girard's translation can be stated as follows: if $\girard{M} \redbbox \girard{N}$, then $M \rednb N$ in \lan.
 
 We only formalised \lab in Agda, but it could be interesting to also formalise different frameworks that can simulate both cbn and cbv,
 such as the linear logic approach by Ehrhard and Giulio Guerrieri \cite{EhrhardGuerrieri2016} or Maraist et al. \cite{MARAIST1999175}, 

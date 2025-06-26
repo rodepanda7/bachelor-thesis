@@ -12,19 +12,19 @@ Therefore, an optimised version of call-by-name evaluation is lazy evaluation, w
 Zena et al. \cite{AriolaFelleisen1997} define a call-by-need calculus, but for simplicity, we only use \lan in this thesis. 
 
 \begin{definition}
-	\label{def:call-by-name-reduction}
-	\textbf{\boldmath${\beta_n}$-reduction} in \lan:
-	\begin{align*}
-		(\lamb{x}{M})N \red M \subst{x}{N} \quad \quad (\bn)
-	\end{align*}
+  \label{def:call-by-name-reduction}
+  \textbf{\boldmath${\beta_n}$-reduction} in \lan:
+  \begin{align*}
+ (\lamb{x}{M})N \red M \subst{x}{N} \quad \quad (\bn)
+  \end{align*}
 \end{definition}
 
 % DO WE NEED WEAK REDUCTION? IF NOT, REMOVE IT.
 % EXPLAIN THE IDEA OF THE NAME REDUCTION
 The relations we define in this thesis are all similar to the relations discussed in \cite{espritosanto_et_al:LIPIcs:2019:10525}.
 We define the relation $\rednb$ as $\bn$ closed under $\mu$, $\nu$ and $\xi$.
-The relation $\rednb$ is the call-by-name reduction relation, which allows reduction of \lterms under all term formers.
-Weak reduction, $\redw$, is defined as $\bn$ closed under $\mu$ and $\nu$. The only restriction of $\redw$ is that it cannot reduce under $\la$'s.
+The relation $\rednb$ is the call-by-name reduction relation, which allows for the reduction of \lterms under all term formers.
+Weak reduction, $\redw$, is defined as $\bn$ closed under $\mu$ and $\nu$. The only restriction of $\redw$ is that it cannot reduce \lterms under $\la$'s.
 Weak reduction becomes relevant when unifying cbn and cbv.
 We also define the relation $\redn$ as $\bn$ closed under $\mu$.
 This relation $\redn$ cannot evaluate the argument of a function, since the $\nu$ rule is not allowed with $\redn$.
@@ -38,28 +38,28 @@ Note that $\redn$ is deterministic, so there is always only one way to apply $\r
 \begin{table}[htbp]
 \centering
 \begin{tabularx}{\linewidth}{|X|XXXX|}
-	\hline
-	\textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\xi}$ \\
-	\hline
-	$\rednb$ & $\bn$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
-	\hline
-	$\redn$  & $\bn$ & $\checkmark$ & 						 &  \\
-	\hline
-	$\redw$  & $\bn$ & $\checkmark$ & $\checkmark$ &  \\
-	\hline
+  \hline
+  \textbf{Relation} & $\boldsymbol{\beta}$ & $\boldsymbol{\mu}$ & $\boldsymbol{\nu}$ & $\boldsymbol{\xi}$ \\
+  \hline
+  $\rednb$ & $\bn$ & $\checkmark$ & $\checkmark$ & $\checkmark$ \\
+  \hline
+  $\redn$  & $\bn$ & $\checkmark$ &              &  \\
+  \hline
+  $\redw$  & $\bn$ & $\checkmark$ & $\checkmark$ &  \\
+  \hline
 \end{tabularx}
 \caption{Closure Rules for Different Reduction Relations}
 \label{tab1:closure-rules}
 \end{table}
 
 \begin{example}
-	\label{ex:call-by-name}
-	\textbf{Cbn evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
-	\begin{eqnarray*}
-		(\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redn& \underline{(\lamb{x}{\bi x}) (\bi \bi)} \\
-		&\redn& \underline{\bi (\bi \bi)} \\
-		&\redn& \underline{\bi \bi} \\
-		&\redn& \bi 
-	\end{eqnarray*}
+  \label{ex:call-by-name}
+  \textbf{Cbn evaluation of $(\bi(\lamb{x}{\bi x}))(\bi \bi)$:}
+  \begin{eqnarray*}
+ (\underline{\bi(\lamb{x}{\bi x})})(\bi \bi) &\redn& \underline{(\lamb{x}{\bi x}) (\bi \bi)} \\
+    &\redn& \underline{\bi (\bi \bi)} \\
+    &\redn& \underline{\bi \bi} \\
+    &\redn& \bi 
+  \end{eqnarray*}
 \end{example}
 

@@ -20,19 +20,19 @@ In this thesis, we formalize \lab in Agda.
 
 \subsection{\texorpdfstring{Terms and Types of \boldmath${\la_b}$}{ Terms and Types of the boxed lambda calculus}}
 We now define the types of the \lab calculus as is done in \cite{espritosanto_et_al:LIPIcs:2019:10525}. We indicate the types of \lab with $A$ and $B$, representing types and boxed types respectively.
-The type $X$ denotes the base type. Note that functions types are of the form $B \fa A$ thus the input is always a boxed type.
+The type $X$ denotes the base type. Note that function types are of the form $B \fa A$ thus the input is always a boxed type.
 
 \begin{definition}
   \label{def:typesb}
   \textbf{Types of \boldmath${\la_b}$} are given via the following grammar:
-	\begin{align*}
+  \begin{align*}
     \begin{grammar}{
       \pr{$A$}{$X \gors B \fa A \gors B$}
-    } \quad \quad
+ } \quad \quad
     \end{grammar}
     \begin{grammar}{
       \pr{$B$}{$\boxit{A}$}
-    }
+ }
     \end{grammar}
   \end{align*}
 \end{definition}
@@ -65,7 +65,7 @@ In this thesis, we use $M$, $N$, $P$, and $Q$ for arbitrary terms in \lab.
   \begin{align*}    
     \begin{grammar}{
       \pr{$M, N, P, Q$}{$\boxe{x} \gors \lambda x.M \gors M N \gors \boxi{N}$}
-    }
+ }
     \end{grammar}
   \end{align*}
 \end{definition}
@@ -83,7 +83,7 @@ In this thesis, we use $M$, $N$, $P$, and $Q$ for arbitrary terms in \lab.
 
 The typing rules of \lab are defined in \cref{def:typing-rulesb} and are identical to the typing rules in \cite{espritosanto_et_al:LIPIcs:2019:10525}. The $\square$-I rule states that if $M$ is of type $A$, then $\boxi{M}$ is of type $\boxt{A}$.
 The Id$_\square$ rule is the identity rule for boxed variables, which states that if we know that $x$ is a variable of type $\boxt{A}$, we can conclude that $\boxe{x}$ is of type $A$.
-The only way to add variables to the context is by using the \impliesi rule. These variables are always boxed, since they are the parameters of abstractions.
+The only way to add variables to the context is by using the \impliesi rule. These variables are always boxed since they are the parameters of abstractions.
 Due to the grammar of \lab, all variables in \lab occur inside the unboxing operator $\varepsilon$ and thus the Id$_\square$ rule covers all cases.
 The \impliese rule states that if we have a term $M$ of type $B \fa A$ and a term $N$ of type $B$, we can conclude that the application $M N$ has type $A$.
 It is important that the argument $N$ is a boxed term, which is why we denote its type as $B$.
@@ -170,20 +170,20 @@ For \lab, we have:
   \textbf{Substitution in \lab} of some \lterm $Q$ for an unboxed variable $\boxe{x}$ in some \lterm is defined by:
   \[
 \begin{aligned}
-	& \boxe{x} \subst{\boxe{x}}{Q}            & &= Q \\
-	& \boxe{y}  \subst{\boxe{x}}{Q}           & &= \boxe{y} \text{ if } (x \neq y)\\
+  & \boxe{x} \subst{\boxe{x}}{Q}            & &= Q \\
+  & \boxe{y}  \subst{\boxe{x}}{Q}           & &= \boxe{y} \text{ if } (x \neq y)\\
   & \boxi{M} \subst{\boxe{x}}{Q}            & &= \boxi{M \subst{\boxe{x}}{Q}} \\
-	& (M N) \subst{\boxe{x}}{Q}               & &= M \subst{\boxe{x}}{Q} N \subst{\boxe{x}}{Q} \\
-	& (\lamb{x}{M}) \subst{\boxe{x}}{Q}       & &= \lamb{x}{M} \\
-	& (\lamb{y}{M}) \subst{\boxe{x}}{Q}       & &= \lamb{z}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q}} \text{ if } (x \neq y) \\
+  & (M N) \subst{\boxe{x}}{Q}               & &= M \subst{\boxe{x}}{Q} N \subst{\boxe{x}}{Q} \\
+  & (\lamb{x}{M}) \subst{\boxe{x}}{Q}       & &= \lamb{x}{M} \\
+  & (\lamb{y}{M}) \subst{\boxe{x}}{Q}       & &= \lamb{z}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q}} \text{ if } (x \neq y) \\
 \end{aligned}
 \]
-with $z$ a variable defined by:
+With $z$ a variable defined by:
 \begin{enumerate}
-	\item%1
-	If $x \notin FV_b(Q)$ or $y \notin FV_b(M)$ then $z = y$
-	\item%2
-	Otherwise, $z$ can be any variable such that $z \notin FV(Q)$ or $z \notin FV(M)$
+  \item%1
+ If $x \notin FV_b(Q)$ or $y \notin FV_b(M)$ then $z = y$
+  \item%2
+ Otherwise, $z$ can be any variable such that $z \notin FV(Q)$ or $z \notin FV(M)$
 \end{enumerate}
 \end{definition}
 
@@ -192,7 +192,7 @@ We can prove that substitution preserves well-typedness in \lab.
 \begin{proposition}
   \textbf{Preservation of well-typedness in \boldmath${\la_b}$:}
   \[
-    \mbox{If } \judgement{\Gamma, x : \boxt{A}}{M : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{M \subst{\boxe{x}}{Q} : A'}
+ \mbox{If } \judgement{\Gamma, x : \boxt{A}}{M : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{M \subst{\boxe{x}}{Q} : A'}
   \]
 \end{proposition}
 
@@ -200,65 +200,65 @@ We can prove that substitution preserves well-typedness in \lab.
   \textbf{Preservation of well-typedness in \boldmath${\la_b}$}. We prove by structural induction on the term $M$ that this substitution preserves well-typedness.
   \begin{enumerate}
     \item%1 
-    We now prove:
+ We now prove:
     \[
-      \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\boxe{x} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\boxe{x} \subst{\boxe{x}}{Q} : A'}
+ \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\boxe{x} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\boxe{x} \subst{\boxe{x}}{Q} : A'}
     \]
-    From the assumption, we have that $\judgement{\Gamma, x : \boxt{A}}{\boxe{x} : A'}$.
-    It follows that $x : \boxi{A}$ and thus $\boxe{x} : A$. We get that $A = A'$. 
-    Now, it follows that $\judgement{\Gamma}{M \subst{\boxe{x}}{Q} : A'}$ since $\boxe{x} \subst{\boxe{x}}{Q} = Q$.
+ From the assumption, we have that $\judgement{\Gamma, x : \boxt{A}}{\boxe{x} : A'}$.
+ It follows that $x : \boxi{A}$ and thus $\boxe{x} : A$. We get that $A = A'$. 
+ Now, it follows that $\judgement{\Gamma}{M \subst{\boxe{x}}{Q} : A'}$ since $\boxe{x} \subst{\boxe{x}}{Q} = Q$.
     \item%2
-    We now prove:
+ We now prove:
     \[
-      \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\boxe{y} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\boxe{y} \subst{\boxe{x}}{Q} : A'}
+ \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\boxe{y} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\boxe{y} \subst{\boxe{x}}{Q} : A'}
     \]
-    We have that $\boxe{y} \subst{\boxe{x}}{Q} = \boxe{y}$, so $\judgement{\Gamma}{\boxe{y} \subst{\boxe{x}}{Q} : A'}$.    
+ We have that $\boxe{y} \subst{\boxe{x}}{Q} = \boxe{y}$, so $\judgement{\Gamma}{\boxe{y} \subst{\boxe{x}}{Q} : A'}$.    
     \item%3
-    We now prove:
+ We now prove:
     \[
-      \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\boxi{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\boxi{M} \subst{\boxe{x}}{Q} : A'}
+ \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\boxi{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\boxi{M} \subst{\boxe{x}}{Q} : A'}
     \]
-    Let $M$ be of type $A''$ ($A' = \boxit{A''}$). By the induction hypothesis, we get that $\judgement{\Gamma}{M \subst{\boxe{x}}{Q} : A''}$.
-    It follows that $\boxi{M \subst{\boxe{x}}{Q}} : \boxit{A''}$ or $\boxi{M \subst{\boxe{x}}{Q}} : A'$.
-    Since $\boxi{M} \subst{\boxe{x}}{Q} = \boxi{M \subst{\boxe{x}}{Q}}$, we get $\judgement{\Gamma}{\boxi{M} \subst{\boxe{x}}{Q} : A'}$ 
+ Let $M$ be of type $A''$ ($A' = \boxit{A''}$). By the induction hypothesis, we get that $\judgement{\Gamma}{M \subst{\boxe{x}}{Q} : A''}$.
+ It follows that $\boxi{M \subst{\boxe{x}}{Q}} : \boxit{A''}$ or $\boxi{M \subst{\boxe{x}}{Q}} : A'$.
+ Since $\boxi{M} \subst{\boxe{x}}{Q} = \boxi{M \subst{\boxe{x}}{Q}}$, we get $\judgement{\Gamma}{\boxi{M} \subst{\boxe{x}}{Q} : A'}$ 
     \item%4
-    We now prove:
+ We now prove:
     \[
-      \mbox{If } \judgement{\Gamma, x : \boxt{A}}{M N : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{M N \subst{\boxe{x}}{Q} : A'}
+ \mbox{If } \judgement{\Gamma, x : \boxt{A}}{M N : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{M N \subst{\boxe{x}}{Q} : A'}
     \]
-    Let $N$ be of type $A''$. We get that $M$ has type $A'' \fa A'$ because of the typing rule \impliese.
-    By induction, we get: 
+ Let $N$ be of type $A''$. We get that $M$ has type $A'' \fa A'$ because of the typing rule \impliese.
+ By induction, we get: 
     \begin{center}  
     $\judgement{\Gamma}{M \subst{\boxe{x}}{Q}} : A'' \fa A'$ and $\judgement{\Gamma}{N \subst{\boxe{x}}{Q}} : A''$
     \end{center}
-    Since $M N \subst{\boxe{x}}{Q} = M \subst{\boxe{x}}{Q} N \subst{\boxe{x}}{Q}$, and \\
+ Since $M N \subst{\boxe{x}}{Q} = M \subst{\boxe{x}}{Q} N \subst{\boxe{x}}{Q}$, and \\
     $M \subst{\boxe{x}}{Q} N \subst{\boxe{x}}{Q} : A'$, we get
     $\judgement{\Gamma}{M N \subst{\boxe{x}}{Q} : A'}$.
     \item%5
-    We now prove:
+ We now prove:
     \[
-      \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\lamb{x}{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\lamb{x}{M} \subst{\boxe{x}}{Q} : A'}
+ \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\lamb{x}{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\lamb{x}{M} \subst{\boxe{x}}{Q} : A'}
     \]
-    We have that $\lamb{x}{M} \subst{\boxe{x}}{Q} = \lamb{x}{M}$, since $x$ is a bound variable in $\lamb{x}{M}$.
-    It immediately follows that $\judgement{\Gamma}{\lamb{x}{M} \subst{\boxe{x}}{Q} : A'}$.
+ We have that $\lamb{x}{M} \subst{\boxe{x}}{Q} = \lamb{x}{M}$, since $x$ is a bound variable in $\lamb{x}{M}$.
+ It immediately follows that $\judgement{\Gamma}{\lamb{x}{M} \subst{\boxe{x}}{Q} : A'}$.
     \item%6
-    We now prove:
+ We now prove:
     \[
-      \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\lamb{y}{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\lamb{y}{M} \subst{\boxe{x}}{Q} : A'}
+ \mbox{If } \judgement{\Gamma, x : \boxt{A}}{\lamb{y}{M} : A'} \mbox{ and } \judgement{\Gamma}{Q : A} \mbox{ then } \judgement{\Gamma}{\lamb{y}{M} \subst{\boxe{x}}{Q} : A'}
     \]
-    Let $x \neq y$, $A' = B \fa A''$, $y$ be of type $\boxit{B}$ and $M$ be of type $A''$.
-    By induction, we get the following with $z$ a fresh variable defined by the rules in \cref{def:subst}:
+ Let $x \neq y$, $A' = B \fa A''$, $y$ be of type $\boxit{B}$ and $M$ be of type $A''$.
+ By induction, we get the following with $z$ a fresh variable defined by the rules in \cref{def:subst}:
     \[
-      \judgement{\Gamma}{M \subst{\boxe{y}}{\boxe{z}} : A''} \mbox{ and } \judgement{\Gamma}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q} : A''}
+ \judgement{\Gamma}{M \subst{\boxe{y}}{\boxe{z}} : A''} \mbox{ and } \judgement{\Gamma}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q} : A''}
     \]
 
-    From $\judgement{\Gamma}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q} : A''}$ it follows that \\
+ From $\judgement{\Gamma}{M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q} : A''}$ it follows that \\
     $\judgement{\Gamma}{\lamb{y}{M} \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q} : B \fa A''}$, since $y$ is op type $B$.
-    From this, the following statement follows: 
+ From this, the following statement follows: 
     \[
-      \lamb{y}{M} \subst{\boxe{x}}{Q} = \lamb{z}{(M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q})}
+ \lamb{y}{M} \subst{\boxe{x}}{Q} = \lamb{z}{(M \subst{\boxe{y}}{\boxe{z}}\subst{\boxe{x}}{Q})}
     \] 
-    Now, we conclude $\judgement{\Gamma}{\lamb{y}{M} \subst{\boxe{x}}{Q} : A'}$. $\square$
+ Now, we conclude $\judgement{\Gamma}{\lamb{y}{M} \subst{\boxe{x}}{Q} : A'}$. $\square$
   \end{enumerate}
   % \renewcommand{\qedsymbol}{}
 \end{proofthm}
@@ -271,7 +271,7 @@ Since variables only occur insides $\varepsilon$, we can replace those, includin
   \label{def:beta}
   \textbf{\boldmath${\beta}$-reduction} in \lab is defined as follows:
   \begin{align*}
-    (\lamb{x}{M})\boxi{N} \red M \subst{\boxe{x}}{N} \quad \quad (\bb)
+ (\lamb{x}{M})\boxi{N} \red M \subst{\boxe{x}}{N} \quad \quad (\bb)
   \end{align*}
 \end{definition}
 
@@ -328,36 +328,36 @@ We will see after defining the embeddings that $\redwe$ collapses to $\redbn$ in
 \end{table}
 
 % \begin{center}
-% 	\begin{tabularx}{\textwidth}{YY}
-% 		\begin{prooftree}
-% 			\AxiomC{$M \rightarrow M'$} % Conclusion
-% 			\RightLabel{$(\mu)$}
-% 			\UnaryInfC{$M N \rightarrow M' N$}
-% 		\end{prooftree}
+%   \begin{tabularx}{\textwidth}{YY}
+%     \begin{prooftree}
+%       \AxiomC{$M \rightarrow M'$} % Conclusion
+%       \RightLabel{$(\mu)$}
+%       \UnaryInfC{$M N \rightarrow M' N$}
+%     \end{prooftree}
 %     & \quad 
 %     \begin{prooftree}
-% 			\AxiomC{$M \rightarrow M'$} % Conclusion
-% 			\RightLabel{$(\mu_>)$}
-% 			\UnaryInfC{$M B \rightarrow M' B$}
-% 		\end{prooftree}
-% 	\end{tabularx}
+%       \AxiomC{$M \rightarrow M'$} % Conclusion
+%       \RightLabel{$(\mu_>)$}
+%       \UnaryInfC{$M B \rightarrow M' B$}
+%     \end{prooftree}
+%   \end{tabularx}
 %   \begin{tabularx}{\textwidth}{YYY}
-% 		\begin{prooftree}
-% 			\AxiomC{$N \rightarrow N'$} % Conclusion
-% 			\RightLabel{$(\nu)$}
-% 			\UnaryInfC{$M N \rightarrow M N'$}
-% 		\end{prooftree}
-%     & \quad 
-% 		\begin{prooftree}
-% 			\AxiomC{$N \rightarrow N'$} % Conclusion
-% 			\RightLabel{$(\nu_<)$}
-% 			\UnaryInfC{$V N \rightarrow V N'$}
-% 		\end{prooftree}
+%     \begin{prooftree}
+%       \AxiomC{$N \rightarrow N'$} % Conclusion
+%       \RightLabel{$(\nu)$}
+%       \UnaryInfC{$M N \rightarrow M N'$}
+%     \end{prooftree}
 %     & \quad 
 %     \begin{prooftree}
-% 			\AxiomC{$M \rightarrow M'$} % Conclusion
-% 			\RightLabel{$(\xi)$}
-% 			\UnaryInfC{$\lamb{x}{M} \rightarrow \lamb{x}M'$}
-% 		\end{prooftree}
-% 	\end{tabularx}
+%       \AxiomC{$N \rightarrow N'$} % Conclusion
+%       \RightLabel{$(\nu_<)$}
+%       \UnaryInfC{$V N \rightarrow V N'$}
+%     \end{prooftree}
+%     & \quad 
+%     \begin{prooftree}
+%       \AxiomC{$M \rightarrow M'$} % Conclusion
+%       \RightLabel{$(\xi)$}
+%       \UnaryInfC{$\lamb{x}{M} \rightarrow \lamb{x}M'$}
+%     \end{prooftree}
+%   \end{tabularx}
 % \end{center}
